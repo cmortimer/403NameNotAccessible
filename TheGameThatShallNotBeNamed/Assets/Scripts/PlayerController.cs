@@ -34,6 +34,31 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    PathTile findClosestTile() {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+
+        if (tiles.Length == 0)
+            return null;
+
+        GameObject closest = tiles[0];
+        float closestDistance = Vector3.Distance(transform.position, closest.transform.position);
+        float thisDistance;
+
+        for (int i = 1; i < tiles.Length; i++)
+        {
+            thisDistance = Vector3.Distance(transform.position, tiles[i].transform.position);
+            if (thisDistance < closestDistance)
+            {
+                closest = tiles[i];
+                closestDistance = thisDistance;
+            }
+        }
+
+        Debug.Log(closest);
+
+        return closest.GetComponent<PathTile>();
+    }
+
 	// Use this for initialization
 	void Start () {
 
@@ -44,7 +69,8 @@ public class PlayerController : MonoBehaviour {
 
         tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
 
-        //start = tileMap.GetPathTile(transform.position);      // cannot find correct path tile; always returns null
+        start = findClosestTile();
+        Debug.Log(start);
     }
 	
 	// Update is called once per frame
@@ -55,8 +81,9 @@ public class PlayerController : MonoBehaviour {
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit, 100)) {
-                //end = tileMap.GetPathTile(hit.collider.gameObject.transform.position);        // cannot find correct path tile; always returns null
-                Debug.Log("Hit object: " + hit.collider.gameObject.name);
+                end = hit.collider.gameObject.GetComponent<PathTile>();
+                Debug.Log("Hit object: " + hit.collider.gameObject);
+                Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
             }
         }
 
