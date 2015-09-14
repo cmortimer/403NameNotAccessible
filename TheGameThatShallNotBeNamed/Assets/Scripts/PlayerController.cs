@@ -23,14 +23,16 @@ public class PlayerController : MonoBehaviour {
 
             tileMap.FindPath(start, end, tileList);
 
-            movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
-            movement = movement.normalized * speed;
+            Debug.Log(tileList.Count);
 
-            transform.Translate(movement * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f) {
-                listIndex++;
-            }
+            //movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
+            //movement = movement.normalized * speed;
+            //
+            //transform.Translate(movement * Time.deltaTime);
+            //
+            //if (Vector3.Distance(transform.position, tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f) {
+            //    listIndex++;
+            //}
         }
     }
 
@@ -54,8 +56,6 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        Debug.Log(closest);
-
         return closest.GetComponent<PathTile>();
     }
 
@@ -67,10 +67,11 @@ public class PlayerController : MonoBehaviour {
         defense = 1;
         speed = 5.0f;
 
+        listIndex = 0;
+
         tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
 
         start = findClosestTile();
-        Debug.Log(start);
     }
 	
 	// Update is called once per frame
@@ -82,8 +83,6 @@ public class PlayerController : MonoBehaviour {
 
             if (Physics.Raycast(ray, out hit, 100)) {
                 end = hit.collider.gameObject.GetComponent<PathTile>();
-                Debug.Log("Hit object: " + hit.collider.gameObject);
-                Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
             }
         }
 
