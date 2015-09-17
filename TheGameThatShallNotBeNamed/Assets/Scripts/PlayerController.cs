@@ -4,24 +4,37 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour {
 
-    public float health;
-    public float attack;
-    public float defense;
-    public float speed;
+	private int health;
+	private int strength;
+	private int endurance;
+	private int agility;
+	private int magicSkill;
+	private int luck;
+	private int currentActionPoints;
+	private int maxActionPoints;
+	public bool active;
 
-    public Vector3 movement;
+	private GameObject equippedWeapon;
+	private GameObject equippedArmor;
 
-    public PathTile start;
-    public PathTile end;
-    public List<PathTile> tileList;
-    public TileMap tileMap;
-    public int listIndex;
+    //public float health;
+    //public float attack;
+    //public float defense;
+	public float speed;
+
+	public Vector3 movement;
+
+	public PathTile start;
+	public PathTile end;
+	public List<PathTile> tileList;
+	public TileMap tileMap;
+	public int listIndex;
 
     void Move() {
 
         tileMap.FindPath(start, end, tileList);
 
-        if (listIndex != tileList.Count) {
+        if (listIndex != tileList.Count && currentActionPoints > -1) {
 
             movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
             movement = movement.normalized * speed;
@@ -35,28 +48,11 @@ public class PlayerController : MonoBehaviour {
                     tileList.Clear();
                     listIndex = 0;
                 } else {
+					currentActionPoints--;
                     listIndex++;
                 }
             }
         }
-
-        /*tileMap.FindPath(start, end, tileList);
-
-        if (tileList.Count > 1)
-        {
-
-            movement = (tileList[0].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
-            movement = movement.normalized * speed;
-
-            transform.Translate(movement * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, tileList[0].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f)
-            {
-                start = tileList[1];
-            }
-        } else {
-
-        }*/
     }
 
     PathTile findClosestTile() {
@@ -85,10 +81,12 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		maxActionPoints = 10;
+		currentActionPoints = maxActionPoints;
 
         health = 1;
-        attack = 1;
-        defense = 1;
+        //attack = 1;
+        //defense = 1;
         speed = 5.0f;
 
         listIndex = 0;
@@ -108,8 +106,8 @@ public class PlayerController : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, 100)) {
-
+            if (Physics.Raycast(ray, out hit, 100) && !end) {
+			
                 //Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
                 end = hit.collider.gameObject.GetComponent<PathTile>();
             }
