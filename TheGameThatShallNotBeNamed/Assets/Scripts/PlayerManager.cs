@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerManager : MonoBehaviour {
 
     public Transform player;
-	public GameObject selectedPlayer;
+	public GameObject selectedObject; //Currently selected player or enemy or tile
 	public GameObject[] allPlayers;
 	public GameObject[] allEnemies;
 	enum Turn {PlayerTurn, EnemyTurn};
@@ -18,6 +18,28 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetMouseButtonDown(0)) {
+			
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			
+			if (Physics.Raycast(ray, out hit, 100)) {
+				
+				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
+				if(hit.collider.gameObject.tag == "Tile")
+				{
+
+				}
+				else if(hit.collider.gameObject.tag == "Player") //FUTURE REFERENCE, SELECTED PLAYER TAG
+				{
+
+				}
+				else if(hit.collider.gameObject.tag == "Enemy")
+				{
+
+				}
+			}
+		}
 		if(currentTurn == Turn.PlayerTurn)
 		{
 			if(Inactive(allPlayers, 0))
@@ -25,7 +47,7 @@ public class PlayerManager : MonoBehaviour {
 				currentTurn = Turn.EnemyTurn;
 			}
 		}
-		else
+		else //Enemy Turn
 		{
 			if(Inactive(allEnemies, 1))
 			{
