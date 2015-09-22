@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Debug.Log(currentTurn);
 		if (Input.GetMouseButtonDown(0)) {
 			
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -28,15 +29,24 @@ public class PlayerManager : MonoBehaviour {
 				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
 				if(hit.collider.gameObject.tag == "Tile")
 				{
-
+					if(selectedObject && selectedObject.GetComponent<PlayerController>())
+					{
+						selectedObject.GetComponent<PlayerController>().end = hit.collider.gameObject.GetComponent<PathTile>();
+					}
+//					else if(selectedObject.GetComponent<Enemy>())
+//					{
+//						selectedObject.GetComponent<Enemy>().end = hit.collider.gameObject.GetComponent<PathTile>();
+//					}
 				}
 				else if(hit.collider.gameObject.tag == "Player") //FUTURE REFERENCE, SELECTED PLAYER TAG
 				{
-
+					selectedObject = hit.collider.gameObject;
+					Debug.Log("Hit player");
 				}
 				else if(hit.collider.gameObject.tag == "Enemy")
 				{
-
+					selectedObject = hit.collider.gameObject;
+					Debug.Log("Hit enemy");
 				}
 			}
 		}
@@ -45,6 +55,11 @@ public class PlayerManager : MonoBehaviour {
 			if(Inactive(allPlayers, 0))
 			{
 				currentTurn = Turn.EnemyTurn;
+				foreach(GameObject g in allPlayers)
+				{
+					g.GetComponent<PlayerController>().active = true;
+
+				}
 			}
 		}
 		else //Enemy Turn
@@ -56,6 +71,7 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
+	//checks if all of a team is inactive, to progress turns
 	bool Inactive(GameObject[] characters, int type)
 	{
 		foreach(GameObject c in characters)
@@ -73,14 +89,14 @@ public class PlayerManager : MonoBehaviour {
 			}
 			else
 			{
-//				if(c.GetComponent<EnemyController>().active)
-//				{
-//					return false;
-//				}
-//				else
-//				{
-//					continue;
-//				}
+				if(c.GetComponent<Enemy>().active)
+				{
+					return false;
+				}
+				else
+				{
+					continue;
+				}
 				return false;
 			}
 		}

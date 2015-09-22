@@ -2,17 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour {
-
-	private int health;
-	private int strength;
-	private int endurance;
-	private int agility;
-	private int magicSkill;
-	private int luck;
-	private int currentActionPoints;
-	private int maxActionPoints;
-	public bool active;
+public class PlayerController : Character {
+	
+	//private int currentActionPoints;
+	//private int maxActionPoints;
+	//public bool active;
 
 	private GameObject equippedWeapon;
 	private GameObject equippedArmor;
@@ -20,40 +14,40 @@ public class PlayerController : MonoBehaviour {
     //public float health;
     //public float attack;
     //public float defense;
-	public float speed;
+	//public float speed;
 
-	public Vector3 movement;
+	//public Vector3 movement;
 
-	public PathTile start;
-	public PathTile end;
-	public List<PathTile> tileList;
-	public TileMap tileMap;
-	public int listIndex;
+	//public PathTile start;
+	//public PathTile end;
+	//public List<PathTile> tileList;
+	//public TileMap tileMap;
+	//public int listIndex;
 
-    void Move() {
-
-        tileMap.FindPath(start, end, tileList);
-
-        if (listIndex != tileList.Count && currentActionPoints > -1) {
-
-            movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
-            movement = movement.normalized * speed;
-
-            transform.Translate(movement * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f) {
-                if (listIndex == tileList.Count - 1) {
-                    start = end;
-                    end = null;
-                    tileList.Clear();
-                    listIndex = 0;
-                } else {
-					currentActionPoints--;
-                    listIndex++;
-                }
-            }
-        }
-    }
+//    void Move() {
+//
+//        tileMap.FindPath(start, end, tileList);
+//
+//        if (listIndex != tileList.Count && currentActionPoints > -1) {
+//
+//            movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
+//            movement = movement.normalized * speed;
+//
+//            transform.Translate(movement * Time.deltaTime);
+//
+//            if (Vector3.Distance(transform.position, tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f) {
+//                if (listIndex == tileList.Count - 1) {
+//                    start = end;
+//                    end = null;
+//                    tileList.Clear();
+//                    listIndex = 0;
+//                } else {
+//					currentActionPoints--;
+//                    listIndex++;
+//                }
+//            }
+//        }
+//    }
 
     PathTile findClosestTile() {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
@@ -81,6 +75,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		active = true;
 		maxActionPoints = 10;
 		currentActionPoints = maxActionPoints;
 
@@ -88,6 +83,7 @@ public class PlayerController : MonoBehaviour {
         //attack = 1;
         //defense = 1;
         speed = 5.0f;
+		agility = 6;
 
         listIndex = 0;
 
@@ -102,23 +98,28 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetMouseButtonDown(0)) {
-			
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			
-			if (Physics.Raycast(ray, out hit, 100)) {
-				
-				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
-				if(hit.collider.gameObject.tag == "Tile")
-				{
-					end = hit.collider.gameObject.GetComponent<PathTile>();
-				}
-			}
+//		if (Input.GetMouseButtonDown(0)) {
+//			
+//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//			RaycastHit hit;
+//			
+//			if (Physics.Raycast(ray, out hit, 100)) {
+//				
+//				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
+//				if(hit.collider.gameObject.tag == "Tile")
+//				{
+//					end = hit.collider.gameObject.GetComponent<PathTile>();
+//				}
+//			}
+//		}
+		if(currentActionPoints < 1)
+		{
+			active = false;
 		}
 
 
         if (start && end) {
+			tileMap.FindPath(start, end, tileList);
             Move();
         }
     }

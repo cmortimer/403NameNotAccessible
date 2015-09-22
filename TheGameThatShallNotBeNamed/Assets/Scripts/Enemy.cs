@@ -8,6 +8,7 @@ public class Enemy : Character {
 
 	// Use this for initialization
 	void Start () {
+		active = true;
 		//health = 1;
 		//attack = 1;
 		//defense = 1;
@@ -22,20 +23,20 @@ public class Enemy : Character {
 	// Update is called once per frame
 	void Update () {
 
-		if (Input.GetMouseButtonDown(0)) {
-			
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			
-			if (Physics.Raycast(ray, out hit, 100)) {
-				
-				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
-				if(hit.collider.gameObject.tag == "Tile")
-				{
-					end = hit.collider.gameObject.GetComponent<PathTile>();
-				}
-			}
-		}
+//		if (Input.GetMouseButtonDown(0)) {
+//			
+//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//			RaycastHit hit;
+//			
+//			if (Physics.Raycast(ray, out hit, 100)) {
+//				
+//				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
+//				if(hit.collider.gameObject.tag == "Tile")
+//				{
+//					end = hit.collider.gameObject.GetComponent<PathTile>();
+//				}
+//			}
+//		}
 
 		if (start && end) {
 

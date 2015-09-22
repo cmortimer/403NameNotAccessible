@@ -3,14 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
+	protected int health;
+	protected int strength;
+	protected int endurance;
+	protected int agility;
+	protected int magicSkill;
+	protected int luck;
 
+	protected int currentActionPoints;
+	protected int maxActionPoints;
 
 	public TileMap tileMap;
 	public int listIndex;
 	protected PathTile start;
-	protected PathTile end;
+	public PathTile end;
 	public List<PathTile> tileList;
-
+	public bool active;
 
 	protected float speed;
 	public Vector3 movement;
@@ -18,7 +26,7 @@ public class Character : MonoBehaviour {
 	protected void Move() {
 
 		
-		if (listIndex != tileList.Count /*&& currentActionPoints > -1*/) {
+		if (listIndex != tileList.Count && currentActionPoints > -1) {
 			
 			movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
 			movement = movement.normalized * speed;
@@ -32,11 +40,17 @@ public class Character : MonoBehaviour {
 					tileList.Clear();
 					listIndex = 0;
 				} else {
-					//currentActionPoints--;
+					currentActionPoints--;
 					listIndex++;
 				}
 			}
 		}
+	}
+
+	protected void resetStatus()
+	{
+		//IMPORTANT NOTE: current action points breaks with movement, drops to -1 to insure full movement
+		currentActionPoints += agility;
 	}
 
 
