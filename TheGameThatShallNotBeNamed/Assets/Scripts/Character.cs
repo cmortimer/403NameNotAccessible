@@ -47,6 +47,12 @@ public class Character : MonoBehaviour {
 		}
 	}
 
+    public void basicAttack(Character target) {
+        //target.health -= this.strength;
+
+        Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
+    }
+
 	protected void resetStatus()
 	{
 		//IMPORTANT NOTE: current action points breaks with movement, drops to -1 to insure full movement

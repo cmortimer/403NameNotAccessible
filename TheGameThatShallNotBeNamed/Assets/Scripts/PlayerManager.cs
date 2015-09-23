@@ -29,7 +29,7 @@ public class PlayerManager : MonoBehaviour {
 				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
 				if(hit.collider.gameObject.tag == "Tile")
 				{
-					if(selectedObject && selectedObject.GetComponent<PlayerController>())
+					if(selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
 					{
 						selectedObject.GetComponent<PlayerController>().end = hit.collider.gameObject.GetComponent<PathTile>();
 					}
@@ -45,6 +45,10 @@ public class PlayerManager : MonoBehaviour {
 				}
 				else if(hit.collider.gameObject.tag == "Enemy")
 				{
+                    if (selectedObject && selectedObject.GetComponent<PlayerController>()) {
+                        selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
+                    }
+
 					selectedObject = hit.collider.gameObject;
 					Debug.Log("Hit enemy");
 				}
