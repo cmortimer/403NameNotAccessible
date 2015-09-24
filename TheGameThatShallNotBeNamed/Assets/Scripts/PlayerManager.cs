@@ -23,8 +23,6 @@ public class PlayerManager : MonoBehaviour {
 		for(int i = 0; i < tempEnemies.Length; i++){
 			allEnemies[i] = tempEnemies[i].GetComponent<Enemy>();
 		}
-		Debug.Log (allPlayers.Length);
-		Debug.Log (allEnemies.Length);
 	}
 	
 	// Update is called once per frame
@@ -40,6 +38,7 @@ public class PlayerManager : MonoBehaviour {
 				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
 				if(hit.collider.gameObject.tag == "Tile")
 				{
+					Debug.Log("Hit tile");
 					if(selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
 					{
 						selectedObject.GetComponent<Character>().end = hit.collider.gameObject.GetComponent<PathTile>();

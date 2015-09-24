@@ -100,7 +100,7 @@ public class PlayerController : Character {
     }
 	
 	// Update is called once per frame
-	void PlayerUpdate () {
+	void Update () {
 
 //		if (Input.GetMouseButtonDown(0)) {
 //			
@@ -120,7 +120,6 @@ public class PlayerController : Character {
 		{
 			active = false;
 		}
-
 
         if (start && end) {
 			tileMap.FindPath(start, end, tileList);
