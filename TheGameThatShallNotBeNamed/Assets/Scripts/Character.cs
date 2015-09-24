@@ -49,14 +49,22 @@ public class Character : MonoBehaviour {
 
     public void basicAttack(Character target) {
         //target.health -= this.strength;
-
-        Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
+		if(currentActionPoints > 1)
+		{
+        	Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
+			currentActionPoints -= 2;
+		}
+		else
+		{
+			Debug.Log ("Not enough action points to attack.");
+		}
     }
 
-	protected void resetStatus()
+	public void resetStatus()
 	{
 		//IMPORTANT NOTE: current action points breaks with movement, drops to -1 to insure full movement
 		currentActionPoints += agility;
+		active = true;
 	}
 
 

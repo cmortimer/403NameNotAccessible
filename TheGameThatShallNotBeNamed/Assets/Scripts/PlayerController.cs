@@ -79,11 +79,15 @@ public class PlayerController : Character {
 		maxActionPoints = 10;
 		currentActionPoints = maxActionPoints;
 
-        health = 1;
+		health = 25;
+		strength = 5;
+		endurance = 5;
+		agility = 5;
+		magicSkill = 5;
+		luck = 5;
         //attack = 1;
         //defense = 1;
         speed = 5.0f;
-		agility = 6;
 
         listIndex = 0;
 
@@ -91,12 +95,12 @@ public class PlayerController : Character {
         tileMap.UpdateConnections();
 
         start = findClosestTile();
-        transform.position.Set(start.transform.position.x, 0.5f, start.transform.position.z);
+		transform.position.Set(start.transform.position.x, 0.5f, start.transform.position.z);
         Debug.Log(start);
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void PlayerUpdate () {
 
 //		if (Input.GetMouseButtonDown(0)) {
 //			

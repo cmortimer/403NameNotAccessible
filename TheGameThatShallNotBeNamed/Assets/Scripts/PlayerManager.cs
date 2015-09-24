@@ -5,15 +5,26 @@ public class PlayerManager : MonoBehaviour {
 
     public Transform player;
 	public GameObject selectedObject; //Currently selected player or enemy or tile
-	public GameObject[] allPlayers;
-	public GameObject[] allEnemies;
+	public PlayerController[] allPlayers;
+	public Enemy[] allEnemies;
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
 
 	// Use this for initialization
 	void Start () {
-		allPlayers = GameObject.FindGameObjectsWithTag("Player");
-		allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+		currentTurn = Turn.PlayerTurn;
+		GameObject[] tempPlayers = GameObject.FindGameObjectsWithTag("Player");
+		allPlayers = new PlayerController[tempPlayers.Length];
+		for(int i = 0; i < tempPlayers.Length; i++){
+			allPlayers[i] = tempPlayers[i].GetComponent<PlayerController>();
+		}
+		GameObject[] tempEnemies = GameObject.FindGameObjectsWithTag("Enemy");
+		allEnemies = new Enemy[tempEnemies.Length];
+		for(int i = 0; i < tempEnemies.Length; i++){
+			allEnemies[i] = tempEnemies[i].GetComponent<Enemy>();
+		}
+		Debug.Log (allPlayers.Length);
+		Debug.Log (allEnemies.Length);
 	}
 	
 	// Update is called once per frame
@@ -40,35 +51,43 @@ public class PlayerManager : MonoBehaviour {
 				}
 				else if(hit.collider.gameObject.tag == "Player") //FUTURE REFERENCE, SELECTED PLAYER TAG
 				{
+					if(selectedObject)
+					{
+						selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+					}
 					selectedObject = hit.collider.gameObject;
+					selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
 					Debug.Log("Hit player");
 				}
 				else if(hit.collider.gameObject.tag == "Enemy")
 				{
-                    if (selectedObject && selectedObject.GetComponent<PlayerController>()) {
-                        selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
+                    if (selectedObject) {
+						selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+						if(selectedObject.GetComponent<PlayerController>())
+						{
+                        	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
+						}
                     }
-
 					selectedObject = hit.collider.gameObject;
+					selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
 					Debug.Log("Hit enemy");
 				}
 			}
 		}
 		if(currentTurn == Turn.PlayerTurn)
 		{
-			if(Inactive(allPlayers, 0))
+			if(Inactive(allPlayers))
 			{
 				currentTurn = Turn.EnemyTurn;
-				foreach(GameObject g in allPlayers)
+				foreach(PlayerController pc in allPlayers)
 				{
-					g.GetComponent<PlayerController>().active = true;
-
+					pc.GetComponent<PlayerController>().resetStatus();
 				}
 			}
 		}
 		else //Enemy Turn
 		{
-			if(Inactive(allEnemies, 1))
+			if(Inactive(allEnemies))
 			{
 				currentTurn = Turn.PlayerTurn;
 			}
@@ -76,13 +95,13 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	//checks if all of a team is inactive, to progress turns
-	bool Inactive(GameObject[] characters, int type)
+	bool Inactive(Character[] characters)
 	{
-		foreach(GameObject c in characters)
+		foreach(Character c in characters)
 		{
-			if(type == 0)
+			if(currentTurn == Turn.PlayerTurn)
 			{
-				if(c.GetComponent<PlayerController>().active)
+				if(c.active)
 				{
 					return false;
 				}
@@ -93,7 +112,7 @@ public class PlayerManager : MonoBehaviour {
 			}
 			else
 			{
-				if(c.GetComponent<Enemy>().active)
+				if(c.active)
 				{
 					return false;
 				}
@@ -101,7 +120,6 @@ public class PlayerManager : MonoBehaviour {
 				{
 					continue;
 				}
-				return false;
 			}
 		}
 		return true;
