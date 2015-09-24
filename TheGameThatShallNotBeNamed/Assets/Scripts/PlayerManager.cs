@@ -42,7 +42,7 @@ public class PlayerManager : MonoBehaviour {
 				{
 					if(selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
 					{
-						selectedObject.GetComponent<PlayerController>().end = hit.collider.gameObject.GetComponent<PathTile>();
+						selectedObject.GetComponent<Character>().end = hit.collider.gameObject.GetComponent<PathTile>();
 					}
 //					else if(selectedObject.GetComponent<Enemy>())
 //					{
