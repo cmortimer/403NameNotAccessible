@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class Enemy : Character {
 
-
+	public PathTile target = null;
+	protected PlayerController pTarget = null;
 
 	// Use this for initialization
 	void Start () {
@@ -30,25 +31,15 @@ public class Enemy : Character {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public void EnemyUpdate () {
+		if(currentActionPoints < 1)
+		{
+			currentActionPoints = maxActionPoints;
+			active = false;
+		}
 
-//		if (Input.GetMouseButtonDown(0)) {
-//			
-//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-//			RaycastHit hit;
-//			
-//			if (Physics.Raycast(ray, out hit, 100)) {
-//				
-//				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
-//				if(hit.collider.gameObject.tag == "Tile")
-//				{
-//					end = hit.collider.gameObject.GetComponent<PathTile>();
-//				}
-//			}
-//		}
-
-		if (start && end) {
-
+		if (active && start && end) {
+	
 			tileMap.FindPath(start, end, tileList);
 
 			List<PathTile> newPath = new List<PathTile>();
@@ -57,10 +48,22 @@ public class Enemy : Character {
 			}
 			tileList = newPath;
 
+			if(tileList.Count > 0)
+				target = tileList[tileList.Count-1];
+
 			Move();
 		}
+
+		if(active && target != null && Vector3.Distance(target.transform.position, transform.position) < .515f)
+			Attack();
 	}
 
+	public void Attack(){
+			basicAttack(pTarget);
+	}
+
+
+	//helpers
 	PathTile findClosestTile() {
 		GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
 		
@@ -83,6 +86,27 @@ public class Enemy : Character {
 		
 		//Debug.Log(closest);
 		return closest.GetComponent<PathTile>();
+	}
+
+	public PlayerController FindClosestPlayer(PlayerController[] players){
+		if(players.Length == 0) return null;
+
+		//Debug.Log (players[0].transform);
+		PlayerController closest = players[0];
+		float closeDist = Vector3.Distance(transform.position, closest.transform.position);
+		float curDist;
+
+		for (int i = 1; i < players.Length; i++)
+		{
+			curDist = Vector3.Distance(transform.position, players[i].transform.position);
+			if (curDist < closeDist)
+			{
+				closest = players[i];
+				closeDist = curDist;
+			}
+		}
+		pTarget = closest;
+		return closest;
 	}
 }
 

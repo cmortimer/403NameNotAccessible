@@ -13,21 +13,39 @@ public class PlayerManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentTurn = Turn.PlayerTurn;
+
+
 		GameObject[] tempPlayers = GameObject.FindGameObjectsWithTag("Player");
 		allPlayers = new PlayerController[tempPlayers.Length];
 		for(int i = 0; i < tempPlayers.Length; i++){
 			allPlayers[i] = tempPlayers[i].GetComponent<PlayerController>();
 		}
+
 		GameObject[] tempEnemies = GameObject.FindGameObjectsWithTag("Enemy");
 		allEnemies = new Enemy[tempEnemies.Length];
 		for(int i = 0; i < tempEnemies.Length; i++){
 			allEnemies[i] = tempEnemies[i].GetComponent<Enemy>();
 		}
+		//Debug.Log (allPlayers.Length);
+		//Debug.Log (allEnemies.Length);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Debug.Log(currentTurn);
+		if(currentTurn == Turn.PlayerTurn){
+			foreach( PlayerController p in allPlayers){
+				p.PlayerUpdate();
+			}
+		}
+		else if(currentTurn == Turn.EnemyTurn){
+			foreach( Enemy e in allEnemies){
+				e.EnemyUpdate();
+			}
+		}
+
+
+
 		if (Input.GetMouseButtonDown(0)) {
 			
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -38,10 +56,11 @@ public class PlayerManager : MonoBehaviour {
 				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
 				if(hit.collider.gameObject.tag == "Tile")
 				{
-					Debug.Log("Hit tile");
 					if(selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
 					{
+						//Debug.Log("here");
 						selectedObject.GetComponent<Character>().end = hit.collider.gameObject.GetComponent<PathTile>();
+						//Debug.Log(selectedObject.GetComponent<Character>().end);
 					}
 //					else if(selectedObject.GetComponent<Enemy>())
 //					{
@@ -56,7 +75,7 @@ public class PlayerManager : MonoBehaviour {
 					}
 					selectedObject = hit.collider.gameObject;
 					selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
-					Debug.Log("Hit player");
+					//Debug.Log("Hit player");
 				}
 				else if(hit.collider.gameObject.tag == "Enemy")
 				{
@@ -69,7 +88,7 @@ public class PlayerManager : MonoBehaviour {
                     }
 					selectedObject = hit.collider.gameObject;
 					selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
-					Debug.Log("Hit enemy");
+					//Debug.Log("Hit enemy");
 				}
 			}
 		}
@@ -86,9 +105,17 @@ public class PlayerManager : MonoBehaviour {
 		}
 		else //Enemy Turn
 		{
+			//find closest player, find path to player and stop 1 tile before. Attack player.
+			for(int i = 0; i < allEnemies.Length; i++){
+				allEnemies[i].end = allEnemies[i].FindClosestPlayer(allPlayers).GetComponent<PlayerController>().start;
+			}
+
 			if(Inactive(allEnemies))
 			{
+				Debug.Log ("Here");
 				currentTurn = Turn.PlayerTurn;
+				foreach(Enemy e in allEnemies)
+					e.active = true;
 			}
 		}
 	}

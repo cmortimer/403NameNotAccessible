@@ -15,7 +15,7 @@ public class Character : MonoBehaviour {
 
 	public TileMap tileMap;
 	public int listIndex;
-	protected PathTile start;
+	public PathTile start;
 	public PathTile end;
 	public List<PathTile> tileList;
 	public bool active;
@@ -53,10 +53,13 @@ public class Character : MonoBehaviour {
 		{
         	Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
 			currentActionPoints -= 2;
+			if(currentActionPoints <= 0)
+				active = false;
 		}
 		else
 		{
 			Debug.Log ("Not enough action points to attack.");
+			active = false;
 		}
     }
 

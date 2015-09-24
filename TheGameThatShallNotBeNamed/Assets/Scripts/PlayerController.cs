@@ -96,11 +96,11 @@ public class PlayerController : Character {
 
         start = findClosestTile();
 		transform.position.Set(start.transform.position.x, 0.5f, start.transform.position.z);
-        Debug.Log(start);
+        //Debug.Log(start);
     }
 	
 	// Update is called once per frame
-	void Update () {
+	public void PlayerUpdate () {
 
 //		if (Input.GetMouseButtonDown(0)) {
 //			
@@ -120,6 +120,7 @@ public class PlayerController : Character {
 		{
 			active = false;
 		}
+
 
         if (start && end) {
 			tileMap.FindPath(start, end, tileList);
