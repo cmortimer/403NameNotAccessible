@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -22,8 +23,19 @@ public class TileMap : MonoBehaviour
 	public List<int> directions = new List<int>(100000);
 	public List<Transform> instances = new List<Transform>(100000);
 
+	//Room Generation
+	private int roomLimit = 13;
+	private int[,] rooms;       //Room Array
+	private int numRooms;		//How many rooms have been generated
+	private int weight;			//The weight as to whether a room is generated
+
 	void Start()
 	{
+		rooms = new int[7,7];
+
+		generateFloor();
+		Debug.Log(numRooms);
+
 		UpdateConnections();
 	}
 
@@ -173,5 +185,102 @@ public class TileMap : MonoBehaviour
 	public bool FindPath(Vector3 start, Vector3 end, List<PathTile> path)
 	{
 		return FindPath(start, end, path, tile => true);
+	}
+
+	//Generate a single room
+	void generateRoom(int xPos, int zPos)
+	{
+		int hash;
+		int index; 
+
+		//Make new tiles
+		for(int i = 0; i < 5; i++)
+		{
+			for(int j = 0; j < 5; j++)
+			{
+				//Adjust position to generate correctly
+				float spawnX = xPos + i + 4 * xPos;		
+				float spawnZ = zPos + j + 4 * zPos;
+				hash = GetHash((int)spawnX, (int)spawnZ);
+				index = prefabs.Count;
+				//Create new tile
+				index = prefabs.Count;
+				hashes.Add(hash);
+				prefabs.Add(tilePrefab);
+				directions.Add(0);
+				instances.Add(null);
+				
+				//Destroy Immediate
+				//DestroyImmediate(instances[index].gameObject);
+				
+				//Place the tile
+				Transform instance = (Transform)PrefabUtility.InstantiatePrefab(prefabs[index]);
+				instance.parent = transform;
+				//instance.localPosition = GetPosition(index);
+				instance.localPosition = new Vector3(spawnX, 0, spawnZ);
+				instance.localRotation = Quaternion.Euler(0, directions[index] * 90, 0);
+				instances[index] = instance;
+			}
+		}
+	}
+
+	//Generate a floor
+	void generateFloor()
+	{
+		float rand;             //randomly generated number to determine if a room spawns
+		float weight = 1f;           //weight of a room spawn
+		int cycles = 0;
+		
+		//Room 0
+		rooms[1, 1] = 1;
+		numRooms = 1;
+		
+		//Generate until complete
+		while (numRooms < roomLimit && cycles < 10)
+		{
+			for (int i = 1; i < 5; i++)
+			{
+				for (int j = 1; j < 5; j++)
+				{
+					//Generate a random number and increase by weight
+					rand = UnityEngine.Random.Range(0, 2);
+					rand += weight;
+					//Are we still under the room limit?
+					if (numRooms < roomLimit && rand >= 1)
+					{
+						//Is the current cell already occupied?
+						if (rooms[i, j] == 0)
+						{
+							//Is there a room to connect to?
+							if (rooms[i - 1, j] != 0 || rooms[i + 1, j] != 0 || rooms[i, j - 1] != 0 || rooms[i, j + 1] != 0)
+							{
+								rooms[i, j] = 1;
+								//roomPos = new Vector3(transform.position.x + i * 6, 0, transform.position.z + j*6);
+								//Instantiate(rooms[i, j], roomPos, Quaternion.identity);
+								numRooms++;
+							}
+						}
+					}
+				}
+				//Decrease weight as you go further into the dungeon
+				weight -= 0.1f;
+				cycles++;
+			}
+		}
+
+
+		//Populate the game environment
+		for (int i =0; i < 7; i++)
+		{
+			for(int j = 0; j < 7; j++)
+			{
+				if(rooms[i,j] == 1)
+				{
+					generateRoom(i, j);
+				}
+			}
+		}
+
+
 	}
 }
