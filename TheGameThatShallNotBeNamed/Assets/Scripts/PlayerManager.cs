@@ -36,19 +36,6 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log(currentTurn);
-		if(currentTurn == Turn.PlayerTurn){
-			foreach( PlayerController p in allPlayers){
-				p.PlayerUpdate();
-			}
-		}
-		else if(currentTurn == Turn.EnemyTurn){
-			foreach( Enemy e in allEnemies){
-				e.EnemyUpdate();
-			}
-		}
-
-
 
 		if (Input.GetMouseButtonDown(0)) {
 			
@@ -117,15 +104,29 @@ public class PlayerManager : MonoBehaviour {
 		{
 			//find closest player, find path to player and stop 1 tile before. Attack player.
 			for(int i = 0; i < allEnemies.Length; i++){
-				allEnemies[i].end = allEnemies[i].FindClosestPlayer(allPlayers).GetComponent<PlayerController>().start;
+				allEnemies[i].target = allEnemies[i].FindClosestPlayer(allPlayers).GetComponent<PlayerController>().start;
 			}
 
 			if(Inactive(allEnemies))
 			{
-				Debug.Log ("Here");
+				//Debug.Log ("Here");
 				currentTurn = Turn.PlayerTurn;
 				foreach(Enemy e in allEnemies)
-					e.active = true;
+					e.resetStatus();
+			}
+		}
+	}
+
+	void LateUpdate(){
+		Debug.Log(currentTurn);
+		if(currentTurn == Turn.PlayerTurn){
+			foreach( PlayerController p in allPlayers){
+				p.PlayerUpdate();
+			}
+		}
+		else if(currentTurn == Turn.EnemyTurn){
+			foreach( Enemy e in allEnemies){
+				e.EnemyUpdate();
 			}
 		}
 	}

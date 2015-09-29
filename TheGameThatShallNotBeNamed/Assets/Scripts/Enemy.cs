@@ -34,28 +34,28 @@ public class Enemy : Character {
 	public void EnemyUpdate() {
 		if(currentActionPoints < 1)
 		{
-			currentActionPoints = maxActionPoints;
 			active = false;
 		}
 
-		if (active && start && end) {
+		if (active && start && target) {
 	
-			tileMap.FindPath(start, end, tileList);
+			tileMap.FindPath(start, target, tileList);
 
-			List<PathTile> newPath = new List<PathTile>();
-			for(int i = 0; i < tileList.Count -1; i++){
-				newPath.Add(tileList[i]);
+			if(tileList.Count > 2){
+				List<PathTile> newPath = new List<PathTile>();
+				for(int i = 0; i < tileList.Count -1; i++){
+					newPath.Add(tileList[i]);
+				}
+				tileList = newPath;
+					
+				if(tileList.Count > 0)
+					end = tileList[tileList.Count-1];
+
+				Move();
 			}
-			tileList = newPath;
-
-			if(tileList.Count > 0)
-				target = tileList[tileList.Count-1];
-
-			Move();
 		}
 
-		if(active && target != null && Vector3.Distance(target.transform.position, transform.position) < .515f)
-			Attack();
+		if(tileList.Count == 2)	Attack();
 	}
 
 	//helpers
