@@ -14,40 +14,40 @@ public class PlayerController : Character {
     //public float health;
     //public float attack;
     //public float defense;
-	//public float speed;
+    //public float speed;
 
-	//public Vector3 movement;
+    //public Vector3 movement;
 
-	//public PathTile start;
-	//public PathTile end;
-	//public List<PathTile> tileList;
-	//public TileMap tileMap;
-	//public int listIndex;
+    //public PathTile start;
+    //public PathTile end;
+    //public List<PathTile> tileList;
+    //public TileMap tileMap;
+    //public int listIndex;
 
-//    void Move() {
-//
-//        tileMap.FindPath(start, end, tileList);
-//
-//        if (listIndex != tileList.Count && currentActionPoints > -1) {
-//
-//            movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
-//            movement = movement.normalized * speed;
-//
-//            transform.Translate(movement * Time.deltaTime);
-//
-//            if (Vector3.Distance(transform.position, tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f) {
-//                if (listIndex == tileList.Count - 1) {
-//                    start = end;
-//                    end = null;
-//                    tileList.Clear();
-//                    listIndex = 0;
-//                } else {
-//					currentActionPoints--;
-//                    listIndex++;
-//                }
-//            }
-//        }
-//    }
+    //    void Move() {
+    //
+    //        tileMap.FindPath(start, end, tileList);
+    //
+    //        if (listIndex != tileList.Count && currentActionPoints > -1) {
+    //
+    //            movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
+    //            movement = movement.normalized * speed;
+    //
+    //            transform.Translate(movement * Time.deltaTime);
+    //
+    //            if (Vector3.Distance(transform.position, tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f) {
+    //                if (listIndex == tileList.Count - 1) {
+    //                    start = end;
+    //                    end = null;
+    //                    tileList.Clear();
+    //                    listIndex = 0;
+    //                } else {
+    //					currentActionPoints--;
+    //                    listIndex++;
+    //                }
+    //            }
+    //        }
+    //    }
 
 
 	// Use this for initialization
@@ -93,11 +93,10 @@ public class PlayerController : Character {
 //				}
 //			}
 //		}
-		if(currentActionPoints < 1)
+		if(currentActionPoints < 0)
 		{
 			active = false;
 		}
-
 
         if (start && end) {
 			tileMap.FindPath(start, end, tileList);

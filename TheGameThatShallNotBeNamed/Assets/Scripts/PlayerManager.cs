@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour {
 
@@ -7,6 +8,7 @@ public class PlayerManager : MonoBehaviour {
 	public GameObject selectedObject; //Currently selected player or enemy or tile
 	public PlayerController[] allPlayers;
 	public Enemy[] allEnemies;
+    public TileMap tileMap;
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
 
@@ -14,8 +16,10 @@ public class PlayerManager : MonoBehaviour {
 	void Start () {
 		currentTurn = Turn.PlayerTurn;
 
+        tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
+        tileMap.UpdateConnections();
 
-		GameObject[] tempPlayers = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] tempPlayers = GameObject.FindGameObjectsWithTag("Player");
 		allPlayers = new PlayerController[tempPlayers.Length];
 		for(int i = 0; i < tempPlayers.Length; i++){
 			allPlayers[i] = tempPlayers[i].GetComponent<PlayerController>();
@@ -73,8 +77,11 @@ public class PlayerManager : MonoBehaviour {
 					{
 						selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
 					}
-					selectedObject = hit.collider.gameObject;
+
+                    HighlightTiles(false);
+                    selectedObject = hit.collider.gameObject;
 					selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
+                    HighlightTiles(true);
 					//Debug.Log("Hit player");
 				}
 				else if(hit.collider.gameObject.tag == "Enemy")
@@ -86,11 +93,14 @@ public class PlayerManager : MonoBehaviour {
                         	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
 						}
                     }
-					selectedObject = hit.collider.gameObject;
-					selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
-					//Debug.Log("Hit enemy");
-				}
-			}
+                    
+                    selectedObject = hit.collider.gameObject;
+                    selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
+
+                    HighlightTiles(false);
+                    //Debug.Log("Hit enemy");
+                }
+            }
 		}
 		if(currentTurn == Turn.PlayerTurn)
 		{
@@ -120,8 +130,32 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-	//checks if all of a team is inactive, to progress turns
-	bool Inactive(Character[] characters)
+    void HighlightTiles(bool playerSelected) {
+        List<PathTile> tempList = new List<PathTile>();
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+
+        if (playerSelected) {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                tileMap.FindPath(selectedObject.GetComponent<Character>().start, tiles[i].GetComponent<PathTile>(), tempList);
+
+                if (tempList.Count < (selectedObject.GetComponent<Character>().currentActionPoints + 2))
+                {
+                    tiles[i].GetComponent<MeshRenderer>().material.color = Color.yellow;
+                }
+
+                tempList.Clear();
+            }
+        } else {
+            for (int i = 0; i < tiles.Length; i++)
+            {
+                tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+            }
+        }
+    }
+
+    //checks if all of a team is inactive, to progress turns
+    bool Inactive(Character[] characters)
 	{
 		foreach(Character c in characters)
 		{

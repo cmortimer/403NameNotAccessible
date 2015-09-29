@@ -10,8 +10,8 @@ public class Character : MonoBehaviour {
 	protected int magicSkill;
 	protected int luck;
 
-	protected int currentActionPoints;
-	protected int maxActionPoints;
+	public int currentActionPoints;
+	public int maxActionPoints;
 
 	public TileMap tileMap;
 	public int listIndex;
