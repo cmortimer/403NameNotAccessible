@@ -68,8 +68,33 @@ public class Character : MonoBehaviour {
 		//IMPORTANT NOTE: current action points breaks with movement, drops to -1 to insure full movement
 		currentActionPoints += agility;
 		active = true;
+		end = null;
+		start = findClosestTile();
 	}
 
 
+	protected PathTile findClosestTile() {
+		GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+		
+		if (tiles.Length == 0)
+			return null;
+		
+		GameObject closest = tiles[0];
+		float closestDistance = Vector3.Distance(transform.position, closest.transform.position);
+		float thisDistance;
+		
+		for (int i = 1; i < tiles.Length; i++)
+		{
+			thisDistance = Vector3.Distance(transform.position, tiles[i].transform.position);
+			if (thisDistance < closestDistance)
+			{
+				closest = tiles[i];
+				closestDistance = thisDistance;
+			}
+		}
+		
+		//Debug.Log(closest);
+		return closest.GetComponent<PathTile>();
+	}
 
 }

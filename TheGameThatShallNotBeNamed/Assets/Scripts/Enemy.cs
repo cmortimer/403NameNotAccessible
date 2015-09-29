@@ -27,7 +27,7 @@ public class Enemy : Character {
 		tileMap.UpdateConnections();
 
 		start = findClosestTile();
-		transform.position.Set(start.transform.position.x, 0.5f, start.transform.position.z);
+		transform.position = new Vector3(start.transform.position.x, 0.5f, start.transform.position.z);
 	}
 	
 	// Update is called once per frame
@@ -58,35 +58,13 @@ public class Enemy : Character {
 			Attack();
 	}
 
+	//helpers
 	public void Attack(){
 			basicAttack(pTarget);
 	}
 
 
-	//helpers
-	PathTile findClosestTile() {
-		GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
-		
-		if (tiles.Length == 0)
-			return null;
-		
-		GameObject closest = tiles[0];
-		float closestDistance = Vector3.Distance(transform.position, closest.transform.position);
-		float thisDistance;
-		
-		for (int i = 1; i < tiles.Length; i++)
-		{
-			thisDistance = Vector3.Distance(transform.position, tiles[i].transform.position);
-			if (thisDistance < closestDistance)
-			{
-				closest = tiles[i];
-				closestDistance = thisDistance;
-			}
-		}
-		
-		//Debug.Log(closest);
-		return closest.GetComponent<PathTile>();
-	}
+
 
 	public PlayerController FindClosestPlayer(PlayerController[] players){
 		if(players.Length == 0) return null;
