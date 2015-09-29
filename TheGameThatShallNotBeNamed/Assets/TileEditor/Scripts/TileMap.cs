@@ -280,7 +280,11 @@ public class TileMap : MonoBehaviour
 				}
 			}
 		}
-
-
 	}
+
+    public int[,] getRooms()
+    {
+        return rooms;
+    }
+
 }
