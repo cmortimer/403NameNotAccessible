@@ -31,7 +31,7 @@ public class Enemy : Character {
 	}
 	
 	// Update is called once per frame
-	public void EnemyUpdate () {
+	public void EnemyUpdate() {
 		if(currentActionPoints < 1)
 		{
 			currentActionPoints = maxActionPoints;
