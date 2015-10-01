@@ -52,7 +52,7 @@ public class Character : MonoBehaviour {
 	}
 
     public void basicAttack(Character target) {
-        //target.health -= this.strength;
+        target.health -= (this.strength - (target.endurance * .5f));
 		if(currentActionPoints > 1)
 		{
         	Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
