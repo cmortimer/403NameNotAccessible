@@ -93,7 +93,7 @@ public class PlayerController : Character {
 //				}
 //			}
 //		}
-		if(currentActionPoints < 0)
+		if(currentActionPoints <= 0)
 		{
 			active = false;
 		}
@@ -102,5 +102,9 @@ public class PlayerController : Character {
 			tileMap.FindPath(start, end, tileList);
             Move();
         }
+		else
+		{
+			listIndex = 0;
+		}
     }
 }

@@ -54,6 +54,10 @@ public class Enemy : Character {
 				Move();
 			}
 		}
+		else
+		{
+			listIndex = 0;
+		}
 
 		if(tileList.Count == 2)	Attack();
 	}

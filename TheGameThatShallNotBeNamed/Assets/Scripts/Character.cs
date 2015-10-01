@@ -26,7 +26,7 @@ public class Character : MonoBehaviour {
 	protected void Move() {
 
 		
-		if (listIndex != tileList.Count && currentActionPoints > -1) {
+		if (listIndex != tileList.Count && currentActionPoints > 0) {
 			
 			movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
 			movement = movement.normalized * speed;
@@ -39,9 +39,13 @@ public class Character : MonoBehaviour {
 					end = null;
 					tileList.Clear();
 					listIndex = 0;
-				} else {
-					currentActionPoints--;
-					listIndex++;
+				}
+				else {
+					if(listIndex >= 1)
+					{
+						currentActionPoints--;
+					}
+					listIndex++;	
 				}
 			}
 		}
