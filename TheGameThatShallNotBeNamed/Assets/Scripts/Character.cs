@@ -64,7 +64,6 @@ public class Character : MonoBehaviour {
 		else
 		{
 			Debug.Log ("Not enough action points to attack.");
-			active = false;
 		}
     }
 
