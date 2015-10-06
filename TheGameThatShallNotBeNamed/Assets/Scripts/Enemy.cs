@@ -23,6 +23,8 @@ public class Enemy : Character {
 		//attack = 1;
 		//defense = 1;
 		speed = 5.0f;
+		range = 1;
+
 		tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
 		tileMap.UpdateConnections();
 

@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
-	[SerializeField]
 	public int health;
 	protected int strength;
 	protected int endurance;
 	protected int agility;
 	protected int magicSkill;
 	protected int luck;
+	protected int range;
 
 	public int currentActionPoints;
 	public int maxActionPoints;
@@ -55,11 +55,45 @@ public class Character : MonoBehaviour {
     public void basicAttack(Character target) {
 		if(currentActionPoints > 1)
 		{
-        	Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
-			target.health -= (int)(Mathf.Round(this.strength - (target.endurance * .5f)));
-			currentActionPoints -= 2;
-			if(currentActionPoints <= 0)
-				active = false;
+			bool inRange = false;
+			List<PathTile> tilesInRange = new List<PathTile>();
+			tilesInRange.Add(target.start);
+			for(int i = 0; i < range; i++)
+			{
+				List<PathTile> tempTilesInRange = new List<PathTile>();
+				foreach(PathTile pt in tilesInRange)
+				{
+					tempTilesInRange.AddRange(pt.connections);
+				}
+				tilesInRange.AddRange(tempTilesInRange);
+			}
+			
+			foreach(PathTile pt in tilesInRange)
+			{
+				if(start == pt)
+				{
+					inRange = true;
+					break;
+				}
+				//This is a test that can be used to see what tiles are in range of an attack
+				//The break above must be commented out to run this debug, as well as highlight tiles
+				//pt.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+			}
+
+			if(inRange)
+			{
+				Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
+				target.health -= (int)(Mathf.Round(this.strength - (target.endurance * .5f)));
+				currentActionPoints -= 2;
+				if(currentActionPoints <= 0)
+					active = false;
+			}
+			else
+			{
+				//Move until in range and call attack again
+				//Move();
+				//basicAttack(target);
+			}
 		}
 		else
 		{
