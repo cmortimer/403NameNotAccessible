@@ -75,25 +75,10 @@ public class PlayerController : Character {
 		transform.position = new Vector3(start.transform.position.x, 0.5f, start.transform.position.z);
         //Debug.Log(start);
     }
-	
-	// Update is called once per frame
-	public void PlayerUpdate () {
 
-//		if (Input.GetMouseButtonDown(0)) {
-//			
-//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-//			RaycastHit hit;
-//			
-//			if (Physics.Raycast(ray, out hit, 100)) {
-//				
-//				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
-//				if(hit.collider.gameObject.tag == "Tile")
-//				{
-//					end = hit.collider.gameObject.GetComponent<PathTile>();
-//				}
-//			}
-//		}
-		if(currentActionPoints <= 0)
+	//Only called on player's turn
+	public void PlayerUpdate () {
+		if(currentActionPoints < 1)
 		{
 			active = false;
 		}
@@ -102,9 +87,5 @@ public class PlayerController : Character {
 			tileMap.FindPath(start, end, tileList);
             Move();
         }
-		else
-		{
-			listIndex = 0;
-		}
     }
 }

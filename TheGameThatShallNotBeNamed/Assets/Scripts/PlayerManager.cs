@@ -6,9 +6,10 @@ public class PlayerManager : MonoBehaviour {
 
     public Transform player;
 	public GameObject selectedObject; //Currently selected player or enemy or tile
-	public PlayerController[] allPlayers;
-	public Enemy[] allEnemies;
+	public List<PlayerController> allPlayers;
+	public List<Enemy> allEnemies;
     public TileMap tileMap;
+
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
 
@@ -20,15 +21,13 @@ public class PlayerManager : MonoBehaviour {
         tileMap.UpdateConnections();
 
         GameObject[] tempPlayers = GameObject.FindGameObjectsWithTag("Player");
-		allPlayers = new PlayerController[tempPlayers.Length];
 		for(int i = 0; i < tempPlayers.Length; i++){
-			allPlayers[i] = tempPlayers[i].GetComponent<PlayerController>();
+			allPlayers.Add(tempPlayers[i].GetComponent<PlayerController>());
 		}
 
 		GameObject[] tempEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-		allEnemies = new Enemy[tempEnemies.Length];
 		for(int i = 0; i < tempEnemies.Length; i++){
-			allEnemies[i] = tempEnemies[i].GetComponent<Enemy>();
+			allEnemies.Add (tempEnemies[i].GetComponent<Enemy>());
 		}
 		//Debug.Log (allPlayers.Length);
 		//Debug.Log (allEnemies.Length);
@@ -36,7 +35,25 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		for(int i = 0; i < allEnemies.Count; i++)
+		{
+			if(allEnemies[i].health <= 0)
+			{
+				Destroy(allEnemies[i].gameObject);
+				allEnemies.RemoveAt(i);
+			}
+		}
 
+		for(int i = 0; i < allPlayers.Count; i++)
+		{
+			if(allPlayers[i].health <= 0)
+			{
+				Destroy(allPlayers[i].gameObject);
+				allPlayers.RemoveAt(i);
+			}
+		}
+
+		//Mouse Input Starts
 		if (Input.GetMouseButtonDown(0)) {
 			
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -44,7 +61,7 @@ public class PlayerManager : MonoBehaviour {
 			
 			if (Physics.Raycast(ray, out hit, 100)) {
 				
-				//Debug.Log(hit.collider.gameObject.GetComponent<PathTile>());
+				//Clicked on Tile
 				if(hit.collider.gameObject.tag == "Tile")
 				{
 					if(selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
@@ -58,6 +75,7 @@ public class PlayerManager : MonoBehaviour {
 //						selectedObject.GetComponent<Enemy>().end = hit.collider.gameObject.GetComponent<PathTile>();
 //					}
 				}
+				//Clicked on Player
 				else if(hit.collider.gameObject.tag == "Player") //FUTURE REFERENCE, SELECTED PLAYER TAG
 				{
 					if(selectedObject)
@@ -71,6 +89,7 @@ public class PlayerManager : MonoBehaviour {
                     HighlightTiles(true);
 					//Debug.Log("Hit player");
 				}
+				//Clicked on Enemy
 				else if(hit.collider.gameObject.tag == "Enemy")
 				{
                     if (selectedObject) {
@@ -89,9 +108,12 @@ public class PlayerManager : MonoBehaviour {
                 }
             }
 		}
+		//Mouse Input Ends
+
+		//Check if all players are inactive to end player turn
 		if(currentTurn == Turn.PlayerTurn)
 		{
-			if(Inactive(allPlayers))
+			if(InactivePlayers(allPlayers))
 			{
 				currentTurn = Turn.EnemyTurn;
 				foreach(PlayerController pc in allPlayers)
@@ -103,13 +125,12 @@ public class PlayerManager : MonoBehaviour {
 		else //Enemy Turn
 		{
 			//find closest player, find path to player and stop 1 tile before. Attack player.
-			for(int i = 0; i < allEnemies.Length; i++){
-				allEnemies[i].target = allEnemies[i].FindClosestPlayer(allPlayers).GetComponent<PlayerController>().start;
+			for(int i = 0; i < allEnemies.Count; i++){
+				allEnemies[i].target = allEnemies[i].FindClosestPlayer(allPlayers.ToArray()).GetComponent<PlayerController>().start;
 			}
-
-			if(Inactive(allEnemies))
+			//If all enemies are inactive, end turn
+			if(InactiveEnemies(allEnemies))
 			{
-				//Debug.Log ("Here");
 				currentTurn = Turn.PlayerTurn;
 				foreach(Enemy e in allEnemies)
 					e.resetStatus();
@@ -156,31 +177,33 @@ public class PlayerManager : MonoBehaviour {
     }
 
     //checks if all of a team is inactive, to progress turns
-    bool Inactive(Character[] characters)
+    bool InactivePlayers(List<PlayerController> players)
 	{
-		foreach(Character c in characters)
+		foreach(PlayerController p in players)
 		{
-			if(currentTurn == Turn.PlayerTurn)
+			if(p.active)
 			{
-				if(c.active)
-				{
-					return false;
-				}
-				else
-				{
-					continue;
-				}
+				return false;
 			}
 			else
 			{
-				if(c.active)
-				{
-					return false;
-				}
-				else
-				{
-					continue;
-				}
+				continue;
+			}
+		}
+		return true;
+	}
+
+	bool InactiveEnemies(List<Enemy> enemies)
+	{
+		foreach(Enemy e in enemies)
+		{
+			if(e.active)
+			{
+				return false;
+			}
+			else
+			{
+				continue;
 			}
 		}
 		return true;
