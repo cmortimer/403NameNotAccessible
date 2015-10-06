@@ -29,10 +29,14 @@ public class SpawnEnemies : MonoBehaviour {
             {
                 if(rooms[i,j] == 1)
                 {
-                    float spawnX = transform.position.x + i * 5 + 2;
-                    float spawnZ = transform.position.z + j * 5 + 2;
-
-                    GameObject.Instantiate(enemy, new Vector3(spawnX, 1, spawnZ), Quaternion.identity);
+					int spawnCheck = Random.Range(0, 2);
+					if(spawnCheck == 0)
+					{
+                    	float spawnX = transform.position.x + i * 5 + 2;
+                    	float spawnZ = transform.position.z + j * 5 + 2;
+						
+                    	GameObject.Instantiate(enemy, new Vector3(spawnX, 1, spawnZ), Quaternion.identity);
+					}
                 }
             }
         }

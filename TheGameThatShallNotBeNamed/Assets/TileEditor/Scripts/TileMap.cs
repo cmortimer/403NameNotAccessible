@@ -14,6 +14,7 @@ public class TileMap : MonoBehaviour
 
 	public float tileSize = 1;
 	public Transform tilePrefab;
+	public Transform endTilePrefab;
 	public TileSet tileSet;
 	public bool connectDiagonals;
 	public bool cutCorners;
@@ -28,6 +29,7 @@ public class TileMap : MonoBehaviour
 	private int[,] rooms;       //Room Array
 	private int numRooms;		//How many rooms have been generated
 	private int weight;			//The weight as to whether a room is generated
+	private bool stairsSpawned;	//Do we have stairs yet?
 
 	void Start()
 	{
@@ -280,6 +282,13 @@ public class TileMap : MonoBehaviour
 				}
 			}
 		}
+
+
+		//Make the end tile
+		Vector3 endTilePos = instances[instances.Count - 1].transform.position;
+		endTilePos.y += 0.01f;
+		Transform.Instantiate(endTilePrefab, endTilePos, Quaternion.identity);
+
 	}
 
     public int[,] getRooms()

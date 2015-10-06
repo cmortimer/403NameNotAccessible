@@ -27,6 +27,7 @@ public class TileMapEditor : Editor
 	bool updateConnections = true;
 	bool wireframeHidden;
 
+	/*
 	#region Inspector GUI
 
 	public override void OnInspectorGUI()
@@ -180,6 +181,7 @@ public class TileMapEditor : Editor
 	}
 
 	#endregion
+	*/
 
 	#region Scene GUI
 

@@ -3,5 +3,5 @@ using System.Collections;
 
 public class TileSet : ScriptableObject
 {
-	public Transform[] prefabs = new Transform[0];
+	public Transform[] prefabs = new Transform[1];
 }
