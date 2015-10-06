@@ -19,7 +19,6 @@ public class Enemy : Character {
 		agility = 5;
 		magicSkill = 5;
 		luck = 5;
-		range = 1;
 		//health = 1;
 		//attack = 1;
 		//defense = 1;
@@ -30,8 +29,8 @@ public class Enemy : Character {
 		start = findClosestTile();
 		transform.position = new Vector3(start.transform.position.x, 0.5f, start.transform.position.z);
 	}
-	
-	// Update is called once per frame
+
+	//Only called on enemies turn
 	public void EnemyUpdate() {
 		if(currentActionPoints < 1)
 		{
@@ -55,10 +54,6 @@ public class Enemy : Character {
 				Move();
 			}
 		}
-		else
-		{
-			listIndex = 0;
-		}
 
 		if(tileList.Count == 2)	Attack();
 	}
@@ -67,9 +62,6 @@ public class Enemy : Character {
 	public void Attack(){
 			basicAttack(pTarget);
 	}
-
-
-
 
 	public PlayerController FindClosestPlayer(PlayerController[] players){
 		if(players.Length == 0) return null;

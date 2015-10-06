@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
-	protected int health;
+	[SerializeField]
+	public int health;
 	protected int strength;
 	protected int endurance;
 	protected int agility;
 	protected int magicSkill;
 	protected int luck;
-	protected int range;
 
 	public int currentActionPoints;
 	public int maxActionPoints;
@@ -25,7 +25,6 @@ public class Character : MonoBehaviour {
 	public Vector3 movement;
 
 	protected void Move() {
-
 		
 		if (listIndex != tileList.Count && currentActionPoints > 0) {
 			
@@ -40,6 +39,7 @@ public class Character : MonoBehaviour {
 					end = null;
 					tileList.Clear();
 					listIndex = 0;
+					currentActionPoints--;
 				}
 				else {
 					if(listIndex >= 1)
@@ -53,13 +53,10 @@ public class Character : MonoBehaviour {
 	}
 
     public void basicAttack(Character target) {
-        target.health -= (int)(this.strength - (target.endurance * .5f));
 		if(currentActionPoints > 1)
 		{
-			//List<PathTile> tilesInRange;
-			//target.start.connections
-
         	Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
+			target.health -= (int)(Mathf.Round(this.strength - (target.endurance * .5f)));
 			currentActionPoints -= 2;
 			if(currentActionPoints <= 0)
 				active = false;
@@ -67,7 +64,6 @@ public class Character : MonoBehaviour {
 		else
 		{
 			Debug.Log ("Not enough action points to attack.");
-			active = false;
 		}
     }
 
@@ -78,6 +74,7 @@ public class Character : MonoBehaviour {
 		active = true;
 		end = null;
 		start = findClosestTile();
+		listIndex = 0;
 	}
 
 
@@ -105,4 +102,13 @@ public class Character : MonoBehaviour {
 		return closest.GetComponent<PathTile>();
 	}
 
+	public bool Defeated()
+	{
+		if(health <= 0)
+		{
+			Destroy(this.gameObject);
+			return true;
+		}
+		return false;
+	}
 }
