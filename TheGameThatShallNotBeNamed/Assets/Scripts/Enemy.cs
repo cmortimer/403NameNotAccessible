@@ -19,6 +19,7 @@ public class Enemy : Character {
 		agility = 5;
 		magicSkill = 5;
 		luck = 5;
+		range = 1;
 		//health = 1;
 		//attack = 1;
 		//defense = 1;

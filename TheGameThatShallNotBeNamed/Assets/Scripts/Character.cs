@@ -9,6 +9,7 @@ public class Character : MonoBehaviour {
 	protected int agility;
 	protected int magicSkill;
 	protected int luck;
+	protected int range;
 
 	public int currentActionPoints;
 	public int maxActionPoints;
@@ -55,6 +56,9 @@ public class Character : MonoBehaviour {
         target.health -= (int)(this.strength - (target.endurance * .5f));
 		if(currentActionPoints > 1)
 		{
+			//List<PathTile> tilesInRange;
+			//target.start.connections
+
         	Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
 			currentActionPoints -= 2;
 			if(currentActionPoints <= 0)

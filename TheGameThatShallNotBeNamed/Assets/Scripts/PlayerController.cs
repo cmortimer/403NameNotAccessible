@@ -62,6 +62,7 @@ public class PlayerController : Character {
 		agility = 5;
 		magicSkill = 5;
 		luck = 5;
+		range = 1;
         //attack = 1;
         //defense = 1;
         speed = 5.0f;
