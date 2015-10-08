@@ -38,10 +38,10 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(selectedObject && selectedObject.tag == "Player") 
-		{
-			HighlightTiles();
-		}
+		if(selectedObject && selectedObject.tag == "Player")
+        {
+            //HighlightTiles();
+        }
 		for(int i = 0; i < allEnemies.Count; i++)
 		{
 			if(allEnemies[i].health <= 0)
@@ -75,9 +75,25 @@ public class PlayerManager : MonoBehaviour {
 				{
 					if(selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
 					{
-						//Debug.Log("here");
-						selectedObject.GetComponent<Character>().end = hit.collider.gameObject.GetComponent<PathTile>();
-						//Debug.Log(selectedObject.GetComponent<Character>().end);
+                        Character tempChar = selectedObject.GetComponent<Character>();
+                        List<PathTile> tempList = new List<PathTile>();
+                        tileMap.FindPath(tempChar.start, hit.collider.gameObject.GetComponent<PathTile>(), tempList);
+                        
+                        if ((tempList.Count - 1) <= tempChar.currentActionPoints)
+                        {
+                            tempChar.end = hit.collider.gameObject.GetComponent<PathTile>();
+                        }
+
+                        else
+                        {
+                            if (selectedObject)
+                            {
+                                selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+                            }
+
+                            HighlightTiles(false);
+                            selectedObject = null;
+                        }
 					}
 //					else if(selectedObject.GetComponent<Enemy>())
 //					{
@@ -93,9 +109,8 @@ public class PlayerManager : MonoBehaviour {
 					}
 
                     selectedObject = hit.collider.gameObject;
-                    //HighlightTiles(false);
                     selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
-                    //HighlightTiles(true);
+                    HighlightTiles(true);
 					//Debug.Log("Hit player");
 				}
 				//Clicked on Enemy
@@ -111,6 +126,7 @@ public class PlayerManager : MonoBehaviour {
                     
                     selectedObject = hit.collider.gameObject;
                     selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
+                    HighlightTiles(false);
 
                     //Debug.Log("Hit enemy");
                 }
@@ -169,7 +185,7 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-    void HighlightTiles() {
+    void HighlightTiles(bool playerSelected) {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         Character selectedChar = selectedObject.GetComponent<Character>();
         List<PathTile> moveableTiles = new List<PathTile>(selectedChar.start.connections);
@@ -179,30 +195,32 @@ public class PlayerManager : MonoBehaviour {
 			tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
 		}
 
-        for (int i = 0; i < selectedChar.currentActionPoints; i++)
-        {
-            List<PathTile> tempList = new List<PathTile>();
-
-            for (int j = 0; j < moveableTiles.Count; j++)
+        if (playerSelected) {
+            for (int i = 0; i < selectedChar.currentActionPoints; i++)
             {
-                PathTile tempTile = moveableTiles[j];
-                if (tempTile.GetComponent<MeshRenderer>().material.color != Color.yellow)
-                {
-                    tempTile.GetComponent<MeshRenderer>().material.color = Color.yellow;
+                List<PathTile> tempList = new List<PathTile>();
 
-                    for (int k = 0; k < tempTile.connections.Count; k++)
+                for (int j = 0; j < moveableTiles.Count; j++)
+                {
+                    PathTile tempTile = moveableTiles[j];
+                    if (tempTile.GetComponent<MeshRenderer>().material.color != Color.yellow)
                     {
-                        if (tempTile.connections[k].GetComponent<MeshRenderer>().material.color != Color.yellow)
+                        tempTile.GetComponent<MeshRenderer>().material.color = Color.yellow;
+
+                        for (int k = 0; k < tempTile.connections.Count; k++)
                         {
-                            tempList.Add(tempTile.connections[k]);
+                            if (tempTile.connections[k].GetComponent<MeshRenderer>().material.color != Color.yellow)
+                            {
+                                tempList.Add(tempTile.connections[k]);
+                            }
                         }
                     }
                 }
-            }
 
-            for (int l = 0; l < tempList.Count; l++)
-            {
-                moveableTiles.Add(tempList[l]);
+                for (int l = 0; l < tempList.Count; l++)
+                {
+                    moveableTiles.Add(tempList[l]);
+                }
             }
         }
 

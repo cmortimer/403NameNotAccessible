@@ -84,8 +84,11 @@ public class PlayerController : Character {
 			active = false;
 		}
 
-        if (start && end) {
-			tileMap.FindPath(start, end, tileList);
+        if (start && end)
+        {
+            clearHighLights();
+            highLightPath();
+            tileMap.FindPath(start, end, tileList);
             Move();
         }
     }

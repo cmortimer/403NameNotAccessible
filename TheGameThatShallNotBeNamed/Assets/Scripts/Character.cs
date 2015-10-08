@@ -40,11 +40,11 @@ public class Character : MonoBehaviour {
 					tileList.Clear();
 					listIndex = 0;
 					currentActionPoints--;
-				}
+                    clearHighLights();
+                }
 				else {
 					if(listIndex >= 1)
 					{
-						//start = tileList[listIndex];
 						currentActionPoints--;
 					}
 					listIndex++;	
@@ -52,6 +52,24 @@ public class Character : MonoBehaviour {
 			}
 		}
 	}
+
+    protected void highLightPath()
+    {
+        for (int i = 0; i < tileList.Count; i++)
+        {
+            tileList[i].GetComponent<MeshRenderer>().material.color = Color.yellow;
+        }
+    }
+
+    protected void clearHighLights()
+    {
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+
+        for (int i = 0; i < tiles.Length; i++)
+        {
+            tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+        }
+    }
 
     public bool basicAttack(Character target) {
 		if(currentActionPoints > 1)
