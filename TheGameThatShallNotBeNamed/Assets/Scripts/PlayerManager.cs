@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour {
 	public List<PlayerController> allPlayers;
 	public List<Enemy> allEnemies;
     public TileMap tileMap;
+    public GameObject endTile;
 
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
@@ -29,9 +30,11 @@ public class PlayerManager : MonoBehaviour {
 		for(int i = 0; i < tempEnemies.Length; i++){
 			allEnemies.Add (tempEnemies[i].GetComponent<Enemy>());
 		}
-		//Debug.Log (allPlayers.Length);
-		//Debug.Log (allEnemies.Length);
-	}
+        //Debug.Log (allPlayers.Length);
+        //Debug.Log (allEnemies.Length);
+
+        endTile = GameObject.FindGameObjectWithTag("EndTile");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -119,9 +122,18 @@ public class PlayerManager : MonoBehaviour {
 				foreach(PlayerController pc in allPlayers)
 				{
 					pc.GetComponent<PlayerController>().resetStatus();
-				}
-			}
-		}
+                }
+            }
+            foreach (PlayerController pc in allPlayers)
+            {
+                if (Vector3.Distance(pc.transform.position, endTile.transform.position) <= 0.6f)
+                {
+                    Debug.Log("Distance to stairs: " + Vector3.Distance(pc.transform.position, endTile.transform.position));
+                    tileMap.regenFloor();
+                    pc.transform.position = new Vector3(5.0f, 0, 5.0f);
+                }
+            }
+        }
 		else //Enemy Turn
 		{
 			//find closest player, find path to player and stop 1 tile before. Attack player.

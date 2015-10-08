@@ -30,16 +30,29 @@ public class TileMap : MonoBehaviour
 	private int numRooms;		//How many rooms have been generated
 	private int weight;			//The weight as to whether a room is generated
 	private bool stairsSpawned;	//Do we have stairs yet?
+    private SpawnEnemies spawnEnemies;
+
+    public GameObject manager;
 
 	void Start()
 	{
 		rooms = new int[7,7];
+        spawnEnemies = manager.GetComponent<SpawnEnemies>();
 
 		generateFloor();
 		Debug.Log(numRooms);
 
 		UpdateConnections();
+
 	}
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            regenFloor();
+        }
+    }
 
 	public int GetHash(int x, int z)
 	{
@@ -286,10 +299,49 @@ public class TileMap : MonoBehaviour
 
 		//Make the end tile
 		Vector3 endTilePos = instances[instances.Count - 1].transform.position;
-		endTilePos.y += 0.01f;
 		Transform.Instantiate(endTilePrefab, endTilePos, Quaternion.identity);
 
 	}
+
+    //Regenerates a floor
+    public void regenFloor()
+    {
+        //Clear arrays and lists
+        Array.Clear(rooms, 0, rooms.Length);
+        instances.Clear();
+        hashes.Clear();
+        prefabs.Clear();
+        directions.Clear();
+
+        //Destroy existing tiles
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Tile"))
+            Destroy(g);
+
+        Destroy(GameObject.FindGameObjectWithTag("EndTile"));
+
+        //Regenerate floor
+        generateFloor();
+
+        UpdateConnections();
+
+        manager.GetComponent<PlayerManager>().endTile = GameObject.FindGameObjectWithTag("EndTile");
+
+        //Delete and respawn enemies
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Enemy"))
+            Destroy(g);
+
+        spawnEnemies.populateFloor();
+
+        //Update player
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            PlayerController p = g.GetComponent<PlayerController>();
+            p.resetStatus();
+            
+            Debug.Log("Player start is " + p.start.gameObject.transform.position);
+        }
+
+    }
 
     public int[,] getRooms()
     {

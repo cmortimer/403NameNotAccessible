@@ -9,8 +9,6 @@ public class SpawnEnemies : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
-        rooms = tileMap.getRooms();
 
         populateFloor();
 	}
@@ -21,9 +19,13 @@ public class SpawnEnemies : MonoBehaviour {
 	}
 
     //Populates the floor with enemies
-    void populateFloor()
+    public void populateFloor()
     {
-        for(int i = 0; i < 7; i++)
+        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
+        rooms = tileMap.getRooms();
+
+        //Try to spawn enemies in each room
+        for (int i = 0; i < 7; i++)
         {
             for(int j = 0; j < 7; j++)
             {
