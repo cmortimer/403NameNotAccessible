@@ -62,7 +62,10 @@ public class Enemy : Character {
 
 	//helpers
 	public void Attack(){
-			basicAttack(pTarget);
+		if(!(basicAttack(pTarget)))
+		{
+			active = false;
+		}
 	}
 
 	public PlayerController FindClosestPlayer(PlayerController[] players){

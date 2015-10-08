@@ -44,6 +44,7 @@ public class Character : MonoBehaviour {
 				else {
 					if(listIndex >= 1)
 					{
+						//start = tileList[listIndex];
 						currentActionPoints--;
 					}
 					listIndex++;	
@@ -52,7 +53,7 @@ public class Character : MonoBehaviour {
 		}
 	}
 
-    public void basicAttack(Character target) {
+    public bool basicAttack(Character target) {
 		if(currentActionPoints > 1)
 		{
 			bool inRange = false;
@@ -77,7 +78,7 @@ public class Character : MonoBehaviour {
 				}
 				//This is a test that can be used to see what tiles are in range of an attack
 				//The break above must be commented out to run this debug, as well as highlight tiles
-				//pt.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+				pt.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
 			}
 
 			if(inRange)
@@ -94,10 +95,13 @@ public class Character : MonoBehaviour {
 				//Move();
 				//basicAttack(target);
 			}
+			return true;
 		}
 		else
 		{
 			Debug.Log ("Not enough action points to attack.");
+			return false;
+
 		}
     }
 

@@ -38,6 +38,10 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(selectedObject && selectedObject.tag == "Player") 
+		{
+			HighlightTiles();
+		}
 		for(int i = 0; i < allEnemies.Count; i++)
 		{
 			if(allEnemies[i].health <= 0)
@@ -87,9 +91,9 @@ public class PlayerManager : MonoBehaviour {
 					}
 
                     selectedObject = hit.collider.gameObject;
-                    HighlightTiles(false);
+                    //HighlightTiles(false);
                     selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
-                    HighlightTiles(true);
+                    //HighlightTiles(true);
 					//Debug.Log("Hit player");
 				}
 				//Clicked on Enemy
@@ -106,7 +110,6 @@ public class PlayerManager : MonoBehaviour {
                     selectedObject = hit.collider.gameObject;
                     selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
 
-                    HighlightTiles(false);
                     //Debug.Log("Hit enemy");
                 }
             }
@@ -164,56 +167,54 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-    void HighlightTiles(bool playerSelected) {
+    void HighlightTiles() {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         Character selectedChar = selectedObject.GetComponent<Character>();
         List<PathTile> moveableTiles = new List<PathTile>(selectedChar.start.connections);
 
-        if (playerSelected) {
-            for (int i = 0; i < selectedChar.currentActionPoints; i++)
+		for (int i = 0; i < tiles.Length; i++)
+		{
+			tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+		}
+
+        for (int i = 0; i < selectedChar.currentActionPoints; i++)
+        {
+            List<PathTile> tempList = new List<PathTile>();
+
+            for (int j = 0; j < moveableTiles.Count; j++)
             {
-                List<PathTile> tempList = new List<PathTile>();
-
-                for (int j = 0; j < moveableTiles.Count; j++)
+                PathTile tempTile = moveableTiles[j];
+                if (tempTile.GetComponent<MeshRenderer>().material.color != Color.yellow)
                 {
-                    PathTile tempTile = moveableTiles[j];
-                    if (tempTile.GetComponent<MeshRenderer>().material.color != Color.yellow)
-                    {
-                        tempTile.GetComponent<MeshRenderer>().material.color = Color.yellow;
+                    tempTile.GetComponent<MeshRenderer>().material.color = Color.yellow;
 
-                        for (int k = 0; k < tempTile.connections.Count; k++)
+                    for (int k = 0; k < tempTile.connections.Count; k++)
+                    {
+                        if (tempTile.connections[k].GetComponent<MeshRenderer>().material.color != Color.yellow)
                         {
-                            if (tempTile.connections[k].GetComponent<MeshRenderer>().material.color != Color.yellow)
-                            {
-                                tempList.Add(tempTile.connections[k]);
-                            }
+                            tempList.Add(tempTile.connections[k]);
                         }
                     }
                 }
-
-                for (int l = 0; l < tempList.Count; l++)
-                {
-                    moveableTiles.Add(tempList[l]);
-                }
             }
 
-            //for (int i = 0; i < tiles.Length; i++)
-            //{
-            //    tileMap.FindPath(selectedObject.GetComponent<Character>().start, tiles[i].GetComponent<PathTile>(), tempList);
-            //
-            //    if (tempList.Count < (selectedObject.GetComponent<Character>().currentActionPoints + 2))
-            //    {
-            //        tiles[i].GetComponent<MeshRenderer>().material.color = Color.yellow;
-            //    }
-            //
-            //    tempList.Clear();
-            //}
-        } else {
-            for (int i = 0; i < tiles.Length; i++)
+            for (int l = 0; l < tempList.Count; l++)
             {
-                tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+                moveableTiles.Add(tempList[l]);
             }
         }
+
+        //for (int i = 0; i < tiles.Length; i++)
+        //{
+        //    tileMap.FindPath(selectedObject.GetComponent<Character>().start, tiles[i].GetComponent<PathTile>(), tempList);
+        //
+        //    if (tempList.Count < (selectedObject.GetComponent<Character>().currentActionPoints + 2))
+        //    {
+        //        tiles[i].GetComponent<MeshRenderer>().material.color = Color.yellow;
+        //    }
+        //
+        //    tempList.Clear();
+        //}
     }
 
     //checks if all of a team is inactive, to progress turns
