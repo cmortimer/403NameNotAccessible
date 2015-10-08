@@ -55,7 +55,9 @@ public class PlayerManager : MonoBehaviour {
 		{
 			if(allPlayers[i].health <= 0)
 			{
-				Destroy(allPlayers[i].gameObject);
+				allPlayers[i].GetComponent<MeshRenderer>().enabled = false;
+				allPlayers[i].gameObject.name += " (Dead)";
+				//Destroy(allPlayers[i].gameObject);
 				allPlayers.RemoveAt(i);
 			}
 		}
