@@ -125,6 +125,8 @@ public class Character : MonoBehaviour {
 		for (int i = 1; i < tiles.Length; i++)
 		{
 			thisDistance = Vector3.Distance(transform.position, tiles[i].transform.position);
+			//Debug.Log(thisDistance);
+			//Debug.Log(closestDistance);
 			if (thisDistance < closestDistance)
 			{
 				closest = tiles[i];

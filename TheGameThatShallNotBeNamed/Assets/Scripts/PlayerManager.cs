@@ -167,7 +167,7 @@ public class PlayerManager : MonoBehaviour {
     void HighlightTiles(bool playerSelected) {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         Character selectedChar = selectedObject.GetComponent<Character>();
-        List<PathTile> moveableTiles = selectedChar.start.connections;
+        List<PathTile> moveableTiles = new List<PathTile>(selectedChar.start.connections);
 
         if (playerSelected) {
             for (int i = 0; i < selectedChar.currentActionPoints; i++)
