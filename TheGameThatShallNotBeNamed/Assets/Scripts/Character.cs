@@ -136,6 +136,7 @@ public class Character : MonoBehaviour {
 
 	protected PathTile findClosestTile() {
 		GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+        Debug.Log(tiles.Length + " tiles");
 		
 		if (tiles.Length == 0)
 			return null;

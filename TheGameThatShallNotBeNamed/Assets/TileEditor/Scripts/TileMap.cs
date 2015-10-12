@@ -50,7 +50,7 @@ public class TileMap : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            regenFloor();
+            Application.LoadLevel("DungeonGenTesting");
         }
     }
 

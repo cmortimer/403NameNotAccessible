@@ -75,6 +75,7 @@ public class PlayerController : Character {
         start = findClosestTile();
 		transform.position = new Vector3(start.transform.position.x, 0.5f, start.transform.position.z);
         //Debug.Log(start);
+        DontDestroyOnLoad(this.gameObject);
     }
 
 	//Only called on player's turn
@@ -91,5 +92,30 @@ public class PlayerController : Character {
             tileMap.FindPath(start, end, tileList);
             Move();
         }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        StartCoroutine(nextLevel());
+    }
+
+    IEnumerator nextLevel()
+    {
+        tileList.Clear();
+        yield return new WaitForSeconds(0.01f);
+
+        active = true;
+        maxActionPoints = 10;
+        currentActionPoints = maxActionPoints;
+
+        listIndex = 0;
+
+        tileMap = GameObject.FindGameObjectWithTag("TileMap").GetComponent<TileMap>();
+        Debug.Log(tileMap);
+        tileMap.UpdateConnections();
+
+        start = findClosestTile();
+        Debug.Log("Start at " + start.transform.position);
+        transform.position = new Vector3(start.transform.position.x, 0.5f, start.transform.position.z);
     }
 }

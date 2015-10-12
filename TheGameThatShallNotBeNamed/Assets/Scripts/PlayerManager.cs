@@ -149,9 +149,8 @@ public class PlayerManager : MonoBehaviour {
             {
                 if (Vector3.Distance(pc.transform.position, endTile.transform.position) <= 0.6f)
                 {
-                    Debug.Log("Distance to stairs: " + Vector3.Distance(pc.transform.position, endTile.transform.position));
-                    tileMap.regenFloor();
                     pc.transform.position = new Vector3(5.0f, 0, 5.0f);
+                    Application.LoadLevel("DungeonGenTesting");
                 }
             }
         }
