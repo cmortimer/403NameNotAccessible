@@ -10,12 +10,19 @@ public class PlayerManager : MonoBehaviour {
 	public List<Enemy> allEnemies;
     public TileMap tileMap;
     public GameObject endTile;
+	public GameObject arrow;
+	GameObject arrowObj;
 
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
 
 	// Use this for initialization
 	void Start () {
+
+		Vector3 arrowPos = new Vector3(0.0f,-5.0f,0.0f);
+		Quaternion rotation = Quaternion.Euler(45.0f, 180.0f, 0.0f);
+		arrowObj = (GameObject)Instantiate (arrow, arrowPos, rotation);
+
 		currentTurn = Turn.PlayerTurn;
 
         tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
@@ -38,6 +45,10 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if(selectedObject){
+			arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
+		}
+
 		if(selectedObject && selectedObject.tag == "Player")
         {
             //HighlightTiles();
@@ -88,7 +99,7 @@ public class PlayerManager : MonoBehaviour {
                         {
                             if (selectedObject)
                             {
-                                selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+                                //selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
                             }
 
                             HighlightTiles(false);
@@ -105,19 +116,23 @@ public class PlayerManager : MonoBehaviour {
 				{
 					if(selectedObject)
 					{
-						selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
 					}
 
+
+
                     selectedObject = hit.collider.gameObject;
-                    selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
+                   // selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
                     HighlightTiles(true);
+
+					arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
 					//Debug.Log("Hit player");
 				}
 				//Clicked on Enemy
 				else if(hit.collider.gameObject.tag == "Enemy")
 				{
                     if (selectedObject) {
-						selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
 						if(selectedObject.GetComponent<PlayerController>())
 						{
                         	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
@@ -125,7 +140,7 @@ public class PlayerManager : MonoBehaviour {
                     }
                     
                     selectedObject = hit.collider.gameObject;
-                    selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
+                    //selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
                     HighlightTiles(false);
 
                     //Debug.Log("Hit enemy");
@@ -191,7 +206,7 @@ public class PlayerManager : MonoBehaviour {
 
 		for (int i = 0; i < tiles.Length; i++)
 		{
-			tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+			//tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
 		}
 
         if (playerSelected) {
