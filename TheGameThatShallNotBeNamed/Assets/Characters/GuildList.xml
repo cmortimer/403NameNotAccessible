@@ -1,0 +1,12 @@
+<guild>
+	<char>
+		<name>Bob</name>
+		<health>30</health>
+		<strength>5</strength>
+		<endurance>5</endurance>
+		<agility>5</agility>
+		<magic>5</magic>
+		<luck>5</luck>
+		<range>2</range>
+	</char>
+</guild>

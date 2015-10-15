@@ -170,4 +170,16 @@ public class Character : MonoBehaviour {
 		}
 		return false;
 	}
+
+    public void setStats(string n, int hp, int st, int en, int ag, int mag, int lu, int rng)
+    {
+        name = n;
+        health = hp;
+        strength = st;
+        endurance = en;
+        agility = ag;
+        magicSkill = mag;
+        luck = lu;
+        range = rng;
+    }
 }
