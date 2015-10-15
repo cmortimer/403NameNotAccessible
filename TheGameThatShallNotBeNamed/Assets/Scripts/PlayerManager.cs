@@ -240,7 +240,7 @@ public class PlayerManager : MonoBehaviour {
 
                         for (int k = 0; k < tempTile.connections.Count; k++)
                         {
-                            if (tempTile.connections[k].GetComponent<MeshRenderer>().material.color != Color.yellow)
+                            if (tempTile.connections[k].GetComponent<MeshRenderer>().material.color != Color.yellow && isWalkable(tempTile.connections[k]))
                             {
                                 tempList.Add(tempTile.connections[k]);
                             }
@@ -270,9 +270,14 @@ public class PlayerManager : MonoBehaviour {
 
     bool isWalkable(PathTile tile)
     {
+        if (selectedObject.GetComponent<Character>().start == tile)
+        {
+            return true;
+        }
+
 		foreach (PlayerController player in allPlayers) 
 		{
-			if (player.start == tile && selectedObject.GetComponent<Character>().start != tile)
+			if (player.start == tile)
 			{
 				return false;
 			}
@@ -280,7 +285,7 @@ public class PlayerManager : MonoBehaviour {
 
 		foreach (Enemy enemy in allEnemies) 
 		{
-			if (enemy.start == tile && selectedObject.GetComponent<Character>().start != tile) 
+			if (enemy.start == tile) 
 			{
 				return false;
 			}
