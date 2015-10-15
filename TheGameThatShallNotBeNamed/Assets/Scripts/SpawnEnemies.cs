@@ -62,7 +62,7 @@ public class SpawnEnemies : MonoBehaviour {
 						
                     	GameObject tempEnemyRef = (GameObject)GameObject.Instantiate(enemy, new Vector3(spawnX, 1, spawnZ), Quaternion.identity);
 						Enemy tempEnemy = enemyList[Mathf.FloorToInt(Random.value*4)];
-						tempEnemyRef.setStats(tempEnemy.gameObject.name, tempEnemy.strength,
+						tempEnemyRef.GetComponent<Enemy>().setStats(tempEnemy.gameObject.name, 10, tempEnemy.strength,
 							tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill, tempEnemy.luck, tempEnemy.range);
 					}
                 }
