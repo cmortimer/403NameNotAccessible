@@ -13,17 +13,17 @@ public class Enemy : Character {
 		maxActionPoints = 10;
 		currentActionPoints = maxActionPoints;
 
-		health = 25;
-		strength = 5;
-		endurance = 5;
-		agility = 5;
-		magicSkill = 5;
-		luck = 5;
+		//health = 25;
+		//strength = 5;
+		//endurance = 5;
+		//agility = 5;
+		//magicSkill = 5;
+		//luck = 5;
 		//health = 1;
 		//attack = 1;
 		//defense = 1;
 		speed = 5.0f;
-		range = 1;
+		//range = 1;
 
 		tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
 		tileMap.UpdateConnections();

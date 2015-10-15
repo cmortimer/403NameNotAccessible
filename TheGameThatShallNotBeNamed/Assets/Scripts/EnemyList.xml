@@ -2,9 +2,9 @@
 list below is the format for putting in a new enemy -->
 
 <Enemies>
-	<Enemy name="Slime" desc="" str="3" end="7" agi="7" mag="2" luck="5"  range="1"/>
-	<Enemy name="Skeleton" desc="" str="6" end="10" agi="5" mag="7" luck="5" range="1"/>
-	<Enemy name="Zombie" desc="" str="3" end="4" agi="10" mag="3" luck="5" range="1"/>
-	<Enemy name="Bandit Swordsman" desc="" str="10" end="14" agi="7" mag="4" luck="5" range="2"/>
-	<Enemy name="Bandit Mage" desc="" str="4" end="7" agi="10" mag="14" luck="5" range="4"/>
+	<Enemy name="Slime" desc="" health="15" str="3" end="7" agi="7" mag="2" luck="5"  range="1"/>
+	<Enemy name="Skeleton" desc="" health="25" str="6" end="10" agi="5" mag="7" luck="5" range="1"/>
+	<Enemy name="Zombie" desc="" health="20" str="3" end="4" agi="10" mag="3" luck="5" range="1"/>
+	<Enemy name="Bandit Swordsman" health="30" desc="" str="10" end="14" agi="7" mag="4" luck="5" range="2"/>
+	<Enemy name="Bandit Mage" desc="" health="20" str="4" end="7" agi="10" mag="14" luck="5" range="4"/>
 </Enemies>

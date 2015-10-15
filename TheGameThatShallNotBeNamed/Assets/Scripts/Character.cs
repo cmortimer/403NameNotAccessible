@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 
 public class Character : MonoBehaviour {
+	public string charName;
 	public int health;
 	public int strength;
 	public int endurance;
@@ -178,7 +179,8 @@ public class Character : MonoBehaviour {
 
     public void setStats(string n, int hp, int st, int en, int ag, int mag, int lu, int rng)
     {
-        name = n;
+		charName = n;
+        gameObject.name = n;
         health = hp;
         strength = st;
         endurance = en;

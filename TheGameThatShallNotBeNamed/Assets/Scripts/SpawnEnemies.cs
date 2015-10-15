@@ -13,7 +13,7 @@ public class SpawnEnemies : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		enemyList = new List<Enemy>();
-		XmlReader xmlReader = XmlReader.Create("EnemyList.xml");
+		XmlReader xmlReader = XmlReader.Create("Assets/Scripts/EnemyList.xml");
 		while(xmlReader.Read ())
 		{
 			if((xmlReader.NodeType == XmlNodeType.Element) && (xmlReader.Name == "Enemy"))
@@ -21,8 +21,9 @@ public class SpawnEnemies : MonoBehaviour {
 				if(xmlReader.HasAttributes)
 				{
 					Enemy tempEnemy = new Enemy();
-					tempEnemy.gameObject.name = xmlReader.GetAttribute("name");
+					tempEnemy.charName = xmlReader.GetAttribute("name");
 					//tempEnemy. = xmlReader.GetAttribute("desc");
+					tempEnemy.health = int.Parse(xmlReader.GetAttribute("health"));
 					tempEnemy.strength = int.Parse(xmlReader.GetAttribute("str"));
 					tempEnemy.endurance = int.Parse(xmlReader.GetAttribute("end"));
 					tempEnemy.agility = int.Parse(xmlReader.GetAttribute("agi"));
@@ -61,8 +62,8 @@ public class SpawnEnemies : MonoBehaviour {
                     	float spawnZ = transform.position.z + j * 5 + 2;
 						
                     	GameObject tempEnemyRef = (GameObject)GameObject.Instantiate(enemy, new Vector3(spawnX, 1, spawnZ), Quaternion.identity);
-						Enemy tempEnemy = enemyList[Mathf.FloorToInt(Random.value*4)];
-						tempEnemyRef.GetComponent<Enemy>().setStats(tempEnemy.gameObject.name, 10, tempEnemy.strength,
+						Enemy tempEnemy = enemyList[Mathf.FloorToInt(Random.value * enemyList.Count)];
+						tempEnemyRef.GetComponent<Enemy>().setStats(tempEnemy.charName, tempEnemy.health, tempEnemy.strength,
 							tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill, tempEnemy.luck, tempEnemy.range);
 					}
                 }
