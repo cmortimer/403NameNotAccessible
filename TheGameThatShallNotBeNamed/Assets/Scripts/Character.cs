@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 public class Character : MonoBehaviour {
 	public int health;
-	protected int strength;
-	protected int endurance;
-	protected int agility;
-	protected int magicSkill;
-	protected int luck;
-	protected int range;
+	public int strength;
+	public int endurance;
+	public int agility;
+	public int magicSkill;
+	public int luck;
+	public int range;
 
 	public int currentActionPoints;
 	public int maxActionPoints;
