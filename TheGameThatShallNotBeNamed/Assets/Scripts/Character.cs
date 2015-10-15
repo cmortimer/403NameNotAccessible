@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Character : MonoBehaviour {
 	public int health;
@@ -20,9 +21,12 @@ public class Character : MonoBehaviour {
 	public PathTile end;
 	public List<PathTile> tileList;
 	public bool active;
+    public bool doneMoving;
 
 	protected float speed;
 	public Vector3 movement;
+
+	public Predicate<PathTile> isWalkable;
 
 	protected void Move() {
 		
@@ -41,6 +45,7 @@ public class Character : MonoBehaviour {
 					listIndex = 0;
 					currentActionPoints--;
                     clearHighLights();
+                    doneMoving = true;
                 }
 				else {
 					if(listIndex >= 1)

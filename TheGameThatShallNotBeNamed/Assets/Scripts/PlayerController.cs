@@ -89,7 +89,8 @@ public class PlayerController : Character {
         {
             clearHighLights();
             highLightPath();
-            tileMap.FindPath(start, end, tileList);
+			//tileMap.FindPath(start, end, tileList);
+            tileMap.FindPath(start, end, tileList, isWalkable);
             Move();
         }
     }

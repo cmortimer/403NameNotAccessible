@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class PlayerManager : MonoBehaviour {
 
@@ -8,10 +9,13 @@ public class PlayerManager : MonoBehaviour {
 	public GameObject selectedObject; //Currently selected player or enemy or tile
 	public List<PlayerController> allPlayers;
 	public List<Enemy> allEnemies;
+	public List<PathTile> allTiles;
     public TileMap tileMap;
     public GameObject endTile;
 	public GameObject arrow;
 	GameObject arrowObj;
+
+	public Predicate<PathTile> walkableTiles;
 
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
@@ -37,10 +41,17 @@ public class PlayerManager : MonoBehaviour {
 		for(int i = 0; i < tempEnemies.Length; i++){
 			allEnemies.Add (tempEnemies[i].GetComponent<Enemy>());
 		}
+
+		GameObject[] tempTiles = GameObject.FindGameObjectsWithTag("Tile");
+		for(int i = 0; i < tempTiles.Length; i++){
+			allTiles.Add(tempTiles[i].GetComponent<PathTile>());
+		}
         //Debug.Log (allPlayers.Length);
         //Debug.Log (allEnemies.Length);
 
         endTile = GameObject.FindGameObjectWithTag("EndTile");
+
+		walkableTiles = new Predicate<PathTile>(isWalkable);
     }
 	
 	// Update is called once per frame
@@ -51,8 +62,13 @@ public class PlayerManager : MonoBehaviour {
 
 		if(selectedObject && selectedObject.tag == "Player")
         {
-            //HighlightTiles();
+            if (selectedObject.GetComponent<Character>().doneMoving)
+            {
+                HighlightTiles(true);
+                selectedObject.GetComponent<Character>().doneMoving = false;
+            }
         }
+
 		for(int i = 0; i < allEnemies.Count; i++)
 		{
 			if(allEnemies[i].health <= 0)
@@ -88,10 +104,11 @@ public class PlayerManager : MonoBehaviour {
 					{
                         Character tempChar = selectedObject.GetComponent<Character>();
                         List<PathTile> tempList = new List<PathTile>();
-                        tileMap.FindPath(tempChar.start, hit.collider.gameObject.GetComponent<PathTile>(), tempList);
+                        tileMap.FindPath(tempChar.start, hit.collider.gameObject.GetComponent<PathTile>(), tempList, isWalkable);
                         
                         if ((tempList.Count - 1) <= tempChar.currentActionPoints)
                         {
+							tempChar.isWalkable = this.isWalkable;
                             tempChar.end = hit.collider.gameObject.GetComponent<PathTile>();
                         }
 
@@ -138,7 +155,7 @@ public class PlayerManager : MonoBehaviour {
                         	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
 						}
                     }
-                    
+
                     selectedObject = hit.collider.gameObject;
                     //selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
                     HighlightTiles(false);
@@ -249,6 +266,27 @@ public class PlayerManager : MonoBehaviour {
         //
         //    tempList.Clear();
         //}
+    }
+
+    bool isWalkable(PathTile tile)
+    {
+		foreach (PlayerController player in allPlayers) 
+		{
+			if (player.start == tile && selectedObject.GetComponent<Character>().start != tile)
+			{
+				return false;
+			}
+		}
+
+		foreach (Enemy enemy in allEnemies) 
+		{
+			if (enemy.start == tile && selectedObject.GetComponent<Character>().start != tile) 
+			{
+				return false;
+			}
+		}
+
+		return true;
     }
 
     //checks if all of a team is inactive, to progress turns
