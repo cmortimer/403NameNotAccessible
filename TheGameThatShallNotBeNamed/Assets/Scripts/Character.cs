@@ -30,6 +30,8 @@ public class Character : MonoBehaviour {
 	public Predicate<PathTile> isWalkable;
 
 	protected void Move() {
+
+		Debug.Log ("MOVING");
 		
 		if (listIndex != tileList.Count && currentActionPoints > 0) {
 			

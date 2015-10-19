@@ -56,7 +56,7 @@ public class PlayerController : Character {
 		maxActionPoints = 10;
 		currentActionPoints = maxActionPoints;
 
-		health = 25;
+		health = 9999;
 		strength = 5;
 		endurance = 5;
 		agility = 5;

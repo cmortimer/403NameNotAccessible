@@ -120,7 +120,6 @@ public class PlayerManager : MonoBehaviour {
                             }
 
                             HighlightTiles(false);
-                            selectedObject = null;
                         }
 					}
 //					else if(selectedObject.GetComponent<Enemy>())
@@ -219,15 +218,16 @@ public class PlayerManager : MonoBehaviour {
     void HighlightTiles(bool playerSelected) {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         Character selectedChar = selectedObject.GetComponent<Character>();
-        List<PathTile> moveableTiles = new List<PathTile>(selectedChar.start.connections);
+        List<PathTile> moveableTiles = new List<PathTile>();
+        moveableTiles.Add(selectedChar.start);
 
-		for (int i = 0; i < tiles.Length; i++)
-		{
-			//tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
-		}
+		//for (int i = 0; i < tiles.Length; i++)
+		//{
+		//	tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+		//}
 
         if (playerSelected) {
-            for (int i = 0; i < selectedChar.currentActionPoints; i++)
+            for (int i = 0; i < selectedChar.currentActionPoints + 1; i++)
             {
                 List<PathTile> tempList = new List<PathTile>();
 
