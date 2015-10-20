@@ -216,7 +216,7 @@ public class PlayerManager : MonoBehaviour {
 	}
 
     void HighlightTiles(bool playerSelected) {
-        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+        //GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         Character selectedChar = selectedObject.GetComponent<Character>();
         List<PathTile> moveableTiles = new List<PathTile>();
         moveableTiles.Add(selectedChar.start);

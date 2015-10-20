@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Linq;
-using UnityEngine;
-using System;
-using System.Linq;
 using System.Collections;
 using System.IO;
 using System.Text;
