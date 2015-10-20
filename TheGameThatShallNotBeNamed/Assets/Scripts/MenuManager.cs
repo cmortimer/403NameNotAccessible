@@ -71,7 +71,7 @@ public class MenuManager : MonoBehaviour {
 		root.Add(new XAttribute("mag", "7"));
 		root.Add(new XAttribute("luck", "7"));
 		root.Add(new XAttribute("range", "2"));
-		root.Add(new XAttribute("active", "true"));
+		root.Add(new XAttribute("active", "True"));
 		doc.Element("guild").Add(root);
 		doc.Save("Assets/Characters/GuildList.xml");
 	}

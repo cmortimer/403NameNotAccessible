@@ -53,6 +53,7 @@ public class GuildScript : MonoBehaviour {
             int mg  = 0;
             int lu  = 0;
             int rng = 0;
+			bool active = false;
 
             foreach(XmlNode member in characters)
             {
@@ -75,8 +76,10 @@ public class GuildScript : MonoBehaviour {
                         lu = int.Parse(val.InnerText);
                     else if (val.Name == "range")
                         rng = int.Parse(val.InnerText);
+					else if (val.Name == "active")
+						active = bool.Parse(val.InnerText);
                 }
-                if(name != "")
+                if(name != "" && active)
                 {
                     Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
                     c.setStats(name, hp, st, en, ag, mg, lu, rng);
