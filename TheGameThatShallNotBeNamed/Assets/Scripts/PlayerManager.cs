@@ -56,9 +56,14 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(selectedObject){
-			arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
-		}
+		if(selectedObject)
+        {
+			arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f);
+        }
+        else
+        {
+            arrowObj.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
+        }
 
 		if(selectedObject && selectedObject.tag == "Player")
         {
@@ -111,17 +116,18 @@ public class PlayerManager : MonoBehaviour {
 							tempChar.isWalkable = this.isWalkable;
                             tempChar.end = hit.collider.gameObject.GetComponent<PathTile>();
                         }
-
                         else
                         {
-                            if (selectedObject)
-                            {
-                                //selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
-                            }
-
                             HighlightTiles(false);
+                            selectedObject = null;
                         }
 					}
+                    else if (selectedObject && selectedObject.GetComponent<Enemy>())
+                    {
+                        HighlightTiles(false);
+                        selectedObject = null;
+                    }
+
 //					else if(selectedObject.GetComponent<Enemy>())
 //					{
 //						selectedObject.GetComponent<Enemy>().end = hit.collider.gameObject.GetComponent<PathTile>();
@@ -216,15 +222,15 @@ public class PlayerManager : MonoBehaviour {
 	}
 
     void HighlightTiles(bool playerSelected) {
-        //GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         Character selectedChar = selectedObject.GetComponent<Character>();
         List<PathTile> moveableTiles = new List<PathTile>();
         moveableTiles.Add(selectedChar.start);
 
-		//for (int i = 0; i < tiles.Length; i++)
-		//{
-		//	tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
-		//}
+		for (int i = 0; i < tiles.Length; i++)
+		{
+			tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+		}
 
         if (playerSelected) {
             for (int i = 0; i < selectedChar.currentActionPoints + 1; i++)
