@@ -11,12 +11,15 @@ public class GuildScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	    //Test creating a player
-        GameObject testPlayer = playerPrefab;
+        if (GameObject.FindGameObjectWithTag("Player") == null)
+        {
+            //Test creating a player
+            GameObject testPlayer = playerPrefab;
 
-        loadFromXML(testPlayer.GetComponent<Character>());
+            loadFromXML(testPlayer.GetComponent<Character>());
 
-        GameObject.Instantiate(testPlayer, new Vector3(0, 0.5f, 20), Quaternion.identity);
+            GameObject.Instantiate(testPlayer, new Vector3(0, 0.5f, 20), Quaternion.identity);
+        }
 	}
 	
 	// Update is called once per frame
@@ -35,7 +38,7 @@ public class GuildScript : MonoBehaviour {
     {
         XmlDocument charXML = new XmlDocument();
         //Print filepath and make sure it's valid
-        Debug.Log("FILEPATH: " + filePath);
+        //Debug.Log("FILEPATH: " + filePath);
         if(File.Exists(filePath))
         {
             //Debug.Log("loaded file");

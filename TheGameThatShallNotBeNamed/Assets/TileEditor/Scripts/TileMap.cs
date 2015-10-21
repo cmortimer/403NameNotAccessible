@@ -31,13 +31,17 @@ public class TileMap : MonoBehaviour
 	private int weight;			//The weight as to whether a room is generated
 	private bool stairsSpawned;	//Do we have stairs yet?
     private SpawnEnemies spawnEnemies;
+    private DungeonManager dungeonManager;
 
     public GameObject manager;
+    public GameObject dungeonObj;
 
 	void Start()
 	{
 		rooms = new int[7,7];
         spawnEnemies = manager.GetComponent<SpawnEnemies>();
+
+        dungeonManager = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>();
 
 		generateFloor();
 		Debug.Log(numRooms);
@@ -48,10 +52,6 @@ public class TileMap : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Application.LoadLevel("DungeonGenTesting");
-        }
     }
 
 	public int GetHash(int x, int z)
@@ -299,6 +299,7 @@ public class TileMap : MonoBehaviour
 
 		//Make the end tile
 		Vector3 endTilePos = instances[instances.Count - 1].transform.position;
+        endTilePos.y += 0.01f;
 		Transform.Instantiate(endTilePrefab, endTilePos, Quaternion.identity);
 
 	}
@@ -306,6 +307,8 @@ public class TileMap : MonoBehaviour
     //Regenerates a floor
     public void regenFloor()
     {
+        //Have we cleared the dungeon
+
         //Clear arrays and lists
         Array.Clear(rooms, 0, rooms.Length);
         instances.Clear();

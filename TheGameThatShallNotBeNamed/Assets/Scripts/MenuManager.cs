@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using System.IO;
 public class MenuManager : MonoBehaviour {
 	
 	public GameObject mainMenu;
@@ -114,4 +115,35 @@ public class MenuManager : MonoBehaviour {
 	public void RemoveGuildMember(){
 		
 	}
+
+    //Loads a dungeon based off of its name
+    public void goToDest(string name)
+    {
+        Debug.Log("Going to " + name);
+        string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
+
+        XmlDocument dunXML = new XmlDocument();
+
+        if (File.Exists(filePath))
+        {
+            dunXML.Load(filePath);
+
+            //List of our possible dungeons
+            XmlNodeList dungeons = dunXML.GetElementsByTagName("dungeon");
+
+            //Set the selected dungeon to active
+            foreach (XmlNode member in dungeons)
+            {
+                if (member["name"].InnerText == name)
+                {
+                    Debug.Log("Found the dungeon " + member["name"].InnerText);
+                    member["active"].InnerText = "true";
+                    Debug.Log("Are we leaving: " + member.LastChild.InnerText);
+                    dunXML.Save(filePath);
+                }
+
+            }
+        }
+        Application.LoadLevel(2);
+    }
 }

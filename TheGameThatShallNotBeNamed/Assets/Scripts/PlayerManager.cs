@@ -187,7 +187,10 @@ public class PlayerManager : MonoBehaviour {
                 if (Vector3.Distance(pc.transform.position, endTile.transform.position) <= 0.6f)
                 {
                     pc.transform.position = new Vector3(5.0f, 0, 5.0f);
-                    Application.LoadLevel("DungeonGenTesting");
+                    //Tell the dungeon manager to load the next level
+                    DungeonManager tempMan = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>();
+                    tempMan.incrementFloor();
+                    break;
                 }
             }
         }

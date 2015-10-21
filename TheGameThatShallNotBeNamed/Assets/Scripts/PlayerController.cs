@@ -97,7 +97,11 @@ public class PlayerController : Character {
 
     private void OnLevelWasLoaded(int level)
     {
-        StartCoroutine(nextLevel());
+        Debug.Log("Loading :" + level);
+        if (level == 2)
+        {
+            StartCoroutine(nextLevel());
+        }
     }
 
     IEnumerator nextLevel()
