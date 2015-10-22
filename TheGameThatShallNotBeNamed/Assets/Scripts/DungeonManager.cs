@@ -30,6 +30,7 @@ public class DungeonManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             incrementFloor();
+            //Application.LoadLevel(0);
         }
     }
 
@@ -117,7 +118,7 @@ public class DungeonManager : MonoBehaviour
         if (currentFloor > floorLimit)
         {
             loaded = false;
-            currentFloor = 0;
+            currentFloor = 1;
             cleanXML();
             Application.LoadLevel("Menu");
         }

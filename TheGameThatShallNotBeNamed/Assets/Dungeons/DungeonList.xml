@@ -2,7 +2,7 @@
 <list>
   <dungeon>
     <name>Plains</name>
-    <floors>3</floors>
+    <floors>1</floors>
     <enemyPool>plains</enemyPool>
     <active>false</active>
   </dungeon>

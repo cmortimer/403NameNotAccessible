@@ -50,18 +50,25 @@ public class PlayerData : MonoBehaviour {
 	public static PlayerData Instance;
 	// Use this for initialization
 	void Awake () {
+        
+        
 		if(Instance)
 		{
 			DestroyImmediate(gameObject);
 		}
 		else
 		{
-			DontDestroyOnLoad(gameObject);
-			Instance = this;
+            if (GameObject.FindGameObjectWithTag("Persistent") == null)
+            {
+                DontDestroyOnLoad(gameObject);
+                Instance = this;
+            }
 		}
+        
 		
 		equipment = this.gameObject.GetComponent<Equipment>();
 		equipment.LoadEquipment("Assets\\Scripts\\EquipmentList.txt");
+        
 	}
 	
 	
