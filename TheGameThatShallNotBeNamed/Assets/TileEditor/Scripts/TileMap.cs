@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -229,7 +229,8 @@ public class TileMap : MonoBehaviour
 				//DestroyImmediate(instances[index].gameObject);
 				
 				//Place the tile
-				Transform instance = (Transform)PrefabUtility.InstantiatePrefab(prefabs[index]);
+				Transform instance = (Transform)Instantiate(prefabs[index]);
+				//Transform instance = (Transform)PrefabUtility.InstantiatePrefab(prefabs[index]);
 				instance.parent = transform;
 				//instance.localPosition = GetPosition(index);
 				instance.localPosition = new Vector3(spawnX, 0, spawnZ);
