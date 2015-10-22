@@ -43,6 +43,8 @@ public class PlayerData : MonoBehaviour {
 		public List<string> recipe;
 		//image?
 	}
+
+
 	public Equipment equipment;
 	List<weapon> obtainedWeapons;
 	List<armor> obtainedArmor;

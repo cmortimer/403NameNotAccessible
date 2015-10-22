@@ -62,8 +62,9 @@ public class GuildScript : MonoBehaviour {
 
             foreach(XmlNode member in characters)
             {
-                foreach(XmlNode val in member)
+                foreach(XmlAttribute val in member.Attributes)
                 {
+					//Debug.Log ("test");
                     //Store values
                     if (val.Name == "name")
                         name = val.InnerText;
@@ -84,9 +85,10 @@ public class GuildScript : MonoBehaviour {
 					else if (val.Name == "active")
 						active = bool.Parse(val.InnerText);
                 }
+				//Debug.Log("Name: " + name + ", active: " + active);
                 if(name != "" && active)
                 {
-                    Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
+                    //Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
                     c.setStats(name, hp, st, en, ag, mg, lu, rng);
 
                     GameObject.Instantiate(player, spawnPos, Quaternion.identity);

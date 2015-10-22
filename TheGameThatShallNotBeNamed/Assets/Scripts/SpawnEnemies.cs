@@ -40,7 +40,7 @@ public class SpawnEnemies : MonoBehaviour {
 				}
 			}
         }
-        Debug.Log("Possible enemies: " + enemyList.Count);
+        //Debug.Log("Possible enemies: " + enemyList.Count);
         populateFloor();
 	}
 	

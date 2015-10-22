@@ -65,7 +65,7 @@ public class DungeonManager : MonoBehaviour
 
             }
 
-            Debug.Log("Dungeon: " + dungeonName + " Floors: " + floorLimit + " Pool: " + pool);
+            //Debug.Log("Dungeon: " + dungeonName + " Floors: " + floorLimit + " Pool: " + pool);
         }
     }
 

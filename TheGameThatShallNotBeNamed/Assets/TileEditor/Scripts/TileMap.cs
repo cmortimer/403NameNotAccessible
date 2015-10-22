@@ -44,7 +44,7 @@ public class TileMap : MonoBehaviour
         dungeonManager = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>();
 
 		generateFloor();
-		Debug.Log(numRooms);
+		//Debug.Log(numRooms);
 
 		UpdateConnections();
 
