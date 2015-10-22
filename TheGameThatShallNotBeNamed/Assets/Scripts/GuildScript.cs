@@ -16,9 +16,9 @@ public class GuildScript : MonoBehaviour {
             //Test creating a player
             GameObject testPlayer = playerPrefab;
 
-            loadFromXML(testPlayer.GetComponent<Character>());
+            loadFromXML(testPlayer.GetComponent<Character>(), testPlayer);
 
-            GameObject.Instantiate(testPlayer, new Vector3(0, 0.5f, 20), Quaternion.identity);
+            //GameObject.Instantiate(testPlayer, new Vector3(0, 0.5f, 20), Quaternion.identity);
         }
 	}
 	
@@ -34,7 +34,7 @@ public class GuildScript : MonoBehaviour {
     }
 
     //Loads a character's data from an xml file
-    void loadFromXML(Character c)
+    void loadFromXML(Character c, GameObject player)
     {
         XmlDocument charXML = new XmlDocument();
         //Print filepath and make sure it's valid
@@ -57,6 +57,8 @@ public class GuildScript : MonoBehaviour {
             int lu  = 0;
             int rng = 0;
 			bool active = false;
+
+            Vector3 spawnPos = new Vector3(0, 0.5f, 20);
 
             foreach(XmlNode member in characters)
             {
@@ -86,6 +88,10 @@ public class GuildScript : MonoBehaviour {
                 {
                     Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
                     c.setStats(name, hp, st, en, ag, mg, lu, rng);
+
+                    GameObject.Instantiate(player, spawnPos, Quaternion.identity);
+                    spawnPos.x += 1.0f;
+                    spawnPos.z += 1.0f;
                 }
             }
         }

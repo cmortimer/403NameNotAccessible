@@ -16,6 +16,7 @@ public class DungeonManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        cleanXML();
         //Don't destroy on scene load
         GameObject.DontDestroyOnLoad(gameObject);
         currentFloor = 1;
@@ -25,7 +26,7 @@ public class DungeonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //Debug floor skip
         if (Input.GetKeyDown(KeyCode.Space))
         {
             incrementFloor();
@@ -126,5 +127,11 @@ public class DungeonManager : MonoBehaviour
             Application.LoadLevel(2);
         }
 
+    }
+
+    //Returns the spawn pool
+    public string getPool()
+    {
+        return pool;
     }
 }

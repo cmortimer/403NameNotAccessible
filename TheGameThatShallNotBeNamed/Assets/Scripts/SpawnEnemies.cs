@@ -9,9 +9,12 @@ public class SpawnEnemies : MonoBehaviour {
     public GameObject enemy;
     private TileMap tileMap;
     private int[,] rooms;
+    private string pool;
 
 	// Use this for initialization
 	void Start () {
+        pool = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>().getPool();
+
 		enemyList = new List<Enemy>();
 		XmlReader xmlReader = XmlReader.Create("Assets/Scripts/EnemyList.xml");
 		while(xmlReader.Read ())
@@ -20,20 +23,24 @@ public class SpawnEnemies : MonoBehaviour {
 			{
 				if(xmlReader.HasAttributes)
 				{
-					Enemy tempEnemy = new Enemy();
-					tempEnemy.charName = xmlReader.GetAttribute("name");
-					//tempEnemy. = xmlReader.GetAttribute("desc");
-					tempEnemy.health = int.Parse(xmlReader.GetAttribute("health"));
-					tempEnemy.strength = int.Parse(xmlReader.GetAttribute("str"));
-					tempEnemy.endurance = int.Parse(xmlReader.GetAttribute("end"));
-					tempEnemy.agility = int.Parse(xmlReader.GetAttribute("agi"));
-					tempEnemy.magicSkill = int.Parse(xmlReader.GetAttribute("mag"));
-					tempEnemy.luck = int.Parse(xmlReader.GetAttribute("luck"));
-					tempEnemy.range= int.Parse(xmlReader.GetAttribute("range"));
-					enemyList.Add(tempEnemy);
+                    if (xmlReader.GetAttribute("pool") == pool)
+                    {
+                        Enemy tempEnemy = new Enemy();
+                        tempEnemy.charName = xmlReader.GetAttribute("name");
+                        //tempEnemy. = xmlReader.GetAttribute("desc");
+                        tempEnemy.health = int.Parse(xmlReader.GetAttribute("health"));
+                        tempEnemy.strength = int.Parse(xmlReader.GetAttribute("str"));
+                        tempEnemy.endurance = int.Parse(xmlReader.GetAttribute("end"));
+                        tempEnemy.agility = int.Parse(xmlReader.GetAttribute("agi"));
+                        tempEnemy.magicSkill = int.Parse(xmlReader.GetAttribute("mag"));
+                        tempEnemy.luck = int.Parse(xmlReader.GetAttribute("luck"));
+                        tempEnemy.range = int.Parse(xmlReader.GetAttribute("range"));
+                        enemyList.Add(tempEnemy);
+                    }
 				}
 			}
-		}
+        }
+        Debug.Log("Possible enemies: " + enemyList.Count);
         populateFloor();
 	}
 	

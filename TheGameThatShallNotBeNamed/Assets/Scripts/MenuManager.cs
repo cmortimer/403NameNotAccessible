@@ -119,7 +119,7 @@ public class MenuManager : MonoBehaviour {
     //Loads a dungeon based off of its name
     public void goToDest(string name)
     {
-        Debug.Log("Going to " + name);
+        //Debug.Log("Going to " + name);
         string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
 
         XmlDocument dunXML = new XmlDocument();
@@ -136,9 +136,7 @@ public class MenuManager : MonoBehaviour {
             {
                 if (member["name"].InnerText == name)
                 {
-                    Debug.Log("Found the dungeon " + member["name"].InnerText);
                     member["active"].InnerText = "true";
-                    Debug.Log("Are we leaving: " + member.LastChild.InnerText);
                     dunXML.Save(filePath);
                 }
 
