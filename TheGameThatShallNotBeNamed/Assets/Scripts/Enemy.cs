@@ -88,6 +88,12 @@ public class Enemy : Character {
 		pTarget = closest;
 		return closest;
 	}
+
+	public void resetStatus()
+	{
+		target = null;
+		base.resetStatus();
+	}
 }
 
 

@@ -31,10 +31,15 @@ public class Character : MonoBehaviour {
 
 	protected void Move() {
 
-		Debug.Log ("MOVING");
-		
-		if (listIndex != tileList.Count && currentActionPoints > 0) {
-			
+		if(start == end)
+		{
+			end = null;
+			tileList.Clear();
+			listIndex = 0;
+			clearHighLights();
+			doneMoving = true;
+		}
+		else if (listIndex != tileList.Count && currentActionPoints > 0) {
 			movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
 			movement = movement.normalized * speed;
 			
@@ -133,7 +138,6 @@ public class Character : MonoBehaviour {
 
 	public void resetStatus()
 	{
-		//IMPORTANT NOTE: current action points breaks with movement, drops to -1 to insure full movement
 		currentActionPoints += agility;
 		active = true;
 		end = null;

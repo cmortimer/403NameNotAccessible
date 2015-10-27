@@ -20,6 +20,9 @@ public class PlayerManager : MonoBehaviour {
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
 
+	public int currentEnemy = 0;
+	public bool enemyMoving = false;
+
 	// Use this for initialization
 	void Start () {
 
@@ -197,13 +200,31 @@ public class PlayerManager : MonoBehaviour {
 		else //Enemy Turn
 		{
 			//find closest player, find path to player and stop 1 tile before. Attack player.
-			for(int i = 0; i < allEnemies.Count; i++){
-				allEnemies[i].target = allEnemies[i].FindClosestPlayer(allPlayers.ToArray()).GetComponent<PlayerController>().start;
+//			for(int i = 0; i < allEnemies.Count; i++){
+//				allEnemies[i].target = allEnemies[i].FindClosestPlayer(allPlayers.ToArray()).GetComponent<PlayerController>().start;
+//			}
+			if(currentEnemy < allEnemies.Count)
+			{
+				if(!enemyMoving)
+				{
+					enemyMoving = true;
+					allEnemies[currentEnemy].target = allEnemies[currentEnemy].FindClosestPlayer(allPlayers.ToArray()).GetComponent<PlayerController>().start;
+				}
+				else
+				{
+					if(allEnemies[currentEnemy].end == null || !allEnemies[currentEnemy].active)
+					{
+						enemyMoving = false;
+						currentEnemy++;
+					}
+				}
 			}
 			//If all enemies are inactive, end turn
-			if(InactiveEnemies(allEnemies))
+			else if(InactiveEnemies(allEnemies))
 			{
 				currentTurn = Turn.PlayerTurn;
+				currentEnemy = 0;
+				enemyMoving = false;
 				foreach(Enemy e in allEnemies)
 					e.resetStatus();
 			}
