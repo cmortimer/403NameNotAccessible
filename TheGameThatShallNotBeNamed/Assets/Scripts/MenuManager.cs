@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using System.IO;
+using System;
+
 public class MenuManager : MonoBehaviour {
 	
 	public GameObject mainMenu;
@@ -12,6 +14,9 @@ public class MenuManager : MonoBehaviour {
 	public GameObject destMenu;
 	public GameObject tavernMenu;
 	public GameObject equipmentPrefab;
+
+	List<GameObject> weaponButtons;
+	List<GameObject> armorButtons;
 
 	Equipment equip;
 	
@@ -29,23 +34,30 @@ public class MenuManager : MonoBehaviour {
 		int currentY = 200;
 		for(int i=0;i<equip.allWeapons.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
-			GameObject imgObj = currentEquip.transform.FindChild("Image").gameObject;
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
+			finished.transform.parent = workshopMenu.transform.FindChild("Window/AllObjects");
+
+			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
 			//set image = equipment image path
-			GameObject nameObj = currentEquip.transform.FindChild("NameDesc").gameObject;
+			GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
 			nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
-			GameObject statsObj = currentEquip.transform.FindChild("Stats").gameObject;
+			GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
 			string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag + "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
 			statsObj.GetComponent<Text>().text = text;
-			GameObject recipeObj = currentEquip.transform.FindChild("Recipe").gameObject;
-			
-			GameObject createObj = currentEquip.transform.FindChild("Create").gameObject;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-150.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
-			finished.transform.parent = workshopMenu.transform;
+			GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+
+			GameObject createObj = finished.transform.FindChild("Create").gameObject;
+			int captured = i;
+			createObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(captured));
+
 			currentY -= 75;
 		}
 		
 		for(int i=0;i<equip.allArmor.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
+			finished.transform.parent = workshopMenu.transform.FindChild("Window/AllObjects");
+
 			GameObject imgObj = currentEquip.transform.FindChild("Image").gameObject;
 			//set image = equipment image path
 			GameObject nameObj = currentEquip.transform.FindChild("NameDesc").gameObject;
@@ -56,12 +68,27 @@ public class MenuManager : MonoBehaviour {
 			GameObject recipeObj = currentEquip.transform.FindChild("Recipe").gameObject;
 			
 			GameObject createObj = currentEquip.transform.FindChild("Create").gameObject;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-150.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
-			finished.transform.parent = workshopMenu.transform;
+			int captured = i;
+			createObj.GetComponent<Button>().onClick.AddListener(() => GiveArmor(captured));
+			//armorButtons.Add(createObj);
+
 			currentY -= 75;
 		}
+
 	}
-	
+
+	void GiveWeapon(int i){
+		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+
+		Debug.Log (perData.GetComponent<PlayerData>().obtainedWeapons.Count);
+		perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
+	}
+	void GiveArmor(int i){
+		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+		perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
+	}
+
+
 	//function handlers for each button yes this is ugly lay off...
 	public void MainToDest(){
 		mainMenu.SetActive(false);

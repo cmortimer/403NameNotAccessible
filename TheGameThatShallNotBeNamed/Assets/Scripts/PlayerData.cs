@@ -15,68 +15,38 @@ public class PlayerData : MonoBehaviour {
 	
 	/*
 	 * everything for equipment
-	 */
-	//a single weapon
-	public struct weapon{
-		public string name;
-		public string desc;
-		public int str;
-		public int end ;
-		public int agi ;
-		public int mag ;
-		public int luck ;
-		public int rangeMin ;
-		public int rangeMax;
-		public List<string> recipe;
-		//something for an image to show
-	}
-	
-	//a single piece of armor
-	public struct armor{
-		public string name;
-		public string desc;
-		public int str;
-		public int end ;
-		public int agi ;
-		public int mag ;
-		public int luck ;
-		public List<string> recipe;
-		//image?
-	}
-
-
-	public Equipment equipment;
-	List<weapon> obtainedWeapons;
-	List<armor> obtainedArmor;
+    	 */
+	Equipment equipment;
+	public List<Equipment.weapon> obtainedWeapons = new List<Equipment.weapon>();
+	public List<Equipment.armor> obtainedArmor = new List<Equipment.armor>();
 	
 	public static PlayerData Instance;
+
 	// Use this for initialization
 	void Awake () {
-        
-        
 		if(Instance)
 		{
 			DestroyImmediate(gameObject);
 		}
 		else
 		{
-            if (GameObject.FindGameObjectWithTag("Persistent") == null)
+			if (GameObject.FindGameObjectWithTag("Persistent") == null)
             {
                 DontDestroyOnLoad(gameObject);
                 Instance = this;
             }
 		}
         
-		
 		equipment = this.gameObject.GetComponent<Equipment>();
 		equipment.LoadEquipment("Assets\\Scripts\\EquipmentList.txt");
-        
 	}
-	
-	
+
+
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+
 }
 
