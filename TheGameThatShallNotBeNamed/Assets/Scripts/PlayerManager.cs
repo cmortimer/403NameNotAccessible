@@ -208,6 +208,8 @@ public class PlayerManager : MonoBehaviour {
 				if(!enemyMoving)
 				{
 					enemyMoving = true;
+					selectedObject = allEnemies[currentEnemy].enemyObject;
+					allEnemies[currentEnemy].isWalkable = this.isWalkable;
 					allEnemies[currentEnemy].target = allEnemies[currentEnemy].FindClosestPlayer(allPlayers.ToArray()).GetComponent<PlayerController>().start;
 				}
 				else
@@ -222,6 +224,7 @@ public class PlayerManager : MonoBehaviour {
 			//If all enemies are inactive, end turn
 			else if(InactiveEnemies(allEnemies))
 			{
+				selectedObject = null;
 				currentTurn = Turn.PlayerTurn;
 				currentEnemy = 0;
 				enemyMoving = false;
@@ -305,11 +308,13 @@ public class PlayerManager : MonoBehaviour {
             return true;
         }
 
-		foreach (PlayerController player in allPlayers) 
-		{
-			if (player.start == tile)
+		if (!selectedObject.GetComponent<Enemy>()) {
+			foreach (PlayerController player in allPlayers) 
 			{
-				return false;
+				if (player.start == tile)
+				{
+					return false;
+				}
 			}
 		}
 

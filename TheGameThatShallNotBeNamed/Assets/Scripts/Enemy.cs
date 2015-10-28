@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Enemy : Character {
 
 	public PathTile target = null;
+	public Predicate<PathTile> isWalkable;
+	public GameObject enemyObject;
 	protected PlayerController pTarget = null;
 
 	// Use this for initialization
@@ -12,6 +15,7 @@ public class Enemy : Character {
 		active = true;
 		maxActionPoints = 10;
 		currentActionPoints = maxActionPoints;
+		enemyObject = this.gameObject;
 
 		//health = 25;
 		//strength = 5;
@@ -41,7 +45,8 @@ public class Enemy : Character {
 
 		if (active && start && target) {
 	
-			tileMap.FindPath(start, target, tileList);
+			tileMap.FindPath(start, target, tileList, isWalkable);
+			//tileMap.FindPath(start, target, tileList);
 
 			if(tileList.Count > 2){
 				List<PathTile> newPath = new List<PathTile>();
