@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
+using System.IO;
 using System;
 
 public class PlayerManager : MonoBehaviour {
@@ -81,7 +83,51 @@ public class PlayerManager : MonoBehaviour {
 		{
 			if(allEnemies[i].health <= 0)
 			{
-				Destroy(allEnemies[i].gameObject);
+
+                // Update the inventory with the enemy's drop
+                XmlDocument xmlDoc = new XmlDocument();
+
+                //Make sure the file exists before loading
+                if (File.Exists(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml"))
+                {
+                    xmlDoc.Load(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+
+                    XmlNodeList items = xmlDoc.GetElementsByTagName("item");
+
+                    bool newdrop = true;
+
+                    //Check to see if we already have that item
+                    foreach (XmlNode member in items)
+                    {
+                        if (member.Attributes["name"].Value == allEnemies[i].drop)
+                        {
+                            //Update the count of the item
+                            Debug.Log("Found a: " + member.Attributes["name"].Value);
+                            int currentCount = int.Parse(member.Attributes["count"].Value);
+                            currentCount++;
+                            member.Attributes["count"].Value = currentCount.ToString();
+
+                            //Don't need to make a new entry
+                            newdrop = false;
+                        }
+                    }
+
+                    //If we don't have that item yet
+                    if (newdrop)
+                    {
+                        Debug.Log("Adding a new " + allEnemies[i].drop);
+
+                        //Create the new item
+                        XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+                        XmlElement newItem = xmlDoc.CreateElement("item");
+                        newItem.SetAttribute("name", allEnemies[i].drop);
+                        newItem.SetAttribute("count", "1");
+                        root[0].AppendChild(newItem);
+                    }
+
+                }
+                xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+                Destroy(allEnemies[i].gameObject);
 				allEnemies.RemoveAt(i);
 			}
 		}

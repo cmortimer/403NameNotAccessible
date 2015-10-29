@@ -35,6 +35,7 @@ public class SpawnEnemies : MonoBehaviour {
                         tempEnemy.magicSkill = int.Parse(xmlReader.GetAttribute("mag"));
                         tempEnemy.luck = int.Parse(xmlReader.GetAttribute("luck"));
                         tempEnemy.range = int.Parse(xmlReader.GetAttribute("range"));
+                        tempEnemy.drop = xmlReader.GetAttribute("drop");
                         enemyList.Add(tempEnemy);
                     }
 				}
@@ -71,7 +72,7 @@ public class SpawnEnemies : MonoBehaviour {
                     	GameObject tempEnemyRef = (GameObject)GameObject.Instantiate(enemy, new Vector3(spawnX, 1, spawnZ), Quaternion.identity);
 						Enemy tempEnemy = enemyList[Mathf.FloorToInt(Random.value * enemyList.Count)];
 						tempEnemyRef.GetComponent<Enemy>().setStats(tempEnemy.charName, tempEnemy.health, tempEnemy.strength,
-							tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill, tempEnemy.luck, tempEnemy.range);
+							tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill, tempEnemy.luck, tempEnemy.range, tempEnemy.drop);
 					}
                 }
             }

@@ -10,8 +10,10 @@ public class Enemy : Character {
 	public GameObject enemyObject;
 	protected PlayerController pTarget = null;
 
-	// Use this for initialization
-	void Start () {
+    public string drop;     //The item the enemy drops
+
+    // Use this for initialization
+    void Start () {
 		active = true;
 		maxActionPoints = 10;
 		currentActionPoints = maxActionPoints;
@@ -94,7 +96,21 @@ public class Enemy : Character {
 		return closest;
 	}
 
-	public void resetStatus()
+    public void setStats(string n, int hp, int st, int en, int ag, int mag, int lu, int rng, string drp)
+    {
+        charName = n;
+        gameObject.name = n;
+        health = hp;
+        strength = st;
+        endurance = en;
+        agility = ag;
+        magicSkill = mag;
+        luck = lu;
+        range = rng;
+        drop = drp;
+    }
+
+    public void resetStatus()
 	{
 		target = null;
 		base.resetStatus();
