@@ -303,18 +303,27 @@ public class PlayerManager : MonoBehaviour {
 
     bool isWalkable(PathTile tile)
     {
-        if (selectedObject.GetComponent<Character>().start == tile)
-        {
-            return true;
-        }
-
-		if (!selectedObject.GetComponent<Enemy>()) {
-			foreach (PlayerController player in allPlayers) 
+		if (selectedObject.GetComponent<Character>())
+		{
+			if (selectedObject.GetComponent<Character>().start == tile)
 			{
-				if (player.start == tile)
-				{
-					return false;
-				}
+				return true;
+			}
+		}
+		
+		if (selectedObject.GetComponent<Enemy>()) 
+		{
+			if (selectedObject.GetComponent<Enemy>().target == tile) 
+			{
+				return true;
+			}
+		}
+
+		foreach (PlayerController player in allPlayers) 
+		{
+			if (player.start == tile)
+			{
+				return false;
 			}
 		}
 
