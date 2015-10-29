@@ -58,16 +58,16 @@ public class MenuManager : MonoBehaviour {
 			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
 			finished.transform.parent = workshopMenu.transform.FindChild("Window/AllObjects");
 
-			GameObject imgObj = currentEquip.transform.FindChild("Image").gameObject;
+			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
 			//set image = equipment image path
-			GameObject nameObj = currentEquip.transform.FindChild("NameDesc").gameObject;
+			GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
 			nameObj.GetComponent<Text>().text = equip.allArmor[i].name;
-			GameObject statsObj = currentEquip.transform.FindChild("Stats").gameObject;
+			GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
 			string text = equip.allArmor[i].str + "    " + equip.allArmor[i].end + "     " + equip.allArmor[i].agi + "     " + equip.allArmor[i].mag + "     " + equip.allArmor[i].luck + "     " ;
 			statsObj.GetComponent<Text>().text = text;
-			GameObject recipeObj = currentEquip.transform.FindChild("Recipe").gameObject;
+			GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
 			
-			GameObject createObj = currentEquip.transform.FindChild("Create").gameObject;
+			GameObject createObj = finished.transform.FindChild("Create").gameObject;
 			int captured = i;
 			createObj.GetComponent<Button>().onClick.AddListener(() => GiveArmor(captured));
 			//armorButtons.Add(createObj);
@@ -85,6 +85,8 @@ public class MenuManager : MonoBehaviour {
 	}
 	void GiveArmor(int i){
 		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+
+		Debug.Log (perData.GetComponent<PlayerData>().obtainedArmor.Count);
 		perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
 	}
 
