@@ -24,6 +24,9 @@ public class PlayerManager : MonoBehaviour {
 	enum Turn {PlayerTurn, EnemyTurn};
 	Turn currentTurn;
 
+	enum Action {Attack, Move, None};
+	Action currentAction;
+
 	public int currentEnemy = 0;
 	public bool enemyMoving = false;
 
@@ -32,12 +35,12 @@ public class PlayerManager : MonoBehaviour {
 		playerUI = GameObject.Find ("PlayerCombatUI");
 		playerUI.SetActive(false);
 
-
 		Vector3 arrowPos = new Vector3(0.0f,-5.0f,0.0f);
 		Quaternion rotation = Quaternion.Euler(45.0f, 180.0f, 0.0f);
 		arrowObj = (GameObject)Instantiate (arrow, arrowPos, rotation);
 
 		currentTurn = Turn.PlayerTurn;
+		currentAction = Action.None;
 
         tileMap = GameObject.Find("TileMap").GetComponent<TileMap>();
         tileMap.UpdateConnections();
@@ -66,9 +69,32 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Action based key decision
+		if (selectedObject) {
+			if (Input.GetKeyDown ("1") || Input.GetKeyDown (KeyCode.Keypad1)) {
+				currentAction = Action.Move;
+			} else if (Input.GetKeyDown ("2") || Input.GetKeyDown (KeyCode.Keypad2)) {
+				currentAction = Action.Attack;
+			} else if (Input.GetMouseButtonDown (1)) {
+				currentAction = Action.None;
+			}
+		} else {
+			currentAction = Action.None;
+		}
+		//end Action input, 1 for move, 2 for attack
+		//Right click to cancel mode, clicking with no mode selects objects
+
 		if(selectedObject)
         {
 			arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f);
+			if(currentAction != Action.Move)
+			{
+				HighlightMoveTiles(false);
+			}
+			else if (currentAction != Action.Attack)
+			{
+				HighlightAttackTiles(false);
+			}
         }
         else
         {
@@ -77,9 +103,17 @@ public class PlayerManager : MonoBehaviour {
 
 		if(selectedObject && selectedObject.tag == "Player")
         {
+			if(currentAction == Action.Move)
+			{
+				HighlightMoveTiles(true);
+			}
+			else if(currentAction == Action.Attack)
+			{
+				HighlightAttackTiles(true);
+			}
             if (selectedObject.GetComponent<Character>().doneMoving)
             {
-                HighlightTiles(true);
+                HighlightMoveTiles(true);
                 selectedObject.GetComponent<Character>().doneMoving = false;
             }
         }
@@ -143,7 +177,6 @@ public class PlayerManager : MonoBehaviour {
 			{
 				allPlayers[i].GetComponent<MeshRenderer>().enabled = false;
 				allPlayers[i].gameObject.name += " (Dead)";
-				//Destroy(allPlayers[i].gameObject);
 				allPlayers.RemoveAt(i);
 			}
 		}
@@ -159,7 +192,7 @@ public class PlayerManager : MonoBehaviour {
 				//Clicked on Tile
 				if(hit.collider.gameObject.tag == "Tile")
 				{
-					if(selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
+					if(currentAction == Action.Move && selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
 					{
                         Character tempChar = selectedObject.GetComponent<Character>();
                         List<PathTile> tempList = new List<PathTile>();
@@ -172,13 +205,16 @@ public class PlayerManager : MonoBehaviour {
                         }
                         else
                         {
-                            HighlightTiles(false);
+							HighlightMoveTiles(false);
+							HighlightAttackTiles(false);
                             selectedObject = null;
                         }
 					}
-                    else if (selectedObject && selectedObject.GetComponent<Enemy>())
+                    else //if (selectedObject && selectedObject.GetComponent<Enemy>())
                     {
-                        HighlightTiles(false);
+						currentAction = Action.None;
+                        HighlightMoveTiles(false);
+						HighlightAttackTiles(false);
                         selectedObject = null;
                     }
 
@@ -188,18 +224,16 @@ public class PlayerManager : MonoBehaviour {
 //					}
 				}
 				//Clicked on Player
-				else if(hit.collider.gameObject.tag == "Player") //FUTURE REFERENCE, SELECTED PLAYER TAG
+				else if(hit.collider.gameObject.tag == "Player")
 				{
 					if(selectedObject)
 					{
 						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
 					}
-
-
-
+					currentAction = Action.None;
                     selectedObject = hit.collider.gameObject;
-                   // selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
-                    HighlightTiles(true);
+
+                    //HighlightMoveTiles(true);
 
 					arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
 					//Debug.Log("Hit player");
@@ -209,16 +243,21 @@ public class PlayerManager : MonoBehaviour {
 				{
                     if (selectedObject) {
 						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
-						if(selectedObject.GetComponent<PlayerController>())
+						if(selectedObject.GetComponent<PlayerController>() && currentAction == Action.Attack)
 						{
+							currentAction = Action.None;
                         	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
 						}
+						else {
+							selectedObject = hit.collider.gameObject;
+						}
                     }
-
-                    selectedObject = hit.collider.gameObject;
-                    //selectedObject.GetComponent<MeshRenderer>().material.color = Color.green;
-                    HighlightTiles(false);
-
+					else
+					{
+						selectedObject = hit.collider.gameObject;
+					}
+                    HighlightMoveTiles(false);
+					HighlightAttackTiles(false);
                     //Debug.Log("Hit enemy");
                 }
             }
@@ -299,7 +338,7 @@ public class PlayerManager : MonoBehaviour {
 		}
 	}
 
-    void HighlightTiles(bool playerSelected) {
+    void HighlightMoveTiles(bool playerSelected) {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
         Character selectedChar = selectedObject.GetComponent<Character>();
         List<PathTile> moveableTiles = new List<PathTile>();
@@ -351,6 +390,36 @@ public class PlayerManager : MonoBehaviour {
         //    tempList.Clear();
         //}
     }
+
+	void HighlightAttackTiles(bool playerSelected) {
+		Character selectedChar = selectedObject.GetComponent<Character>();
+		if (playerSelected) {
+			List<PathTile> tilesInRange = new List<PathTile>();
+			tilesInRange.Add(selectedChar.start);
+			for (int i = 0; i < selectedChar.range; i++)
+			{
+				List<PathTile> tempTilesInRange = new List<PathTile>();
+				foreach(PathTile pt in tilesInRange)
+				{
+					tempTilesInRange.AddRange(pt.connections);
+				}
+				tilesInRange.AddRange(tempTilesInRange);
+			}
+
+			foreach(PathTile pt in tilesInRange)
+			{
+				pt.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+			}
+		}
+		else
+		{
+			GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
+			for (int i = 0; i < tiles.Length; i++)
+			{
+				tiles[i].GetComponent<MeshRenderer>().material.color = Color.white;
+			}
+		}
+	}
 
     bool isWalkable(PathTile tile)
     {
