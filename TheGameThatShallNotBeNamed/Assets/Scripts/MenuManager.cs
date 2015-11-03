@@ -123,7 +123,6 @@ public class MenuManager : MonoBehaviour {
 	public void Quit(){
 		Application.Quit();
 	}
-
 	public void VisitDest(int level){
 		Application.LoadLevel (2);
 	}
