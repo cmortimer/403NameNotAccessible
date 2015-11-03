@@ -12,6 +12,7 @@ public class Character : MonoBehaviour {
 	public int magicSkill;
 	public int luck;
 	public int range;
+	public int maxHealth = 25;
 
 	public int currentActionPoints;
 	public int maxActionPoints;

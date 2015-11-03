@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.IO;
 using System;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour {
 
@@ -16,6 +17,7 @@ public class PlayerManager : MonoBehaviour {
     public GameObject endTile;
 	public GameObject arrow;
 	GameObject arrowObj;
+	GameObject playerUI;
 
 	public Predicate<PathTile> walkableTiles;
 
@@ -27,6 +29,9 @@ public class PlayerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		playerUI = GameObject.Find ("PlayerCombatUI");
+		playerUI.SetActive(false);
+
 
 		Vector3 arrowPos = new Vector3(0.0f,-5.0f,0.0f);
 		Quaternion rotation = Quaternion.Euler(45.0f, 180.0f, 0.0f);
@@ -415,5 +420,21 @@ public class PlayerManager : MonoBehaviour {
 			}
 		}
 		return true;
+	}
+
+	public void SetPlayerUI(Character c){
+		transform.Find("Canvas/PlayerCombatUI/APBG/Text").gameObject.GetComponent<Text>().text = "AP: " + c.currentActionPoints;
+		transform.Find("Canvas/PlayerCombatUI/NameBG/Text").gameObject.GetComponent<Text>().text = c.name;
+		transform.Find("Canvas/PlayerCombatUI/StatBackground/Strength").gameObject.GetComponent<Text>().text = "Str: " + c.strength;
+		transform.Find("Canvas/PlayerCombatUI/StatBackground/Agility").gameObject.GetComponent<Text>().text = "Agi: " + c.agility;
+		transform.Find("Canvas/PlayerCombatUI/StatBackground/Magic").gameObject.GetComponent<Text>().text = "Str: " + c.magicSkill;
+		transform.Find("Canvas/PlayerCombatUI/StatBackground/Luck").gameObject.GetComponent<Text>().text = "Str: " + c.luck;
+		transform.Find("Canvas/PlayerCombatUI/StatBackground/Endurence").gameObject.GetComponent<Text>().text = "Str: " + c.endurance;
+		transform.Find("Canvas/PlayerCombatUI/StatBackground/Range").gameObject.GetComponent<Text>().text = "Str: " + c.range;
+		float value;
+		value = ((c.maxHealth - c.health)/c.maxHealth)*250;
+		//value = 250-value;
+		RectTransform rect = transform.Find("Canvas/PlayerCombatUI/StatBackground/HealthBar/Mask").gameObject.GetComponent<RectTransform>();
+		rect.offsetMin = new Vector2(value, rect.offsetMin.y);
 	}
 }
