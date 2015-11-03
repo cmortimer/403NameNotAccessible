@@ -82,12 +82,16 @@ public class MenuManager : MonoBehaviour {
 
 		Debug.Log (perData.GetComponent<PlayerData>().obtainedWeapons.Count);
 		perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
+
+        saveXML(i, true);
 	}
 	void GiveArmor(int i){
 		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
 
 		Debug.Log (perData.GetComponent<PlayerData>().obtainedArmor.Count);
 		perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
+
+        saveXML(i, false);
 	}
 
 
@@ -172,5 +176,106 @@ public class MenuManager : MonoBehaviour {
             }
         }
         Application.LoadLevel(2);
+    }
+
+    public void saveXML(int i, bool wep)
+    {
+        XmlDocument xmlDoc = new XmlDocument();
+        string path;
+
+        //Add a weapon
+        if(wep)
+        {
+            path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
+
+            if (File.Exists(path))
+            {
+                xmlDoc.Load(path);
+
+                XmlNodeList weapons = xmlDoc.GetElementsByTagName("weapon");
+
+                    bool newEntry = true;
+
+                    //Check to see if we already have that item
+                    foreach (XmlNode member in weapons)
+                    {
+                        if (member.Attributes["id"].Value == i.ToString())
+                        {
+                            //Update the count of the item
+                            Debug.Log("Found a: " + member.Attributes["name"].Value);
+                            int currentCount = int.Parse(member.Attributes["count"].Value);
+                            currentCount++;
+                            member.Attributes["count"].Value = currentCount.ToString();
+
+                            //Don't need to make a new entry
+                            newEntry = false;
+                        }
+                    }
+
+                    //If we don't have that item yet
+                    if (newEntry)
+                    {
+                        Debug.Log("Adding a new " + equip.allWeapons[i].name);
+
+                        //Create the new item
+                        XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+                        XmlElement newItem = xmlDoc.CreateElement("weapon");
+                        newItem.SetAttribute("name", equip.allWeapons[i].name);
+                        newItem.SetAttribute("id", i.ToString());
+                        newItem.SetAttribute("count", "1");
+                        root[0].AppendChild(newItem);
+                    }
+
+                }
+                xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml");
+            }
+
+        //Add armor
+        else
+        {
+            path = Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml";
+
+            if (File.Exists(path))
+            {
+                xmlDoc.Load(path);
+
+                XmlNodeList armor = xmlDoc.GetElementsByTagName("armor");
+
+                bool newEntry = true;
+
+                //Check to see if we already have that item
+                foreach (XmlNode member in armor)
+                {
+                    if (member.Attributes["id"].Value == i.ToString())
+                    {
+                        //Update the count of the item
+                        Debug.Log("Found a: " + member.Attributes["name"].Value);
+                        int currentCount = int.Parse(member.Attributes["count"].Value);
+                        currentCount++;
+                        member.Attributes["count"].Value = currentCount.ToString();
+
+                        //Don't need to make a new entry
+                        newEntry = false;
+                    }
+                }
+
+                //If we don't have that item yet
+                if (newEntry)
+                {
+                    Debug.Log("Adding a new " + equip.allWeapons[i].name);
+
+                    //Create the new item
+                    XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+                    XmlElement newItem = xmlDoc.CreateElement("armor");
+                    newItem.SetAttribute("name", equip.allArmor[i].name);
+                    newItem.SetAttribute("id", i.ToString());
+                    newItem.SetAttribute("count", "1");
+                    root[0].AppendChild(newItem);
+                }
+
+            }
+            xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml");
+
+        }
     }
 }
