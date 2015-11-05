@@ -29,6 +29,7 @@ public class PlayerManager : MonoBehaviour {
 
 	public int currentEnemy = 0;
 	public bool enemyMoving = false;
+	public bool playerMoving = false;
 
 	// Use this for initialization
 	void Start () {
@@ -69,224 +70,251 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//Action based key decision
-		if (selectedObject) {
-			if (Input.GetKeyDown ("1") || Input.GetKeyDown (KeyCode.Keypad1)) {
-				currentAction = Action.Move;
-			} else if (Input.GetKeyDown ("2") || Input.GetKeyDown (KeyCode.Keypad2)) {
-				currentAction = Action.Attack;
-			} else if (Input.GetMouseButtonDown (1)) {
-				currentAction = Action.None;
-			}
-		} else {
-			currentAction = Action.None;
-		}
-		//end Action input, 1 for move, 2 for attack
-		//Right click to cancel mode, clicking with no mode selects objects
-
-		if(selectedObject)
-        {
-			arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f);
-			if(currentAction != Action.Move)
-			{
-				HighlightMoveTiles(false);
-			}
-			else if (currentAction != Action.Attack)
-			{
-				HighlightAttackTiles(false);
-			}
-        }
-        else
-        {
-            arrowObj.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
-        }
-
-		if(selectedObject && selectedObject.tag == "Player")
-        {
-			if(currentAction == Action.Move)
-			{
-				HighlightMoveTiles(true);
-			}
-			else if(currentAction == Action.Attack)
-			{
-				HighlightAttackTiles(true);
-			}
-            if (selectedObject.GetComponent<Character>().doneMoving)
-            {
-                HighlightMoveTiles(true);
-                selectedObject.GetComponent<Character>().doneMoving = false;
-            }
-        }
-
-		for(int i = 0; i < allEnemies.Count; i++)
-		{
-			if(allEnemies[i].health <= 0)
-			{
-
-                // Update the inventory with the enemy's drop
-                XmlDocument xmlDoc = new XmlDocument();
-
-                //Make sure the file exists before loading
-                if (File.Exists(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml"))
-                {
-                    xmlDoc.Load(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
-
-                    XmlNodeList items = xmlDoc.GetElementsByTagName("item");
-
-                    bool newdrop = true;
-
-                    //Check to see if we already have that item
-                    foreach (XmlNode member in items)
-                    {
-                        if (member.Attributes["name"].Value == allEnemies[i].drop)
-                        {
-                            //Update the count of the item
-                            Debug.Log("Found a: " + member.Attributes["name"].Value);
-                            int currentCount = int.Parse(member.Attributes["count"].Value);
-                            currentCount++;
-                            member.Attributes["count"].Value = currentCount.ToString();
-
-                            //Don't need to make a new entry
-                            newdrop = false;
-                        }
-                    }
-
-                    //If we don't have that item yet
-                    if (newdrop)
-                    {
-                        Debug.Log("Adding a new " + allEnemies[i].drop);
-
-                        //Create the new item
-                        XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
-                        XmlElement newItem = xmlDoc.CreateElement("item");
-                        newItem.SetAttribute("name", allEnemies[i].drop);
-                        newItem.SetAttribute("count", "1");
-                        root[0].AppendChild(newItem);
-                    }
-
-                }
-                xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
-                Destroy(allEnemies[i].gameObject);
-				allEnemies.RemoveAt(i);
-			}
-		}
-
-		for(int i = 0; i < allPlayers.Count; i++)
-		{
-			if(allPlayers[i].health <= 0)
-			{
-				allPlayers[i].GetComponent<MeshRenderer>().enabled = false;
-				allPlayers[i].gameObject.name += " (Dead)";
-				allPlayers.RemoveAt(i);
-			}
-		}
-
-		//Mouse Input Starts
-		if (Input.GetMouseButtonDown(0)) {
-			
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			
-			if (Physics.Raycast(ray, out hit, 100)) {
-				
-				//Clicked on Tile
-				if(hit.collider.gameObject.tag == "Tile")
-				{
-					if(currentAction == Action.Move && selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
-					{
-                        Character tempChar = selectedObject.GetComponent<Character>();
-                        List<PathTile> tempList = new List<PathTile>();
-                        tileMap.FindPath(tempChar.start, hit.collider.gameObject.GetComponent<PathTile>(), tempList, isWalkable);
-                        
-                        if ((tempList.Count - 1) <= tempChar.currentActionPoints)
-                        {
-							tempChar.isWalkable = this.isWalkable;
-                            tempChar.end = hit.collider.gameObject.GetComponent<PathTile>();
-                        }
-                        else
-                        {
-							HighlightMoveTiles(false);
-							HighlightAttackTiles(false);
-                            selectedObject = null;
-                        }
-					}
-                    else //if (selectedObject && selectedObject.GetComponent<Enemy>())
-                    {
-						currentAction = Action.None;
-                        HighlightMoveTiles(false);
-						HighlightAttackTiles(false);
-                        selectedObject = null;
-                    }
-
-//					else if(selectedObject.GetComponent<Enemy>())
-//					{
-//						selectedObject.GetComponent<Enemy>().end = hit.collider.gameObject.GetComponent<PathTile>();
-//					}
-				}
-				//Clicked on Player
-				else if(hit.collider.gameObject.tag == "Player")
-				{
-					if(selectedObject)
-					{
-						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
-					}
-					currentAction = Action.None;
-                    selectedObject = hit.collider.gameObject;
-
-                    //HighlightMoveTiles(true);
-
-					arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
-					//Debug.Log("Hit player");
-				}
-				//Clicked on Enemy
-				else if(hit.collider.gameObject.tag == "Enemy")
-				{
-                    if (selectedObject) {
-						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
-						if(selectedObject.GetComponent<PlayerController>() && currentAction == Action.Attack)
-						{
-							currentAction = Action.None;
-                        	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
-						}
-						else {
-							selectedObject = hit.collider.gameObject;
-						}
-                    }
-					else
-					{
-						selectedObject = hit.collider.gameObject;
-					}
-                    HighlightMoveTiles(false);
-					HighlightAttackTiles(false);
-                    //Debug.Log("Hit enemy");
-                }
-            }
-		}
-		//Mouse Input Ends
-
-		//Check if all players are inactive to end player turn
+		//Player Turn
 		if(currentTurn == Turn.PlayerTurn)
 		{
+			if (selectedObject) {
+				//Key 1, Move
+				if (Input.GetKeyDown ("1") || Input.GetKeyDown (KeyCode.Keypad1))
+				{
+					currentAction = Action.Move;
+				}
+				//Key 2, Attack
+				else if (Input.GetKeyDown ("2") || Input.GetKeyDown (KeyCode.Keypad2))
+				{
+					currentAction = Action.Attack;
+				}
+				//Key 3, Inactive Player
+				else if (Input.GetKeyDown ("3") || Input.GetKeyDown (KeyCode.Keypad3))
+				{
+					if(selectedObject.GetComponent<Character>().active)
+					{
+						selectedObject.GetComponent<Character>().active = false;
+						selectedObject = null;
+					}
+					else
+					{
+						selectedObject.GetComponent<Character>().active = true;
+					}
+				}
+				//Right Click, Cancel Action
+				else if (Input.GetMouseButtonDown (1))
+				{
+					currentAction = Action.None;
+				}
+
+				//Highlight correct tiles based on current action
+//				if(selectedObject.tag == "Player")
+//				{
+//					if(currentAction == Action.Move)
+//					{
+//						HighlightMoveTiles(true);
+//					}
+//					else if(currentAction == Action.Attack)
+//					{
+//						HighlightAttackTiles(true);
+//					}
+//					if (selectedObject.GetComponent<Character>().doneMoving)
+//					{
+//						HighlightMoveTiles(true);
+//						selectedObject.GetComponent<Character>().doneMoving = false;
+//					}
+//				}
+				arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f);
+				if(currentAction != Action.Move)
+				{
+					HighlightMoveTiles(false);
+				}
+				else if (currentAction != Action.Attack)
+				{
+					HighlightAttackTiles(false);
+				}
+			}
+			else
+			{
+				arrowObj.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
+				currentAction = Action.None;
+			}
+
+			if(selectedObject && selectedObject.tag == "Player")
+	        {
+				if(currentAction == Action.Move)
+				{
+					HighlightMoveTiles(true);
+				}
+				else if(currentAction == Action.Attack)
+				{
+					HighlightAttackTiles(true);
+				}
+	            if (selectedObject.GetComponent<Character>().doneMoving)
+	            {
+	                HighlightMoveTiles(true);
+	                selectedObject.GetComponent<Character>().doneMoving = false;
+	            }
+	        }
+
+			for(int i = 0; i < allEnemies.Count; i++)
+			{
+				if(allEnemies[i].health <= 0)
+				{
+
+	                // Update the inventory with the enemy's drop
+	                XmlDocument xmlDoc = new XmlDocument();
+
+	                //Make sure the file exists before loading
+	                if (File.Exists(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml"))
+	                {
+	                    xmlDoc.Load(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+
+	                    XmlNodeList items = xmlDoc.GetElementsByTagName("item");
+
+	                    bool newdrop = true;
+
+	                    //Check to see if we already have that item
+	                    foreach (XmlNode member in items)
+	                    {
+	                        if (member.Attributes["name"].Value == allEnemies[i].drop)
+	                        {
+	                            //Update the count of the item
+	                            Debug.Log("Found a: " + member.Attributes["name"].Value);
+	                            int currentCount = int.Parse(member.Attributes["count"].Value);
+	                            currentCount++;
+	                            member.Attributes["count"].Value = currentCount.ToString();
+
+	                            //Don't need to make a new entry
+	                            newdrop = false;
+	                        }
+	                    }
+
+	                    //If we don't have that item yet
+	                    if (newdrop)
+	                    {
+	                        Debug.Log("Adding a new " + allEnemies[i].drop);
+
+	                        //Create the new item
+	                        XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+	                        XmlElement newItem = xmlDoc.CreateElement("item");
+	                        newItem.SetAttribute("name", allEnemies[i].drop);
+	                        newItem.SetAttribute("count", "1");
+	                        root[0].AppendChild(newItem);
+	                    }
+
+	                }
+	                xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+	                Destroy(allEnemies[i].gameObject);
+					allEnemies.RemoveAt(i);
+				}
+			}
+
+			//Check for dead Players
+			for(int i = 0; i < allPlayers.Count; i++)
+			{
+				if(allPlayers[i].health <= 0)
+				{
+					allPlayers[i].GetComponent<MeshRenderer>().enabled = false;
+					allPlayers[i].gameObject.name += " (Dead)";
+					allPlayers.RemoveAt(i);
+				}
+			}
+
+			//Check if the selected player is moving
+			if(selectedObject && selectedObject.GetComponent<Character>().end == null)
+			{
+				playerMoving = false;
+			}
+
+			//Mouse Input Starts
+			if (Input.GetMouseButtonDown(0) && !playerMoving) {
+				
+				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+				RaycastHit hit;
+				
+				if (Physics.Raycast(ray, out hit, 100)) {
+					
+					//Clicked on Tile
+					if(hit.collider.gameObject.tag == "Tile")
+					{
+						if(currentAction == Action.Move && selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
+						{
+	                        Character tempChar = selectedObject.GetComponent<Character>();
+	                        List<PathTile> tempList = new List<PathTile>();
+	                        tileMap.FindPath(tempChar.start, hit.collider.gameObject.GetComponent<PathTile>(), tempList, isWalkable);
+	                        
+	                        if ((tempList.Count - 1) <= tempChar.currentActionPoints)
+	                        {
+								tempChar.isWalkable = this.isWalkable;
+	                            tempChar.end = hit.collider.gameObject.GetComponent<PathTile>();
+								playerMoving = true;
+	                        }
+	                        else
+	                        {
+								HighlightMoveTiles(false);
+								HighlightAttackTiles(false);
+	                            selectedObject = null;
+	                        }
+						}
+	                    else //if (selectedObject && selectedObject.GetComponent<Enemy>())
+	                    {
+							currentAction = Action.None;
+	                        HighlightMoveTiles(false);
+							HighlightAttackTiles(false);
+	                        selectedObject = null;
+	                    }
+					}
+					//Clicked on Player
+					else if(hit.collider.gameObject.tag == "Player")
+					{
+						currentAction = Action.Move;
+	                    selectedObject = hit.collider.gameObject;
+
+						arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
+					}
+					//Clicked on Enemy
+					else if(hit.collider.gameObject.tag == "Enemy")
+					{
+	                    if (selectedObject) {
+							if(selectedObject.GetComponent<PlayerController>() && currentAction == Action.Attack)
+							{
+								currentAction = Action.Move;
+	                        	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
+							}
+							else {
+								selectedObject = hit.collider.gameObject;
+							}
+	                    }
+						else
+						{
+							selectedObject = hit.collider.gameObject;
+						}
+	                    HighlightMoveTiles(false);
+						HighlightAttackTiles(false);
+               		}
+            	}
+			}
+			//Mouse Input Ends
+
+			//If all players are inactive
 			if(InactivePlayers(allPlayers))
 			{
 				currentTurn = Turn.EnemyTurn;
 				foreach(PlayerController pc in allPlayers)
 				{
 					pc.GetComponent<PlayerController>().resetStatus();
-                }
-            }
-            foreach (PlayerController pc in allPlayers)
-            {
-                if (Vector3.Distance(pc.transform.position, endTile.transform.position) <= 0.6f)
-                {
-                    pc.transform.position = new Vector3(5.0f, 0, 5.0f);
-                    //Tell the dungeon manager to load the next level
-                    DungeonManager tempMan = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>();
-                    tempMan.incrementFloor();
-                    break;
-                }
-            }
-        }
+				}
+			}
+
+			foreach (PlayerController pc in allPlayers)
+			{
+				if (Vector3.Distance(pc.transform.position, endTile.transform.position) <= 0.6f)
+				{
+					pc.transform.position = new Vector3(5.0f, 0, 5.0f);
+					//Tell the dungeon manager to load the next level
+					DungeonManager tempMan = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>();
+					tempMan.incrementFloor();
+					break;
+				}
+			}
+		}
 		else //Enemy Turn
 		{
 			//find closest player, find path to player and stop 1 tile before. Attack player.
@@ -423,38 +451,40 @@ public class PlayerManager : MonoBehaviour {
 
     bool isWalkable(PathTile tile)
     {
-		if (selectedObject.GetComponent<Character>())
+		if(selectedObject)
 		{
-			if (selectedObject.GetComponent<Character>().start == tile)
+			if (selectedObject.GetComponent<Character>())
 			{
-				return true;
+				if (selectedObject.GetComponent<Character>().start == tile)
+				{
+					return true;
+				}
 			}
-		}
-		
-		if (selectedObject.GetComponent<Enemy>()) 
-		{
-			if (selectedObject.GetComponent<Enemy>().target == tile) 
+			
+			if (selectedObject.GetComponent<Enemy>()) 
 			{
-				return true;
+				if (selectedObject.GetComponent<Enemy>().target == tile) 
+				{
+					return true;
+				}
 			}
-		}
 
-		foreach (PlayerController player in allPlayers) 
-		{
-			if (player.start == tile)
+			foreach (PlayerController player in allPlayers) 
 			{
-				return false;
+				if (player.start == tile)
+				{
+					return false;
+				}
+			}
+
+			foreach (Enemy enemy in allEnemies) 
+			{
+				if (enemy.start == tile) 
+				{
+					return false;
+				}
 			}
 		}
-
-		foreach (Enemy enemy in allEnemies) 
-		{
-			if (enemy.start == tile) 
-			{
-				return false;
-			}
-		}
-
 		return true;
     }
 
