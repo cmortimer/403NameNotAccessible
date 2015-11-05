@@ -69,6 +69,9 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
+		#region hotkeys
 		//Action based key decision
 		if (selectedObject) {
 			if (Input.GetKeyDown ("1") || Input.GetKeyDown (KeyCode.Keypad1)) {
@@ -117,7 +120,97 @@ public class PlayerManager : MonoBehaviour {
                 selectedObject.GetComponent<Character>().doneMoving = false;
             }
         }
+		#endregion
 
+		#region mouse input
+		//Mouse Input Starts
+		if (Input.GetMouseButtonDown(0)) {
+			
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			RaycastHit hit;
+			
+			if (Physics.Raycast(ray, out hit, 100)) {
+				
+				//Clicked on Tile
+				if(hit.collider.gameObject.tag == "Tile")
+				{
+					if(currentAction == Action.Move && selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
+					{
+						Character tempChar = selectedObject.GetComponent<Character>();
+						List<PathTile> tempList = new List<PathTile>();
+						tileMap.FindPath(tempChar.start, hit.collider.gameObject.GetComponent<PathTile>(), tempList, isWalkable);
+						
+						if ((tempList.Count - 1) <= tempChar.currentActionPoints)
+						{
+							tempChar.isWalkable = this.isWalkable;
+							tempChar.end = hit.collider.gameObject.GetComponent<PathTile>();
+						}
+						else
+						{
+							HighlightMoveTiles(false);
+							HighlightAttackTiles(false);
+							selectedObject = null;
+							playerUI.SetActive(false);
+						}
+					}
+					else //if (selectedObject && selectedObject.GetComponent<Enemy>())
+					{
+						currentAction = Action.None;
+						HighlightMoveTiles(false);
+						HighlightAttackTiles(false);
+						selectedObject = null;
+					}
+					
+					//					else if(selectedObject.GetComponent<Enemy>())
+					//					{
+					//						selectedObject.GetComponent<Enemy>().end = hit.collider.gameObject.GetComponent<PathTile>();
+					//					}
+				}
+				//Clicked on Player
+				else if(hit.collider.gameObject.tag == "Player")
+				{
+					if(selectedObject)
+					{
+						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+					}
+					currentAction = Action.None;
+					selectedObject = hit.collider.gameObject;
+
+					playerUI.SetActive(true);
+					SetPlayerUI(selectedObject.GetComponent<PlayerController>());
+					//HighlightMoveTiles(true);
+					
+					arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
+					//Debug.Log("Hit player");
+				}
+				//Clicked on Enemy
+				else if(hit.collider.gameObject.tag == "Enemy")
+				{
+					if (selectedObject) {
+						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
+						if(selectedObject.GetComponent<PlayerController>() && currentAction == Action.Attack)
+						{
+							currentAction = Action.None;
+							selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
+						}
+						else {
+							selectedObject = hit.collider.gameObject;
+						}
+					}
+					else
+					{
+						selectedObject = hit.collider.gameObject;
+					}
+					HighlightMoveTiles(false);
+					HighlightAttackTiles(false);
+					//Debug.Log("Hit enemy");
+				}
+			}
+		}
+		//Mouse Input Ends
+		#endregion
+
+		#region enemyDrops
 		for(int i = 0; i < allEnemies.Count; i++)
 		{
 			if(allEnemies[i].health <= 0)
@@ -170,7 +263,9 @@ public class PlayerManager : MonoBehaviour {
 				allEnemies.RemoveAt(i);
 			}
 		}
+		#endregion
 
+		#region player death
 		for(int i = 0; i < allPlayers.Count; i++)
 		{
 			if(allPlayers[i].health <= 0)
@@ -180,90 +275,9 @@ public class PlayerManager : MonoBehaviour {
 				allPlayers.RemoveAt(i);
 			}
 		}
-
-		//Mouse Input Starts
-		if (Input.GetMouseButtonDown(0)) {
-			
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			RaycastHit hit;
-			
-			if (Physics.Raycast(ray, out hit, 100)) {
-				
-				//Clicked on Tile
-				if(hit.collider.gameObject.tag == "Tile")
-				{
-					if(currentAction == Action.Move && selectedObject && selectedObject.GetComponent<PlayerController>() && !selectedObject.GetComponent<Character>().end)
-					{
-                        Character tempChar = selectedObject.GetComponent<Character>();
-                        List<PathTile> tempList = new List<PathTile>();
-                        tileMap.FindPath(tempChar.start, hit.collider.gameObject.GetComponent<PathTile>(), tempList, isWalkable);
-                        
-                        if ((tempList.Count - 1) <= tempChar.currentActionPoints)
-                        {
-							tempChar.isWalkable = this.isWalkable;
-                            tempChar.end = hit.collider.gameObject.GetComponent<PathTile>();
-                        }
-                        else
-                        {
-							HighlightMoveTiles(false);
-							HighlightAttackTiles(false);
-                            selectedObject = null;
-                        }
-					}
-                    else //if (selectedObject && selectedObject.GetComponent<Enemy>())
-                    {
-						currentAction = Action.None;
-                        HighlightMoveTiles(false);
-						HighlightAttackTiles(false);
-                        selectedObject = null;
-                    }
-
-//					else if(selectedObject.GetComponent<Enemy>())
-//					{
-//						selectedObject.GetComponent<Enemy>().end = hit.collider.gameObject.GetComponent<PathTile>();
-//					}
-				}
-				//Clicked on Player
-				else if(hit.collider.gameObject.tag == "Player")
-				{
-					if(selectedObject)
-					{
-						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
-					}
-					currentAction = Action.None;
-                    selectedObject = hit.collider.gameObject;
-
-                    //HighlightMoveTiles(true);
-
-					arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f); 
-					//Debug.Log("Hit player");
-				}
-				//Clicked on Enemy
-				else if(hit.collider.gameObject.tag == "Enemy")
-				{
-                    if (selectedObject) {
-						//selectedObject.GetComponent<MeshRenderer>().material.color = Color.white;
-						if(selectedObject.GetComponent<PlayerController>() && currentAction == Action.Attack)
-						{
-							currentAction = Action.None;
-                        	selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
-						}
-						else {
-							selectedObject = hit.collider.gameObject;
-						}
-                    }
-					else
-					{
-						selectedObject = hit.collider.gameObject;
-					}
-                    HighlightMoveTiles(false);
-					HighlightAttackTiles(false);
-                    //Debug.Log("Hit enemy");
-                }
-            }
-		}
-		//Mouse Input Ends
-
+		#endregion
+		
+		#region turn determination
 		//Check if all players are inactive to end player turn
 		if(currentTurn == Turn.PlayerTurn)
 		{
@@ -322,6 +336,7 @@ public class PlayerManager : MonoBehaviour {
 					e.resetStatus();
 			}
 		}
+		#endregion
 	}
 
 	void LateUpdate(){
@@ -492,18 +507,20 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	public void SetPlayerUI(Character c){
-		transform.Find("Canvas/PlayerCombatUI/APBG/Text").gameObject.GetComponent<Text>().text = "AP: " + c.currentActionPoints;
-		transform.Find("Canvas/PlayerCombatUI/NameBG/Text").gameObject.GetComponent<Text>().text = c.name;
-		transform.Find("Canvas/PlayerCombatUI/StatBackground/Strength").gameObject.GetComponent<Text>().text = "Str: " + c.strength;
-		transform.Find("Canvas/PlayerCombatUI/StatBackground/Agility").gameObject.GetComponent<Text>().text = "Agi: " + c.agility;
-		transform.Find("Canvas/PlayerCombatUI/StatBackground/Magic").gameObject.GetComponent<Text>().text = "Str: " + c.magicSkill;
-		transform.Find("Canvas/PlayerCombatUI/StatBackground/Luck").gameObject.GetComponent<Text>().text = "Str: " + c.luck;
-		transform.Find("Canvas/PlayerCombatUI/StatBackground/Endurence").gameObject.GetComponent<Text>().text = "Str: " + c.endurance;
-		transform.Find("Canvas/PlayerCombatUI/StatBackground/Range").gameObject.GetComponent<Text>().text = "Str: " + c.range;
+		playerUI.transform.Find("APBG/Text").gameObject.GetComponent<Text>().text = "AP: " + c.currentActionPoints;
+		playerUI.transform.Find("NameBG/Text").gameObject.GetComponent<Text>().text = c.charName;
+		playerUI.transform.Find("StatBackground/Strength").gameObject.GetComponent<Text>().text = "Str: " + c.strength;
+		playerUI.transform.Find("StatBackground/Agility").gameObject.GetComponent<Text>().text = "Agi: " + c.agility;
+		playerUI.transform.Find("StatBackground/Magic").gameObject.GetComponent<Text>().text = "Mag: " + c.magicSkill;
+		playerUI.transform.Find("StatBackground/Luck").gameObject.GetComponent<Text>().text = "Lck: " + c.luck;
+		playerUI.transform.Find("StatBackground/Endurance").gameObject.GetComponent<Text>().text = "End: " + c.endurance;
+		playerUI.transform.Find("StatBackground/Range").gameObject.GetComponent<Text>().text = "Rng: " + c.range;
 		float value;
-		value = ((c.maxHealth - c.health)/c.maxHealth)*250;
-		//value = 250-value;
-		RectTransform rect = transform.Find("Canvas/PlayerCombatUI/StatBackground/HealthBar/Mask").gameObject.GetComponent<RectTransform>();
-		rect.offsetMin = new Vector2(value, rect.offsetMin.y);
+		value = ((float)(c.maxHealth - (float)c.health)/(float)c.maxHealth)*-250.0f;
+		RectTransform rect = playerUI.transform.Find("StatBackground/HealthBar/Mask").gameObject.GetComponent<RectTransform>();
+		Debug.Log (c.maxHealth);
+		Debug.Log (c.health);
+		rect.offsetMax = new Vector2(value, rect.offsetMax.y);
+		Debug.Log (rect.offsetMax);
 	}
 }
