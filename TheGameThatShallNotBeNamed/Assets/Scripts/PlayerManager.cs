@@ -460,28 +460,31 @@ public class PlayerManager : MonoBehaviour {
 					return true;
 				}
 			}
-			
+		
 			if (selectedObject.GetComponent<Enemy>()) 
 			{
-				if (selectedObject.GetComponent<Enemy>().target == tile) 
+				if (selectedObject.GetComponent<Enemy>().target == tile || selectedObject.GetComponent<Enemy>().start == tile) 
 				{
-					return true;
+					if (selectedObject.GetComponent<Enemy>().target == tile) 
+					{
+						return true;
+					}
 				}
-			}
 
-			foreach (PlayerController player in allPlayers) 
-			{
-				if (player.start == tile)
+				foreach (PlayerController player in allPlayers) 
 				{
-					return false;
+					if (player.start == tile)
+					{
+						return false;
+					}
 				}
-			}
 
-			foreach (Enemy enemy in allEnemies) 
-			{
-				if (enemy.start == tile) 
+				foreach (Enemy enemy in allEnemies) 
 				{
-					return false;
+					if (enemy.start == tile) 
+					{
+						return false;
+					}
 				}
 			}
 		}
