@@ -216,7 +216,7 @@ public class PlayerManager : MonoBehaviour {
 
 			#region mouse input
 			//Mouse Input Starts
-			if (Input.GetMouseButtonDown(0)) {
+			if (Input.GetMouseButtonDown(0) && !playerMoving) {
 				
 				Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 				RaycastHit hit;

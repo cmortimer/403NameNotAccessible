@@ -110,7 +110,7 @@ public class Character : MonoBehaviour {
 				}
 				//This is a test that can be used to see what tiles are in range of an attack
 				//The break above must be commented out to run this debug, as well as highlight tiles
-				pt.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+				//pt.gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
 			}
 
 			if(inRange)
