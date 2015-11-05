@@ -11,6 +11,7 @@ public class SpawnPlayers : MonoBehaviour {
         GameObject obj = GameObject.FindGameObjectWithTag("Player");
         if (obj == null)
         {
+			Debug.Log ("Here");
             GameObject.Instantiate(player, new Vector3(5, 0.5f, 5), Quaternion.identity);
         }
 	}

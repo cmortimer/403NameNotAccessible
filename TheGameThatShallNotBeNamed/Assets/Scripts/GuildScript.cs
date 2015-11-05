@@ -91,7 +91,7 @@ public class GuildScript : MonoBehaviour {
                     //Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
                     c.setStats(name, hp, st, en, ag, mg, lu, rng);
 
-                    GameObject.Instantiate(player, spawnPos, Quaternion.identity);
+                    GameObject currentPlayer = (GameObject)GameObject.Instantiate(player, spawnPos, Quaternion.identity);
                     spawnPos.x += 1.0f;
                     spawnPos.z += 1.0f;
                 }
