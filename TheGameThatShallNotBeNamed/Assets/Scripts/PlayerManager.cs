@@ -448,7 +448,7 @@ public class PlayerManager : MonoBehaviour {
 		
 		if (selectedObject.GetComponent<Enemy>()) 
 		{
-			if (selectedObject.GetComponent<Enemy>().target == tile) 
+			if (selectedObject.GetComponent<Enemy>().target == tile || selectedObject.GetComponent<Enemy>().start == tile) 
 			{
 				return true;
 			}

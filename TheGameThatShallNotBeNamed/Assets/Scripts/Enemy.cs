@@ -79,19 +79,43 @@ public class Enemy : Character {
 		if(players.Length == 0) return null;
 
 		//Debug.Log (players[0].transform);
-		PlayerController closest = players[0];
-		float closeDist = Vector3.Distance(transform.position, closest.transform.position);
-		float curDist;
-
-		for (int i = 1; i < players.Length; i++)
+		//PlayerController closest = players[0];
+		//float closeDist = Vector3.Distance(transform.position, closest.transform.position);
+		//float curDist;
+        //
+		//for (int i = 1; i < players.Length; i++)
+		//{
+		//	curDist = Vector3.Distance(transform.position, players[i].transform.position);
+		//	if (curDist < closeDist)
+		//	{
+		//		closest = players[i];
+		//		closeDist = curDist;
+		//	}
+		//}
+		
+		PlayerController closest = null;
+		List<PathTile> currentPath = new List<PathTile>();
+		List<PathTile> shortestPath = new List<PathTile>();
+		
+		target = players[0].start;
+		tileMap.FindPath(start, players[0].start, shortestPath, isWalkable);
+		
+		for (int i = 0; i < players.Length; i++) 
 		{
-			curDist = Vector3.Distance(transform.position, players[i].transform.position);
-			if (curDist < closeDist)
+			target = players[i].start;
+			tileMap.FindPath(start, players[i].start, currentPath, isWalkable);
+			
+			if (currentPath.Count <= shortestPath.Count && currentPath.Count != 0)
 			{
+				Debug.Log("Changing targets");
+				shortestPath.Clear();
+				tileMap.FindPath(start, players[i].start, shortestPath, isWalkable);
 				closest = players[i];
-				closeDist = curDist;
 			}
+			
+			currentPath.Clear();
 		}
+		
 		pTarget = closest;
 		return closest;
 	}
