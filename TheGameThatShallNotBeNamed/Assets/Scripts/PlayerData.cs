@@ -30,7 +30,7 @@ public class PlayerData : MonoBehaviour {
 		}
 		else
 		{
-			if (GameObject.FindGameObjectWithTag("Persistent") == null)
+			if (GameObject.FindGameObjectWithTag("Persistent") != null)
             {
                 DontDestroyOnLoad(gameObject);
                 Instance = this;

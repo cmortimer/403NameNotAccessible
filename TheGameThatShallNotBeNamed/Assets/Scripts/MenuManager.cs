@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour {
 	public GameObject destMenu;
 	public GameObject tavernMenu;
 	public GameObject equipmentPrefab;
+    public GameObject charStatPrefab;
 
 	List<GameObject> weaponButtons;
 	List<GameObject> armorButtons;
@@ -27,6 +28,8 @@ public class MenuManager : MonoBehaviour {
 		workshopMenu.SetActive(false);
 		tavernMenu.SetActive(false);
 		SetupWorkshop();
+        setUpGuild();
+        
 	}
 	
 	//setup workshop
@@ -77,7 +80,76 @@ public class MenuManager : MonoBehaviour {
 
 	}
 
-	void GiveWeapon(int i){
+
+
+    //Set up the guild list
+    public void setUpGuild()
+    {
+        Debug.Log("Setting up tavern stats");
+        int currentY = 200;
+
+        XmlDocument xmlDoc = new XmlDocument();
+
+        string path = Application.dataPath + @"/Characters/GuildList.xml";
+
+        if (File.Exists(path))
+        {
+            xmlDoc.Load(path);
+            XmlNodeList members = xmlDoc.GetElementsByTagName("char");
+
+
+            //Stats
+            string name = "";
+            int hp = 0;
+            int st = 0;
+            int en = 0;
+            int ag = 0;
+            int mg = 0;
+            int lu = 0;
+            int rng = 0;
+
+            foreach (XmlNode mem in members)
+            {
+                foreach (XmlAttribute val in mem.Attributes)
+                {
+                    //Debug.Log ("test");
+                    //Store values
+                    if (val.Name == "name")
+                        name = val.InnerText;
+                    else if (val.Name == "health")
+                        hp = int.Parse(val.InnerText);
+                    else if (val.Name == "strength")
+                        st = int.Parse(val.InnerText);
+                    else if (val.Name == "endurance")
+                        en = int.Parse(val.InnerText);
+                    else if (val.Name == "agility")
+                        ag = int.Parse(val.InnerText);
+                    else if (val.Name == "magic")
+                        mg = int.Parse(val.InnerText);
+                    else if (val.Name == "luck")
+                        lu = int.Parse(val.InnerText);
+                    else if (val.Name == "range")
+                        rng = int.Parse(val.InnerText);
+                }
+
+                GameObject currentChar = charStatPrefab;
+                GameObject finished = (GameObject)Instantiate(currentChar, new Vector3(tavernMenu.transform.position.x - 200.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
+                finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
+
+                GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+                //set image = equipment image path
+                GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
+                nameObj.GetComponent<Text>().text = name;
+                GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
+                string text = hp + "    " + st + "    " + en + "     " +ag + "     " + mg + "     " +lu + "    " + rng;
+                statsObj.GetComponent<Text>().text = text;
+
+                currentY -= 75;
+            }
+        }
+    }
+
+    void GiveWeapon(int i){
 		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
 
 		Debug.Log (perData.GetComponent<PlayerData>().obtainedWeapons.Count);
@@ -94,9 +166,8 @@ public class MenuManager : MonoBehaviour {
         saveXML(i, false);
 	}
 
-
-	//function handlers for each button yes this is ugly lay off...
-	public void MainToDest(){
+    //function handlers for each button yes this is ugly lay off...
+    public void MainToDest(){
 		mainMenu.SetActive(false);
 		destMenu.SetActive(true);
 	}

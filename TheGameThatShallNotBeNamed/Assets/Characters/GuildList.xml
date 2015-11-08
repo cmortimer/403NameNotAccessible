@@ -1,16 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <guild>
-  <!--<char>
-		<name>Bob</name>
-		<health>30</health>
-		<strength>5</strength>
-		<endurance>5</endurance>
-		<agility>5</agility>
-		<magic>5</magic>
-		<luck>5</luck>
-		<range>2</range>
-	</char>-->
-  <char name="Bob" desc="" health="30" str="6" end="6" agi="6" mag="6" luck="6" range="2" active="True" />
-  <char name="New Member" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" active="True" />
-  <char name="New Member" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" active="False" />
+  <char name="Bob" desc="" health="30" str="6" end="6" agi="6" mag="6" luck="6" range="2" weaponID="0" armorID="0" active="True" />
+  <char name="New Member" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="0" armorID="0" active="True" />
+  <char name="New Member" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="0" armorID="0" active="False" />
 </guild>
