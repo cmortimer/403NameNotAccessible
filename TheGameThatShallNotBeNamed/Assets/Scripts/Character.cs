@@ -189,11 +189,14 @@ public class Character : MonoBehaviour {
 		charName = n;
         gameObject.name = n;
         health = hp;
+		maxHealth = hp;
         strength = st;
         endurance = en;
         agility = ag;
         magicSkill = mag;
         luck = lu;
         range = rng;
+		maxActionPoints = agility;
+		currentActionPoints = Mathf.Round(maxActionPoints/2.0f);
     }
 }

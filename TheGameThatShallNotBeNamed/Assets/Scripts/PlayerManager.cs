@@ -464,28 +464,25 @@ public class PlayerManager : MonoBehaviour {
 		
 			if (selectedObject.GetComponent<Enemy>()) 
 			{
-				if (selectedObject.GetComponent<Enemy>().target == tile || selectedObject.GetComponent<Enemy>().start == tile) 
+				if (selectedObject.GetComponent<Enemy>().target == tile) 
 				{
-					if (selectedObject.GetComponent<Enemy>().target == tile) 
-					{
-						return true;
-					}
+					return true;
 				}
+			}
 
-				foreach (PlayerController player in allPlayers) 
+			foreach (PlayerController player in allPlayers) 
+			{
+				if (player.start == tile)
 				{
-					if (player.start == tile)
-					{
-						return false;
-					}
+					return false;
 				}
+			}
 
-				foreach (Enemy enemy in allEnemies) 
+			foreach (Enemy enemy in allEnemies) 
+			{
+				if (enemy.start == tile) 
 				{
-					if (enemy.start == tile) 
-					{
-						return false;
-					}
+					return false;
 				}
 			}
 		}

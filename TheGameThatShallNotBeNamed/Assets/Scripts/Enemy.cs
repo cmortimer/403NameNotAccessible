@@ -128,6 +128,8 @@ public class Enemy : Character {
         strength = st;
         endurance = en;
         agility = ag;
+		maxActionPoints = agility;
+		currentActionPoints = Mathf.Round(maxActionPoints/2.0f);
         magicSkill = mag;
         luck = lu;
         range = rng;

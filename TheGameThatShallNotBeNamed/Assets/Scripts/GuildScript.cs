@@ -105,8 +105,8 @@ public class GuildScript : MonoBehaviour {
                     rng = equip.allWeapons[wepID].rangeMax;
 
                     Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
-                    //c.setStats(name, hp, st, en, ag, mg, lu, rng);
-                    c.setStats(name, 999, st, en, ag, mg, lu, rng);     //Testing with max hp
+                    c.setStats(name, hp, st, en, ag, mg, lu, rng);
+                    //c.setStats(name, 999, st, en, ag, mg, lu, rng);     //Testing with max hp
 
                     GameObject currentPlayer = (GameObject)GameObject.Instantiate(player, spawnPos, Quaternion.identity);
                     spawnPos.x += 1.0f;
