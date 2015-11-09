@@ -104,7 +104,7 @@ public class GuildScript : MonoBehaviour {
                     lu += equip.allArmor[armID].luck + equip.allWeapons[wepID].luck;
                     rng = equip.allWeapons[wepID].rangeMax;
 
-                    Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
+//                    Debug.Log("STATS: " + name + ", " + hp + ", " + st + ", " + en + ", " + ag + ", " + mg + ", " + lu + ", " + rng);
                     c.setStats(name, hp, st, en, ag, mg, lu, rng);
                     //c.setStats(name, 999, st, en, ag, mg, lu, rng);     //Testing with max hp
 

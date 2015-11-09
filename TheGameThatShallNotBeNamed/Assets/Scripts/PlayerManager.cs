@@ -354,7 +354,7 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	void LateUpdate(){
-		if(selectedObject.GetComponent<PlayerController>())
+		if(selectedObject && selectedObject.GetComponent<PlayerController>())
 			SetPlayerUI(selectedObject.GetComponent<PlayerController>());
 		Debug.Log(currentTurn);
 		if(currentTurn == Turn.PlayerTurn){
@@ -483,6 +483,7 @@ public class PlayerManager : MonoBehaviour {
 
 			foreach (Enemy enemy in allEnemies) 
 			{
+
 				if (enemy.start == tile) 
 				{
 					return false;
@@ -537,9 +538,9 @@ public class PlayerManager : MonoBehaviour {
 		float value;
 		value = ((float)(c.maxHealth - (float)c.health)/(float)c.maxHealth)*-250.0f;
 		RectTransform rect = playerUI.transform.Find("StatBackground/HealthBar/Mask").gameObject.GetComponent<RectTransform>();
-		Debug.Log (c.maxHealth);
-		Debug.Log (c.health);
+//		Debug.Log (c.maxHealth);
+//		Debug.Log (c.health);
 		rect.offsetMax = new Vector2(value, rect.offsetMax.y);
-		Debug.Log (rect.offsetMax);
+//		Debug.Log (rect.offsetMax);
 	}
 }

@@ -85,7 +85,7 @@ public class MenuManager : MonoBehaviour {
     //Set up the guild list
     public void setUpGuild()
     {
-        Debug.Log("Setting up tavern stats");
+//        Debug.Log("Setting up tavern stats");
         int currentY = 200;
 
         XmlDocument xmlDoc = new XmlDocument();
