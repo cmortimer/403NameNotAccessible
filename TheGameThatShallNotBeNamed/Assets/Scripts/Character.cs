@@ -197,6 +197,6 @@ public class Character : MonoBehaviour {
         luck = lu;
         range = rng;
 		maxActionPoints = agility;
-		currentActionPoints = Mathf.Round(maxActionPoints/2.0f);
+		currentActionPoints = (int)Mathf.Round(maxActionPoints/2.0f);
     }
 }

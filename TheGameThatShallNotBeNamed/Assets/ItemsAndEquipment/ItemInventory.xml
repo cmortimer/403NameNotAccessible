@@ -1,3 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
+  <item name="thing" count="1" />
 </inventory>

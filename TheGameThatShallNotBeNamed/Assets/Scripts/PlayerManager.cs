@@ -354,6 +354,8 @@ public class PlayerManager : MonoBehaviour {
 	}
 
 	void LateUpdate(){
+		if(selectedObject.GetComponent<PlayerController>())
+			SetPlayerUI(selectedObject.GetComponent<PlayerController>());
 		Debug.Log(currentTurn);
 		if(currentTurn == Turn.PlayerTurn){
 			foreach( PlayerController p in allPlayers){
@@ -365,6 +367,7 @@ public class PlayerManager : MonoBehaviour {
 				e.EnemyUpdate();
 			}
 		}
+
 	}
 
     void HighlightMoveTiles(bool playerSelected) {

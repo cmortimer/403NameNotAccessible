@@ -129,7 +129,7 @@ public class Enemy : Character {
         endurance = en;
         agility = ag;
 		maxActionPoints = agility;
-		currentActionPoints = Mathf.Round(maxActionPoints/2.0f);
+		currentActionPoints = (int)Mathf.Round(maxActionPoints/2.0f);
         magicSkill = mag;
         luck = lu;
         range = rng;
