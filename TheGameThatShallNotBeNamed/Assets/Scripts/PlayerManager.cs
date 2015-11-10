@@ -461,6 +461,7 @@ public class PlayerManager : MonoBehaviour {
 			{
 				if (selectedObject.GetComponent<Character>().start == tile)
 				{
+					tile.GetComponent<MeshRenderer>().material.color = Color.green;
 					return true;
 				}
 			}
@@ -469,6 +470,7 @@ public class PlayerManager : MonoBehaviour {
 			{
 				if (selectedObject.GetComponent<Enemy>().target == tile) 
 				{
+					tile.GetComponent<MeshRenderer>().material.color = Color.green;
 					return true;
 				}
 			}
@@ -477,6 +479,7 @@ public class PlayerManager : MonoBehaviour {
 			{
 				if (player.start == tile)
 				{
+					tile.GetComponent<MeshRenderer>().material.color = Color.gray;
 					return false;
 				}
 			}
@@ -486,10 +489,12 @@ public class PlayerManager : MonoBehaviour {
 
 				if (enemy.start == tile) 
 				{
+					tile.GetComponent<MeshRenderer>().material.color = Color.gray;
 					return false;
 				}
 			}
 		}
+		tile.GetComponent<MeshRenderer>().material.color = Color.green;
 		return true;
     }
 
