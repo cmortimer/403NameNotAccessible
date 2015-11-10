@@ -86,7 +86,8 @@ public class MenuManager : MonoBehaviour {
     public void setUpGuild()
     {
 //        Debug.Log("Setting up tavern stats");
-        int currentY = 200;
+        int currentY = 180;
+		int posInArray = 0;
 
         XmlDocument xmlDoc = new XmlDocument();
 
@@ -144,10 +145,50 @@ public class MenuManager : MonoBehaviour {
                 string text = hp + "    " + st + "    " + en + "     " +ag + "     " + mg + "     " +lu + "    " + rng;
                 statsObj.GetComponent<Text>().text = text;
 
+				GameObject activeButton = finished.transform.FindChild("Active").gameObject;
+				int captured = posInArray;
+				activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(posInArray));
+				activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeColor(activeButton.GetComponent<Image>()));
+
                 currentY -= 75;
             }
         }
     }
+	void ChangeColor(Image img){
+		float g = img.color.r;
+		float r = img.color.g;
+		float b = img.color.b;
+		img.color = new Color(r,g,b);
+	}
+
+	void ToggleActive(int position){
+		XmlDocument xmlDoc = new XmlDocument();
+		string path = Application.dataPath + @"/Characters/GuildList.xml";
+		string activeVal = "";
+
+		if (File.Exists(path)){
+			xmlDoc.Load(path);
+			XmlNodeList members = xmlDoc.GetElementsByTagName("char");
+
+			foreach(XmlAttribute val in members[position].Attributes){
+				if(val.Name == "active"){
+					activeVal = val.InnerText;
+					break;
+				}
+			}
+			Debug.Log (activeVal);
+			if(activeVal.Equals("True")){
+				Debug.Log ("active was true");
+				activeVal = "False";
+			}
+			else{
+				Debug.Log ("active was false");
+				activeVal = "True";
+			}
+			
+		}
+	}
+
 
     void GiveWeapon(int i){
 		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
@@ -210,7 +251,7 @@ public class MenuManager : MonoBehaviour {
 		root.Add(new XAttribute("mag", "7"));
 		root.Add(new XAttribute("luck", "7"));
 		root.Add(new XAttribute("range", "2"));
-		root.Add(new XAttribute("active", "True"));
+		root.Add(new XAttribute("active", "False"));
 		doc.Element("guild").Add(root);
 		doc.Save("Assets/Characters/GuildList.xml");
 	}

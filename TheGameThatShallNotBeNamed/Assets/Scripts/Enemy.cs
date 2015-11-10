@@ -113,6 +113,7 @@ public class Enemy : Character {
         charName = n;
         gameObject.name = n;
         health = hp;
+		maxHealth = hp;
         strength = st;
         endurance = en;
         agility = ag;

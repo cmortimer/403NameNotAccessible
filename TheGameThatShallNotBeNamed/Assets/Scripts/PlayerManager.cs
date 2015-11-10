@@ -18,6 +18,7 @@ public class PlayerManager : MonoBehaviour {
 	public GameObject arrow;
 	GameObject arrowObj;
 	GameObject playerUI;
+	GameObject enemyUI;
 
 	public Predicate<PathTile> walkableTiles;
 
@@ -35,6 +36,9 @@ public class PlayerManager : MonoBehaviour {
 	void Start () {
 		playerUI = GameObject.Find ("PlayerCombatUI");
 		playerUI.SetActive(false);
+
+		enemyUI = GameObject.Find ("EnemyCombatUI");
+		enemyUI.SetActive(false);
 
 		Vector3 arrowPos = new Vector3(0.0f,-5.0f,0.0f);
 		Quaternion rotation = Quaternion.Euler(45.0f, 180.0f, 0.0f);
@@ -252,6 +256,8 @@ public class PlayerManager : MonoBehaviour {
 							HighlightMoveTiles(false);
 							HighlightAttackTiles(false);
 							selectedObject = null;
+							playerUI.SetActive(false);
+							enemyUI.SetActive(false);
 						}
 					}
 					//Clicked on Player
@@ -273,14 +279,19 @@ public class PlayerManager : MonoBehaviour {
 							{
 								currentAction = Action.Move;
 								selectedObject.GetComponent<Character>().basicAttack(hit.collider.gameObject.GetComponent<Enemy>());
+								SetEnemyUI(hit.collider.gameObject.GetComponent<Enemy>());
 							}
 							else {
 								selectedObject = hit.collider.gameObject;
+								SetEnemyUI(selectedObject.GetComponent<Character>());
+								enemyUI.SetActive(true);
 							}
 						}
 						else
 						{
 							selectedObject = hit.collider.gameObject;
+							SetEnemyUI(selectedObject.GetComponent<Character>());
+							enemyUI.SetActive(true);
 						}
 						HighlightMoveTiles(false);
 						HighlightAttackTiles(false);
@@ -293,6 +304,9 @@ public class PlayerManager : MonoBehaviour {
 			//If all players are inactive
 			if(InactivePlayers(allPlayers))
 			{
+				playerUI.SetActive(false);
+				enemyUI.SetActive(false);
+
 				currentTurn = Turn.EnemyTurn;
 				foreach(PlayerController pc in allPlayers)
 				{
@@ -356,6 +370,7 @@ public class PlayerManager : MonoBehaviour {
 	void LateUpdate(){
 		if(selectedObject && selectedObject.GetComponent<PlayerController>())
 			SetPlayerUI(selectedObject.GetComponent<PlayerController>());
+
 		Debug.Log(currentTurn);
 		if(currentTurn == Turn.PlayerTurn){
 			foreach( PlayerController p in allPlayers){
@@ -538,9 +553,24 @@ public class PlayerManager : MonoBehaviour {
 		float value;
 		value = ((float)(c.maxHealth - (float)c.health)/(float)c.maxHealth)*-250.0f;
 		RectTransform rect = playerUI.transform.Find("StatBackground/HealthBar/Mask").gameObject.GetComponent<RectTransform>();
-//		Debug.Log (c.maxHealth);
-//		Debug.Log (c.health);
 		rect.offsetMax = new Vector2(value, rect.offsetMax.y);
-//		Debug.Log (rect.offsetMax);
+	}
+
+	public void SetEnemyUI(Character c){
+		enemyUI.transform.Find("APBG/Text").gameObject.GetComponent<Text>().text = "AP: " + c.currentActionPoints;
+		enemyUI.transform.Find("NameBG/Text").gameObject.GetComponent<Text>().text = c.charName;
+		enemyUI.transform.Find("StatBackground/Strength").gameObject.GetComponent<Text>().text = "Str: " + c.strength;
+		enemyUI.transform.Find("StatBackground/Agility").gameObject.GetComponent<Text>().text = "Agi: " + c.agility;
+		enemyUI.transform.Find("StatBackground/Magic").gameObject.GetComponent<Text>().text = "Mag: " + c.magicSkill;
+		enemyUI.transform.Find("StatBackground/Luck").gameObject.GetComponent<Text>().text = "Lck: " + c.luck;
+		enemyUI.transform.Find("StatBackground/Endurance").gameObject.GetComponent<Text>().text = "End: " + c.endurance;
+		enemyUI.transform.Find("StatBackground/Range").gameObject.GetComponent<Text>().text = "Rng: " + c.range;
+		float value;
+		value = ((float)(c.maxHealth - (float)c.health)/(float)c.maxHealth)*-250.0f;
+		RectTransform rect = enemyUI.transform.Find("StatBackground/HealthBar/Mask").gameObject.GetComponent<RectTransform>();
+		//		Debug.Log (c.maxHealth);
+		//		Debug.Log (c.health);
+		rect.offsetMax = new Vector2(value, rect.offsetMax.y);
+		//		Debug.Log (rect.offsetMax);
 	}
 }
