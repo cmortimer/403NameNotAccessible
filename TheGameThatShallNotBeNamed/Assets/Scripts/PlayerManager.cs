@@ -80,6 +80,7 @@ public class PlayerManager : MonoBehaviour {
 		{
 			#region hotkeys
 			if (selectedObject) {
+				arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f);
 				//Key 1, Move
 				if (Input.GetKeyDown ("1") || Input.GetKeyDown (KeyCode.Keypad1))
 				{
@@ -93,14 +94,14 @@ public class PlayerManager : MonoBehaviour {
 				//Key 3, Inactive Player
 				else if (Input.GetKeyDown ("3") || Input.GetKeyDown (KeyCode.Keypad3))
 				{
-					if(selectedObject.GetComponent<Character>().active)
+					if(selectedObject.GetComponent<PlayerController>().active)
 					{
 						selectedObject.GetComponent<Character>().active = false;
 						selectedObject = null;
 					}
 					else
 					{
-						selectedObject.GetComponent<Character>().active = true;
+						selectedObject.GetComponent<PlayerController>().active = true;
 					}
 				}
 				//Right Click, Cancel Action
@@ -108,7 +109,6 @@ public class PlayerManager : MonoBehaviour {
 				{
 					currentAction = Action.None;
 				}
-				arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f);
 				if(currentAction != Action.Move)
 				{
 					HighlightMoveTiles(false);
@@ -205,7 +205,7 @@ public class PlayerManager : MonoBehaviour {
 			{
 				if(allPlayers[i].health <= 0)
 				{
-					allPlayers[i].GetComponent<MeshRenderer>().enabled = false;
+					//allPlayers[i].gameObject.SetActive(false);
 					allPlayers[i].gameObject.name += " (Dead)";
 					allPlayers.RemoveAt(i);
 				}
@@ -346,7 +346,7 @@ public class PlayerManager : MonoBehaviour {
 				}
 				else
 				{
-					if(allEnemies[currentEnemy].end == null || !allEnemies[currentEnemy].active)
+					if(allEnemies[currentEnemy].end == null && !allEnemies[currentEnemy].active)
 					{
 						enemyMoving = false;
 						currentEnemy++;
@@ -387,7 +387,15 @@ public class PlayerManager : MonoBehaviour {
 
     void HighlightMoveTiles(bool playerSelected) {
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
-        Character selectedChar = selectedObject.GetComponent<Character>();
+		Character selectedChar;
+		if(selectedObject)
+		{
+        	selectedChar = selectedObject.GetComponent<Character>();
+		}
+		else
+		{
+			return;
+		}
         List<PathTile> moveableTiles = new List<PathTile>();
         moveableTiles.Add(selectedChar.start);
 
@@ -439,7 +447,15 @@ public class PlayerManager : MonoBehaviour {
     }
 
 	void HighlightAttackTiles(bool playerSelected) {
-		Character selectedChar = selectedObject.GetComponent<Character>();
+		Character selectedChar;
+		if(selectedObject)
+		{
+			selectedChar = selectedObject.GetComponent<Character>();
+		}
+		else
+		{
+			return;
+		}
 		if (playerSelected) {
 			List<PathTile> tilesInRange = new List<PathTile>();
 			tilesInRange.Add(selectedChar.start);
@@ -476,6 +492,7 @@ public class PlayerManager : MonoBehaviour {
 			{
 				if (selectedObject.GetComponent<Character>().start == tile)
 				{
+					//tile.GetComponent<MeshRenderer>().material.color = Color.green;
 					return true;
 				}
 			}
@@ -484,6 +501,7 @@ public class PlayerManager : MonoBehaviour {
 			{
 				if (selectedObject.GetComponent<Enemy>().target == tile) 
 				{
+					//tile.GetComponent<MeshRenderer>().material.color = Color.green;
 					return true;
 				}
 			}
@@ -492,6 +510,7 @@ public class PlayerManager : MonoBehaviour {
 			{
 				if (player.start == tile)
 				{
+					//tile.GetComponent<MeshRenderer>().material.color = Color.gray;
 					return false;
 				}
 			}
@@ -501,10 +520,12 @@ public class PlayerManager : MonoBehaviour {
 
 				if (enemy.start == tile) 
 				{
+					//tile.GetComponent<MeshRenderer>().material.color = Color.gray;
 					return false;
 				}
 			}
 		}
+		//tile.GetComponent<MeshRenderer>().material.color = Color.green;
 		return true;
     }
 

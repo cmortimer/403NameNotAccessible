@@ -139,7 +139,7 @@ public class Character : MonoBehaviour {
 
 	public void resetStatus()
 	{
-		currentActionPoints += agility;
+		currentActionPoints += (int)Mathf.Round(agility/2.0f);
 		active = true;
 		end = null;
 		start = findClosestTile();
