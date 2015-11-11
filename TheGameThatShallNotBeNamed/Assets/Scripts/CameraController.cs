@@ -8,9 +8,13 @@ public class CameraController : MonoBehaviour {
 	int maxSize;
 	[SerializeField]
 	int minSize;
+	
+	public bool followEnemy;
+	public GameObject selectedObject;
+	
 	// Use this for initialization
 	void Start () {
-	
+		followEnemy = false;
 	}
 	
 	// Update is called once per frame
@@ -30,6 +34,10 @@ public class CameraController : MonoBehaviour {
 		else if(Input.GetKey("a"))
 		{
 			transform.position = new Vector3(transform.position.x - .1f, transform.position.y, transform.position.z);
+		}
+		if (followEnemy)
+		{
+			transform.position = new Vector3(selectedObject.transform.position.x, transform.position.y, selectedObject.transform.position.z);
 		}
 		if(Input.GetAxis("Mouse ScrollWheel") < 0)
 		{
