@@ -140,6 +140,7 @@ public class Character : MonoBehaviour {
 	public void resetStatus()
 	{
 		currentActionPoints += (int)Mathf.Round(agility/2.0f);
+		if(currentActionPoints > maxActionPoints) currentActionPoints = maxActionPoints;
 		active = true;
 		end = null;
 		start = findClosestTile();

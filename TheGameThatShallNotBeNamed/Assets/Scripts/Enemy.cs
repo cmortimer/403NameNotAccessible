@@ -13,11 +13,13 @@ public class Enemy : Character {
 
     public string drop;     //The item the enemy drops
 
+	public List<PathTile> debugTileList;
+
     // Use this for initialization
     void Start () {
 		active = true;
-		maxActionPoints = 10;
-		currentActionPoints = maxActionPoints;
+		//maxActionPoints = 10;
+		//currentActionPoints = maxActionPoints;
 		enemyObject = this.gameObject;
 
 		//health = 25;
@@ -63,7 +65,10 @@ public class Enemy : Character {
 				tileList = newPath;
 					
 				if(tileList.Count > 0)
+				{
+					debugTileList = new List<PathTile>(tileList);
 					end = tileList[tileList.Count-1];
+				}
 
 				Move();
 			}
