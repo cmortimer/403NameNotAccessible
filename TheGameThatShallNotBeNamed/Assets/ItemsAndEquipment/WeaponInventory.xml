@@ -1,4 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
-  <weapon name="	short sword" id="0" count="2" />
+  <weapon name="	short sword" id="0" count="7" />
+  <weapon name="	long sword" id="1" count="1" />
+  <weapon name="	hand axe" id="2" count="1" />
+  <weapon name=" 	war axe" id="3" count="1" />
+  <weapon name=" 	wand" id="4" count="1" />
 </inventory>

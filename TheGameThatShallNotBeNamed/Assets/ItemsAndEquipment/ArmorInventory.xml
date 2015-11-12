@@ -1,3 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
+  <armor name="	hide armor" id="1" count="2" />
+  <armor name="	chainmail" id="2" count="1" />
+  <armor name="	plate armor" id="3" count="1" />
 </inventory>

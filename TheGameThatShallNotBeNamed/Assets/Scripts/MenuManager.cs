@@ -99,18 +99,18 @@ public class MenuManager : MonoBehaviour {
             XmlNodeList members = xmlDoc.GetElementsByTagName("char");
 
 
-            //Stats
-            string name = "";
-            int hp = 0;
-            int st = 0;
-            int en = 0;
-            int ag = 0;
-            int mg = 0;
-            int lu = 0;
-            int rng = 0;
 
             foreach (XmlNode mem in members)
             {
+                //Stats
+                string name = "";
+                int hp = 0;
+                int st = 0;
+                int en = 0;
+                int ag = 0;
+                int mg = 0;
+                int lu = 0;
+                int rng = 0;
                 foreach (XmlAttribute val in mem.Attributes)
                 {
                     //Debug.Log ("test");
@@ -119,13 +119,13 @@ public class MenuManager : MonoBehaviour {
                         name = val.InnerText;
                     else if (val.Name == "health")
                         hp = int.Parse(val.InnerText);
-                    else if (val.Name == "strength")
+                    else if (val.Name == "str")
                         st = int.Parse(val.InnerText);
-                    else if (val.Name == "endurance")
+                    else if (val.Name == "end")
                         en = int.Parse(val.InnerText);
-                    else if (val.Name == "agility")
+                    else if (val.Name == "agi")
                         ag = int.Parse(val.InnerText);
-                    else if (val.Name == "magic")
+                    else if (val.Name == "mag")
                         mg = int.Parse(val.InnerText);
                     else if (val.Name == "luck")
                         lu = int.Parse(val.InnerText);
@@ -142,7 +142,8 @@ public class MenuManager : MonoBehaviour {
                 GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
                 nameObj.GetComponent<Text>().text = name;
                 GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
-                string text = hp + "    " + st + "    " + en + "     " +ag + "     " + mg + "     " +lu + "    " + rng;
+                string text = hp + "     " + st + "     " + en + "      " +ag + "      " + mg + "      " +lu + "     " + rng;
+                
                 statsObj.GetComponent<Text>().text = text;
 
 				GameObject activeButton = finished.transform.FindChild("Active").gameObject;
@@ -150,10 +151,115 @@ public class MenuManager : MonoBehaviour {
 				activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(posInArray));
 				activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeColor(activeButton.GetComponent<Image>()));
 
+                //Set edit button to edit the correct character
+                GameObject editButton = finished.transform.FindChild("Edit").gameObject;
+                editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(name));
+
                 currentY -= 75;
             }
         }
     }
+
+    public void setUpCharacterEquipment(string n)
+    {
+        string charName = n;
+        int currentY = 200;
+
+        //Clear old window
+        Transform oldMenu = tavernMenu.transform.FindChild("Window/AllObjects");
+        foreach(Transform child in oldMenu)
+        {
+            Destroy(child.gameObject);
+        }
+
+        //Add weapons
+        XmlDocument wepDoc = new XmlDocument();
+        string path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
+
+        if (File.Exists(path))
+        {
+            wepDoc.Load(path);
+
+            XmlNodeList members = wepDoc.GetElementsByTagName("weapon");
+            List<int> wepIDs = new List<int>();
+
+            //Get held weapons
+            foreach (XmlNode mem in members)
+            {
+                Debug.Log(mem.Attributes);
+                wepIDs.Add(int.Parse(mem.Attributes.GetNamedItem("id").Value));
+            }
+
+            foreach(int i in wepIDs)
+            {
+                int id = i;
+                GameObject currentEquip = equipmentPrefab;
+                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 200.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
+                finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
+
+                GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+                //set image = equipment image path
+                GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
+                nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
+                GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
+                string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag + "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
+                statsObj.GetComponent<Text>().text = text;
+                GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+
+                GameObject createObj = finished.transform.FindChild("Create").gameObject;
+                int captured = i;
+                createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
+                createObj.GetComponent<Button>().onClick.AddListener(() => EquipWeapon(charName, id));
+
+                currentY -= 75;
+            }
+        }
+
+
+        //Add armor
+        XmlDocument armDoc = new XmlDocument();
+        path = Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml";
+
+        if (File.Exists(path))
+        {
+            armDoc.Load(path);
+
+            XmlNodeList members = armDoc.GetElementsByTagName("armor");
+            List<int> armIDs = new List<int>();
+
+            //Get held weapons
+            foreach (XmlNode mem in members)
+            {
+                Debug.Log(mem.Attributes);
+                armIDs.Add(int.Parse(mem.Attributes.GetNamedItem("id").Value));
+            }
+
+            foreach (int i in armIDs)
+            {
+                int id = i;
+                GameObject currentEquip = equipmentPrefab;
+                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 200.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
+                finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
+
+                GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+                //set image = equipment image path
+                GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
+                nameObj.GetComponent<Text>().text = equip.allArmor[i].name;
+                GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
+                string text = equip.allArmor[i].str + "    " + equip.allArmor[i].end + "     " + equip.allArmor[i].agi + "     " + equip.allArmor[i].mag + "     " + equip.allArmor[i].luck;
+                statsObj.GetComponent<Text>().text = text;
+                GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+
+                GameObject createObj = finished.transform.FindChild("Create").gameObject;
+                int captured = i;
+                createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
+                createObj.GetComponent<Button>().onClick.AddListener(() => EquipArmor(charName, id));
+
+                currentY -= 75;
+            }
+        }
+    }
+
 	void ChangeColor(Image img){
 		float g = img.color.r;
 		float r = img.color.g;
@@ -207,6 +313,58 @@ public class MenuManager : MonoBehaviour {
         saveXML(i, false);
 	}
 
+    //Equips a weapon to a character
+    void EquipWeapon(string n, int i)
+    {
+        string path = Application.dataPath + @"/Characters/GuildList.xml";
+
+        //Load the character document
+        XmlDocument xmlDoc = new XmlDocument();
+        if(File.Exists(path))
+        {
+            xmlDoc.Load(path);
+            XmlNodeList members = xmlDoc.GetElementsByTagName("char");
+
+            //Loop through the guild, and change the relevant members equipment
+            foreach(XmlNode mem in members)
+            {
+                if(mem.Attributes.GetNamedItem("name").Value == n)
+                {
+                    mem.Attributes.GetNamedItem("weaponID").Value = i.ToString();
+                }
+            }
+        }
+
+        xmlDoc.Save(path);
+        
+    }
+
+    //Equips armor to a character
+    void EquipArmor(string n, int i)
+    {
+        string path = Application.dataPath + @"/Characters/GuildList.xml";
+
+        //Load the character document
+        XmlDocument xmlDoc = new XmlDocument();
+        if (File.Exists(path))
+        {
+            xmlDoc.Load(path);
+            XmlNodeList members = xmlDoc.GetElementsByTagName("char");
+
+            //Loop through the guild, and change the relevant members equipment
+            foreach (XmlNode mem in members)
+            {
+                if (mem.Attributes.GetNamedItem("name").Value == n)
+                {
+                    mem.Attributes.GetNamedItem("armorID").Value = i.ToString();
+                }
+            }
+        }
+
+        xmlDoc.Save(path);
+
+    }
+
     //function handlers for each button yes this is ugly lay off...
     public void MainToDest(){
 		mainMenu.SetActive(false);
@@ -227,6 +385,16 @@ public class MenuManager : MonoBehaviour {
 	public void TaverToMain(){
 		mainMenu.SetActive(true);
 		tavernMenu.SetActive(false);
+
+
+        //Clear old window
+        Transform oldMenu = tavernMenu.transform.FindChild("Window/AllObjects");
+        foreach (Transform child in oldMenu)
+        {
+            Destroy(child.gameObject);
+        }
+
+        setUpGuild();
 	}
 	public void WorkToMain(){
 		workshopMenu.SetActive(false);
@@ -242,7 +410,7 @@ public class MenuManager : MonoBehaviour {
 	public void RecruitGuildMember(){
 		XDocument doc = XDocument.Load("Assets/Characters/GuildList.xml");
 		XElement root = new XElement("char");
-		root.Add(new XAttribute("name", "New Member"));
+		root.Add(new XAttribute("name", genName()));
 		root.Add(new XAttribute("desc", "A new recruit"));
 		root.Add(new XAttribute("health", "50"));
 		root.Add(new XAttribute("str", "7"));
@@ -251,7 +419,9 @@ public class MenuManager : MonoBehaviour {
 		root.Add(new XAttribute("mag", "7"));
 		root.Add(new XAttribute("luck", "7"));
 		root.Add(new XAttribute("range", "2"));
-		root.Add(new XAttribute("active", "False"));
+        root.Add(new XAttribute("weaponID", "0"));
+        root.Add(new XAttribute("armorID", "0"));
+        root.Add(new XAttribute("active", "False"));
 		doc.Element("guild").Add(root);
 		doc.Save("Assets/Characters/GuildList.xml");
 	}
@@ -388,5 +558,16 @@ public class MenuManager : MonoBehaviour {
             xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml");
 
         }
+    }
+
+    //Returns a random name because neww member is boring
+    private string genName()
+    {
+        string[] nameList = { "Concetta", "Bethany", "Krystina", "Chi", "Eugenia", "Carmon", "Kemberly", "Temple", "Layne", "Stormy", "Lakiesha", "Bertie", "Sherill", "Christopher", "Tristan", "Troy", "Darleen", "Josette", "Silvia", "Bret", "Ernesto", "Nancy", "Kyung", "Ozie", "Evalyn", "Bernard", "Shelly", "Cyndy", "Veronica", "Porter", "Priscilla", "Aleisha", "Lyla", "Pete", "Stacee", "Basilia", "Afton", "Douglass", "Wilda", "Andera", "Misti", "Anton", "Chase", "Marlo", "Darcel", "Yvette", "Joy", "Reagan", "Penni", "Terrence" };
+
+
+        int i = UnityEngine.Random.Range(0, 50);
+
+        return nameList[i];
     }
 }
