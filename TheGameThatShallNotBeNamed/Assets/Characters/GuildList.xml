@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <guild>
-  <char name="Bob" desc="" health="30" str="6" end="6" agi="6" mag="6" luck="6" range="2" weaponID="0" armorID="2" active="True" />
-  <char name="Darleen" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="2" armorID="1" active="True" />
+  <char name="Bob" desc="" health="30" str="6" end="6" agi="6" mag="6" luck="6" range="2" weaponID="0" armorID="3" active="False" />
+  <char name="Darleen" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="2" armorID="1" active="False" />
   <char name="Pete" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="0" armorID="0" active="False" />
   <char name="Concetta" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="1" armorID="2" active="False" />
   <char name="Darcel" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="0" armorID="0" active="False" />
+  <char name="Stormy" desc="A new recruit" health="50" str="7" end="7" agi="7" mag="7" luck="7" range="2" weaponID="0" armorID="0" active="False" />
 </guild>

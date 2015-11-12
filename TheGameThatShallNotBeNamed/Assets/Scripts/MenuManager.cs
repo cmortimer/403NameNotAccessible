@@ -85,6 +85,13 @@ public class MenuManager : MonoBehaviour {
     //Set up the guild list
     public void setUpGuild()
     {
+		//Clear old window if it exists
+		Transform oldMenu = tavernMenu.transform.FindChild("Window/AllObjects");
+		foreach (Transform child in oldMenu)
+		{
+			Destroy(child.gameObject);
+		}
+
 //        Debug.Log("Setting up tavern stats");
         int currentY = 180;
 		int posInArray = 0;
@@ -111,6 +118,7 @@ public class MenuManager : MonoBehaviour {
                 int mg = 0;
                 int lu = 0;
                 int rng = 0;
+				bool active = false;
                 foreach (XmlAttribute val in mem.Attributes)
                 {
                     //Debug.Log ("test");
@@ -131,6 +139,13 @@ public class MenuManager : MonoBehaviour {
                         lu = int.Parse(val.InnerText);
                     else if (val.Name == "range")
                         rng = int.Parse(val.InnerText);
+
+					if(val.Name == "active"){
+						if(val.InnerText.Equals("True"))
+						   	active = true;
+						else
+							active = false;
+					}
                 }
 
                 GameObject currentChar = charStatPrefab;
@@ -147,13 +162,21 @@ public class MenuManager : MonoBehaviour {
                 statsObj.GetComponent<Text>().text = text;
 
 				GameObject activeButton = finished.transform.FindChild("Active").gameObject;
+
+				if(active){
+					Color col = activeButton.GetComponent<Image>().color;
+					activeButton.GetComponent<Image>().color = new Color(col.g,col.r,col.b);
+				}
+
 				int captured = posInArray;
-				activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(posInArray));
 				activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeColor(activeButton.GetComponent<Image>()));
+				activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(captured));
 
                 //Set edit button to edit the correct character
                 GameObject editButton = finished.transform.FindChild("Edit").gameObject;
                 editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(name));
+
+				posInArray++;
 
                 currentY -= 75;
             }
@@ -194,7 +217,7 @@ public class MenuManager : MonoBehaviour {
             {
                 int id = i;
                 GameObject currentEquip = equipmentPrefab;
-                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 200.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
+                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 250.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
                 finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
                 GameObject imgObj = finished.transform.FindChild("Image").gameObject;
@@ -238,7 +261,7 @@ public class MenuManager : MonoBehaviour {
             {
                 int id = i;
                 GameObject currentEquip = equipmentPrefab;
-                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 200.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
+                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 250.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
                 finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
                 GameObject imgObj = finished.transform.FindChild("Image").gameObject;
@@ -268,6 +291,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	void ToggleActive(int position){
+		Debug.Log (position);
 		XmlDocument xmlDoc = new XmlDocument();
 		string path = Application.dataPath + @"/Characters/GuildList.xml";
 		string activeVal = "";
@@ -275,23 +299,21 @@ public class MenuManager : MonoBehaviour {
 		if (File.Exists(path)){
 			xmlDoc.Load(path);
 			XmlNodeList members = xmlDoc.GetElementsByTagName("char");
-
+			//Debug.Log(members[position-1]);
 			foreach(XmlAttribute val in members[position].Attributes){
 				if(val.Name == "active"){
 					activeVal = val.InnerText;
+					if(val.InnerText.Equals("True")){
+						val.InnerText = "False";
+					}
+					else if(val.InnerText.Equals("False")){
+						val.InnerText = "True";
+					}
 					break;
 				}
 			}
-			Debug.Log (activeVal);
-			if(activeVal.Equals("True")){
-				Debug.Log ("active was true");
-				activeVal = "False";
-			}
-			else{
-				Debug.Log ("active was false");
-				activeVal = "True";
-			}
-			
+			xmlDoc.Save(path);
+
 		}
 	}
 
@@ -385,14 +407,6 @@ public class MenuManager : MonoBehaviour {
 	public void TaverToMain(){
 		mainMenu.SetActive(true);
 		tavernMenu.SetActive(false);
-
-
-        //Clear old window
-        Transform oldMenu = tavernMenu.transform.FindChild("Window/AllObjects");
-        foreach (Transform child in oldMenu)
-        {
-            Destroy(child.gameObject);
-        }
 
         setUpGuild();
 	}
