@@ -344,6 +344,7 @@ public class PlayerManager : MonoBehaviour {
 //			}
 			if(currentEnemy < allEnemies.Count)
 			{
+				allEnemies[currentEnemy].EnemyUpdate();
 				if(!enemyMoving)
 				{
 					enemyMoving = true;
@@ -362,6 +363,7 @@ public class PlayerManager : MonoBehaviour {
 						currentEnemy++;
 					}
 				}
+
 			}
 			//If all enemies are inactive, end turn
 			else if(InactiveEnemies(allEnemies))
@@ -388,9 +390,9 @@ public class PlayerManager : MonoBehaviour {
 			}
 		}
 		else if(currentTurn == Turn.EnemyTurn){
-			foreach( Enemy e in allEnemies){
-				e.EnemyUpdate();
-			}
+			//foreach( Enemy e in allEnemies){
+			//	e.EnemyUpdate();
+			//}
 		}
 
 	}

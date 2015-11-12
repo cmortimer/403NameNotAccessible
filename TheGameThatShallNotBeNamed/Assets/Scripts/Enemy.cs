@@ -8,6 +8,7 @@ public class Enemy : Character {
 	public PathTile target = null;
 	public Predicate<PathTile> isWalkable;
 	public GameObject enemyObject;
+	[SerializeField]
 	protected PlayerController pTarget = null;
 
     public string drop;     //The item the enemy drops
@@ -54,7 +55,7 @@ public class Enemy : Character {
 		if (start && target) {
 			tileMap.FindPath(start, target, tileList, isWalkable);
 			//tileMap.FindPath(start, target, tileList);
-			if(tileList.Count > range){
+			if(tileList.Count > range + 1){
 				List<PathTile> newPath = new List<PathTile>();
 				for(int i = 0; i < tileList.Count -1; i++){
 					newPath.Add(tileList[i]);
