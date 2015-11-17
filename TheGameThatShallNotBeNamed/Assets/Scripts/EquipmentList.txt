@@ -1,16 +1,40 @@
 c, a list of all weapons in a txt document. The equipment class will take all of these in and create a full weapon 
 c, list below is the format for putting in a new weapon/armor piece
 c,	type	name		desc	str	end	agi	mag	luck rangemin rangemax	recipe 1	2 3 4 5 6...
-w,	short sword,	blah,	1,	0, 	2, 	0, 	0, 		1, 		1,one,two
-w,	long sword, 	blah, 	2,	0,	1,	0,	0,		1,		2,one,two
-w,	hand axe, 		blah,	2,	0,	1,	0,	0,		1,		1,one,two
-w, 	war axe,		blah, 	3,	0,	0,	0,	0,		1,		1,one,two
-w, 	wand,			blah, 	0,	0,	2,	0,	1,		2,		4,one,two
-w, 	staff,			blah, 	0,	0,	1,	0,	2,		2,		4,one,two
-w, 	short bow,		blah, 	1,	0,	2,	0,	0,		3,		5,one,two
-w, 	long bow,		blah, 	2,	0,	1,	0,	0,		4,		6,one,two
+w,	short sword,	    blah,	1,	0, 	2, 	0, 	0, 		1, 		1,wood,iron,iron
+w,	long sword, 	    blah, 	2,	0,	1,	0,	0,		1,		2,wood,iron,iron
+w,	hand axe, 		    blah,	2,	0,	1,	0,	0,		1,		1,iron,wood,wood
+w, 	war axe,		    blah, 	3,	0,	0,	0,	0,		1,		1,iron,wood,wood
+w, 	wand,			    blah, 	0,	0,	2,	0,	1,		2,		4,iron,wood,magic crystal
+w, 	staff,			    blah, 	0,	0,	1,	0,	2,		2,		4,iron,wood,magic crystal
+w, 	short bow,		    blah, 	1,	0,	2,	0,	0,		3,		5,iron,wood,sinew
+w, 	long bow,		    blah, 	2,	0,	1,	0,	0,		4,		6,iron,wood,sinew
+w,	bone short sword,	blah,	3,	0, 	5, 	0, 	0, 		1, 		1,short sword,bonedust
+w,	bone long sword, 	blah, 	5,	0,	3,	0,	0,		1,		2,long sword,bonedust
+w,	bone hand axe, 		blah,	5,	0,	3,	0,	0,		1,		1,hand axe,bonedust
+w, 	bone war axe,		blah, 	6,	0,	1,	0,	0,		1,		1,war axe,bonedust
+w, 	bone wand,			blah, 	0,	0,	5,	0,	3,		2,		4,wand,bonedust
+w, 	bone staff,			blah, 	0,	0,	3,	0,	5,		2,		4,staff,bonedust
+w, 	bone short bow,		blah, 	3,	0,	5,	0,	0,		3,		5,short bow,bonedust
+w, 	bone long bow,		blah, 	5,	0,	3,	0,	0,		4,		6,long bow,bonedust
+w,	demon short sword,	blah,	5,	0, 	8, 	0, 	0, 		1, 		1,short sword,demon heart,hide
+w,	demon long sword, 	blah, 	8,	0,	5,	0,	0,		1,		2,long sword,demon heart,hide
+w,	demon hand axe, 	blah,	8,	0,	5,	0,	0,		1,		1,hand axe,demon heart,hide
+w, 	demon war axe,		blah, 	9,	0,	4,	0,	0,		1,		1,war axe,demon heart,hide
+w, 	demon wand,			blah, 	0,	0,	8,	0,	5,		2,		4,wand,demon heart,hide
+w, 	demon staff,		blah, 	0,	0,	5,	0,	8,		2,		4,staff,demon heart,hide
+w, 	demon short bow,	blah, 	5,	0,	8,	0,	0,		3,		5,short bow,demon heart,hide
+w, 	demon long bow,		blah, 	8,	0,	5,	0,	0,		4,		6,long bow,demon heart,hide
+w,	mech short sword,	blah,	7,	0, 	11, 	0, 	0, 		1, 		1,short sword,gyro,moon jelly
+w,	mech long sword, 	blah, 	11,	0,	7,	0,	0,		1,		2,long sword,gyro,moon jelly
+w,	mech hand axe, 		blah,	11,	0,	7,	0,	0,		1,		1,hand axe,gyro,moon jelly
+w, 	mech war axe,		blah, 	12,	0,	6,	0,	0,		1,		1,war axe,gyro,moon jelly
+w, 	mech wand,			blah, 	0,	0,	11,	0,	7,		2,		4,wand,gyro,moon jelly
+w, 	mech staff,			blah, 	0,	0,	7,	0,	11,		2,		4,staff,gyro,moon jelly
+w, 	mech short bow,		blah, 	7,	0,	11,	0,	0,		3,		5,short bow,gyro,moon jelly
+w, 	mech long bow,		blah, 	11,	0,	7,	0,	0,		4,		6,long bow,gyro,moon jelly
 c, 	type	name		desc	str end agi mag luck recipe 1 2 3 4 5 6...
-a,	plain cloths,	blah, 	0,	0,	3,	0,	0,one,two
+a,	plain cloths,	blah, 	0,	0,	3,	0,	0,iron,adhesive
 a,	hide armor,		blah, 	0,	1,	2,	0,	0,one,two
 a,	chainmail,		blah, 	0,	2,	1,	0,	0,one,two
 a,	plate armor,	blah, 	0,	3,	0,	0,	0,one,two
