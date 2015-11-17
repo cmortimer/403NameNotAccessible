@@ -18,17 +18,21 @@ public class MenuManager : MonoBehaviour {
 
 	List<GameObject> weaponButtons;
 	List<GameObject> armorButtons;
+	public Image[] weaponImages;
+
 
 	Equipment equip;
 	
 	//set correct menu options to active
 	void Start(){
 		equip = GameObject.Find ("PersistentData").GetComponent<Equipment>();
+		weaponImages = GameObject.Find("AllWeaponImages").GetComponentsInChildren<Image>();
 		destMenu.SetActive(false);
 		workshopMenu.SetActive(false);
 		tavernMenu.SetActive(false);
 		SetupWorkshop();
         setUpGuild();
+
         
 	}
 	
@@ -40,10 +44,16 @@ public class MenuManager : MonoBehaviour {
 			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
 			finished.transform.parent = workshopMenu.transform.FindChild("Window/AllObjects");
 
-			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
-			//set image = equipment image path
 			GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
 			nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
+
+			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+			foreach(Image weaponImg in weaponImages){
+				if(equip.allWeapons[i].name.Contains(weaponImg.name)){
+					imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
+					imgObj.GetComponent<Image>().SetNativeSize();
+				}
+			}
 			GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
 			string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag + "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
 			statsObj.GetComponent<Text>().text = text;
