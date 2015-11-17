@@ -318,22 +318,111 @@ public class MenuManager : MonoBehaviour {
 	}
 
 
-    void GiveWeapon(int i){
-		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+    void GiveWeapon(int i)
+    {
+        GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
 
-		Debug.Log (perData.GetComponent<PlayerData>().obtainedWeapons.Count);
-		perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
+        Debug.Log(perData.GetComponent<PlayerData>().obtainedWeapons.Count);
 
-        saveXML(i, true);
-	}
-	void GiveArmor(int i){
-		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+        //Check recipe count
+        bool craftable = true;
+        XmlDocument xmlDoc = new XmlDocument();
+        string path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
 
-		Debug.Log (perData.GetComponent<PlayerData>().obtainedArmor.Count);
-		perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
+        if (File.Exists(path))
+        {
+            xmlDoc.Load(path);
 
-        saveXML(i, false);
-	}
+            XmlNodeList members = xmlDoc.GetElementsByTagName("item");
+
+            foreach (XmlNode mem in members)
+            {
+                //Check for the required material
+                string mat = mem.Attributes.GetNamedItem("name").Value;
+                if (equip.allWeapons[i].recipe.Contains(mat))
+                {
+                    //update count
+                    int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
+                    itemCount -= 1;
+                    Debug.Log(itemCount + " " + mat);
+                    //Do we have enough of the material?
+                    if (itemCount >= 0)
+                    {
+                        mem.Attributes.GetNamedItem("count").Value = itemCount.ToString();
+                    }
+                    else
+                    {
+                        craftable = false;
+                        Debug.Log("Can't craft " + equip.allWeapons[i].name);
+                    }
+                }
+            }
+
+            //Only save if the weapon is craftable
+            if (craftable)
+            {
+                Debug.Log("Crafting " + equip.allWeapons[i].name);
+                perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
+
+                saveXML(i, true);
+                xmlDoc.Save(path);
+            }
+        }
+    }
+    void GiveArmor(int i)
+    {
+        GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+
+        Debug.Log(perData.GetComponent<PlayerData>().obtainedArmor.Count);
+
+
+        //Check recipe count
+        bool craftable = true;
+        XmlDocument xmlDoc = new XmlDocument();
+        string path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
+
+        if (File.Exists(path))
+        {
+            xmlDoc.Load(path);
+
+            XmlNodeList members = xmlDoc.GetElementsByTagName("item");
+
+            foreach (XmlNode mem in members)
+            {
+                //Check for the required material
+                string mat = mem.Attributes.GetNamedItem("name").Value;
+                if (equip.allArmor[i].recipe.Contains(mat))
+                {
+                    //update count
+                    int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
+                    itemCount -= 1;
+                    Debug.Log(itemCount + " " + mat);
+                    //Do we have enough of the material?
+                    if (itemCount >= 0)
+                    {
+                        mem.Attributes.GetNamedItem("count").Value = itemCount.ToString();
+                    }
+                    else
+                    {
+                        craftable = false;
+                        Debug.Log("Can't craft " + equip.allArmor[i].name);
+                    }
+                }
+            }
+
+            //Only save if the weapon is craftable
+            if (craftable)
+            {
+                Debug.Log("Crafting " + equip.allArmor[i].name);
+                perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
+
+                saveXML(i, false);
+                xmlDoc.Save(path);
+            }
+        }
+
+
+    }
 
     //Equips a weapon to a character
     void EquipWeapon(string n, int i)

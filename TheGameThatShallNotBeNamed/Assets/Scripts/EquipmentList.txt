@@ -1,7 +1,7 @@
 c, a list of all weapons in a txt document. The equipment class will take all of these in and create a full weapon 
 c, list below is the format for putting in a new weapon/armor piece
 c,	type	name		desc	str	end	agi	mag	luck rangemin rangemax	recipe 1	2 3 4 5 6...
-w,	short sword,	blah,	1,	0, 	2, 	0, 	0, 		1, 		1,one,two
+w,	short sword,	blah,	1,	0, 	2, 	0, 	0, 		1, 		1,wood,iron
 w,	long sword, 	blah, 	2,	0,	1,	0,	0,		1,		2,one,two
 w,	hand axe, 		blah,	2,	0,	1,	0,	0,		1,		1,one,two
 w, 	war axe,		blah, 	3,	0,	0,	0,	0,		1,		1,one,two
@@ -10,7 +10,7 @@ w, 	staff,			blah, 	0,	0,	1,	0,	2,		2,		4,one,two
 w, 	short bow,		blah, 	1,	0,	2,	0,	0,		3,		5,one,two
 w, 	long bow,		blah, 	2,	0,	1,	0,	0,		4,		6,one,two
 c, 	type	name		desc	str end agi mag luck recipe 1 2 3 4 5 6...
-a,	plain cloths,	blah, 	0,	0,	3,	0,	0,one,two
+a,	plain cloths,	blah, 	0,	0,	3,	0,	0,iron,adhesive
 a,	hide armor,		blah, 	0,	1,	2,	0,	0,one,two
 a,	chainmail,		blah, 	0,	2,	1,	0,	0,one,two
 a,	plate armor,	blah, 	0,	3,	0,	0,	0,one,two

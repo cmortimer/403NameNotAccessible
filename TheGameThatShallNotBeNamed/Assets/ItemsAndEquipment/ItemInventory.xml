@@ -1,4 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
-  <item name="thing" count="3" />
+  <item name="iron" count="3" />
+  <item name="wood" count="3" />
+  <item name="bone" count="5" />
+  <item name="adhesive" count="5" />
 </inventory>
