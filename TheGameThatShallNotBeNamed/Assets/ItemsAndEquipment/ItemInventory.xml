@@ -1,7 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
-  <item name="iron" count="3" />
-  <item name="wood" count="3" />
-  <item name="bone" count="5" />
-  <item name="adhesive" count="5" />
+  <item name="iron" count="5" />
+  <item name="wood" count="5" />
+  <item name="magic crystal" count="5" />
+  <item name="sinew" count="5" />
+  <item name="bonedust" count="0" />
+  <item name="demon heart" count="0" />
+  <item name="hide" count="0" />
+  <item name="moon jelly" count="0" />
+  <item name="gyro" count="0" />
 </inventory>
