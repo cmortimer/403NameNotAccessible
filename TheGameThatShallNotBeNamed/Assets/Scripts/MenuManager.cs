@@ -8,7 +8,9 @@ using System.IO;
 using System;
 
 public class MenuManager : MonoBehaviour {
-	
+
+	#region Variables And Start
+
 	public GameObject mainMenu;
 	public GameObject workshopMenu;
 	public GameObject destMenu;
@@ -18,12 +20,14 @@ public class MenuManager : MonoBehaviour {
 
 	List<GameObject> weaponButtons;
 	List<GameObject> armorButtons;
+	public Image[] weaponImages;
 
 	Equipment equip;
 	
 	//set correct menu options to active
 	void Start(){
 		equip = GameObject.Find ("PersistentData").GetComponent<Equipment>();
+		weaponImages = GameObject.Find("AllWeaponImages").GetComponentsInChildren<Image>();
 		destMenu.SetActive(false);
 		workshopMenu.SetActive(false);
 		tavernMenu.SetActive(false);
@@ -31,58 +35,206 @@ public class MenuManager : MonoBehaviour {
         setUpGuild();
         
 	}
-	
+
+	#endregion
+
+	#region workshop
 	//setup workshop
 	public void SetupWorkshop(){
-		int currentY = 200;
+		//Vector2 rect = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects").GetComponent<RectTransform>().offsetMin;
+		//float value = (equip.allWeapons.Count*95)+(equip.allArmor.Count*95);
+		//workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects").GetComponent<RectTransform>().offsetMin = new Vector2(rect.x, value);
+		int currentY = 500;
 		for(int i=0;i<equip.allWeapons.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
-			finished.transform.parent = workshopMenu.transform.FindChild("Window/AllObjects");
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,currentY,0.0f), Quaternion.identity);
+			finished.transform.parent = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects");
+
+			GameObject nameObj = finished.transform.FindChild("Name").gameObject;
+			nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
+			GameObject descObj = finished.transform.FindChild("Description").gameObject;
+			//string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag + "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
+			descObj.GetComponent<Text>().text = equip.allWeapons[i].desc;
 
 			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
-			//set image = equipment image path
-			GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
-			nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
-			GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
-			string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag + "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
-			statsObj.GetComponent<Text>().text = text;
-			GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+			foreach(Image weaponImg in weaponImages){
+				if(equip.allWeapons[i].name.Contains(weaponImg.name)){
+					imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
+					imgObj.GetComponent<Image>().SetNativeSize();
+				}
+			}
 
-			GameObject createObj = finished.transform.FindChild("Create").gameObject;
+			//GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+
+			GameObject selectObj = finished.transform.FindChild("Create").gameObject;
 			int captured = i;
-			createObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(captured));
+			selectObj.GetComponent<Button>().onClick.AddListener(() => SetUpSelectedWeapon(captured));
+			//createObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(captured));
 
-			currentY -= 75;
+			currentY -= 95;
 		}
 		
 		for(int i=0;i<equip.allArmor.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
-			finished.transform.parent = workshopMenu.transform.FindChild("Window/AllObjects");
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
+			finished.transform.parent = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects");
 
 			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
 			//set image = equipment image path
-			GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
+			GameObject nameObj = finished.transform.FindChild("Name").gameObject;
 			nameObj.GetComponent<Text>().text = equip.allArmor[i].name;
-			GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
-			string text = equip.allArmor[i].str + "    " + equip.allArmor[i].end + "     " + equip.allArmor[i].agi + "     " + equip.allArmor[i].mag + "     " + equip.allArmor[i].luck + "     " ;
-			statsObj.GetComponent<Text>().text = text;
-			GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+			GameObject descObj = finished.transform.FindChild("Description").gameObject;
+			//string text = equip.allArmor[i].str + "    " + equip.allArmor[i].end + "     " + equip.allArmor[i].agi + "     " + equip.allArmor[i].mag + "     " + equip.allArmor[i].luck + "     " ;
+			descObj.GetComponent<Text>().text = equip.allArmor[i].desc;
+
+			//GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
 			
-			GameObject createObj = finished.transform.FindChild("Create").gameObject;
+			GameObject selectObj = finished.transform.FindChild("Create").gameObject;
 			int captured = i;
-			createObj.GetComponent<Button>().onClick.AddListener(() => GiveArmor(captured));
+			selectObj.GetComponent<Button>().onClick.AddListener(() => SetUpSelectedArmor(captured));
 			//armorButtons.Add(createObj);
 
-			currentY -= 75;
+			currentY -= 95;
 		}
 
 	}
 
+	void SetUpSelectedArmor(int i){
+		Debug.Log (i);
+	}
+	void SetUpSelectedWeapon(int i){
+		Debug.Log (i);
+	}
+	void GiveWeapon(int i)
+	{
+		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+		
+		Debug.Log(perData.GetComponent<PlayerData>().obtainedWeapons.Count);
+		
+		//Check recipe count
+		bool craftable = true;
+		XmlDocument xmlDoc = new XmlDocument();
+		string path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
+		
+		if (File.Exists(path))
+		{
+			xmlDoc.Load(path);
+			
+			XmlNodeList members = xmlDoc.GetElementsByTagName("item");
+			
+			foreach (XmlNode mem in members)
+			{
+				//Check for the required material
+				string mat = mem.Attributes.GetNamedItem("name").Value;
+				if (equip.allWeapons[i].recipe.Contains(mat))
+				{
+					//Check how much of the material is required
+					int required = 0;
+					foreach(string s in equip.allWeapons[i].recipe)
+					{
+						if(s == mat)
+						{
+							required++;
+						}
+					}
+					
+					//update count
+					int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
+					itemCount -= required;
+					Debug.Log(itemCount + " " + mat);
+					//Do we have enough of the material?
+					if (itemCount >= 0)
+					{
+						mem.Attributes.GetNamedItem("count").Value = itemCount.ToString();
+					}
+					else
+					{
+						craftable = false;
+						Debug.Log("Can't craft " + equip.allWeapons[i].name);
+					}
+				}
+			}
+			
+			//Only save if the weapon is craftable
+			if (craftable)
+			{
+				Debug.Log("Crafting " + equip.allWeapons[i].name);
+				perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
+				
+				saveXML(i, true);
+				xmlDoc.Save(path);
+			}
+		}
+	}
+	void GiveArmor(int i)
+	{
+		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
+		
+		Debug.Log(perData.GetComponent<PlayerData>().obtainedArmor.Count);
+		
+		
+		//Check recipe count
+		bool craftable = true;
+		XmlDocument xmlDoc = new XmlDocument();
+		string path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
+		
+		if (File.Exists(path))
+		{
+			xmlDoc.Load(path);
+			
+			XmlNodeList members = xmlDoc.GetElementsByTagName("item");
+			
+			foreach (XmlNode mem in members)
+			{
+				//Check for the required material
+				string mat = mem.Attributes.GetNamedItem("name").Value;
+				if (equip.allArmor[i].recipe.Contains(mat))
+				{
+					//Check how much of the material is required
+					int required = 0;
+					foreach (string s in equip.allWeapons[i].recipe)
+					{
+						if (s == mat)
+						{
+							required++;
+						}
+					}
+					
+					//update count
+					int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
+					itemCount -= 1;
+					Debug.Log(itemCount + " " + mat);
+					//Do we have enough of the material?
+					if (itemCount >= 0)
+					{
+						mem.Attributes.GetNamedItem("count").Value = itemCount.ToString();
+					}
+					else
+					{
+						craftable = false;
+						Debug.Log("Can't craft " + equip.allArmor[i].name);
+					}
+				}
+			}
+			
+			//Only save if the weapon is craftable
+			if (craftable)
+			{
+				Debug.Log("Crafting " + equip.allArmor[i].name);
+				perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
+				
+				saveXML(i, false);
+				xmlDoc.Save(path);
+			}
+		}
+		
+		
+	}
 
+	#endregion
 
-    //Set up the guild list
+	#region guild
+	//Set up the guild list
     public void setUpGuild()
     {
 		//Clear old window if it exists
@@ -317,133 +469,6 @@ public class MenuManager : MonoBehaviour {
 		}
 	}
 
-
-    void GiveWeapon(int i)
-    {
-        GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
-
-        Debug.Log(perData.GetComponent<PlayerData>().obtainedWeapons.Count);
-
-        //Check recipe count
-        bool craftable = true;
-        XmlDocument xmlDoc = new XmlDocument();
-        string path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
-
-        if (File.Exists(path))
-        {
-            xmlDoc.Load(path);
-
-            XmlNodeList members = xmlDoc.GetElementsByTagName("item");
-
-            foreach (XmlNode mem in members)
-            {
-                //Check for the required material
-                string mat = mem.Attributes.GetNamedItem("name").Value;
-                if (equip.allWeapons[i].recipe.Contains(mat))
-                {
-                    //Check how much of the material is required
-                    int required = 0;
-                    foreach(string s in equip.allWeapons[i].recipe)
-                    {
-                        if(s == mat)
-                        {
-                            required++;
-                        }
-                    }
-
-                    //update count
-                    int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
-                    itemCount -= required;
-                    Debug.Log(itemCount + " " + mat);
-                    //Do we have enough of the material?
-                    if (itemCount >= 0)
-                    {
-                        mem.Attributes.GetNamedItem("count").Value = itemCount.ToString();
-                    }
-                    else
-                    {
-                        craftable = false;
-                        Debug.Log("Can't craft " + equip.allWeapons[i].name);
-                    }
-                }
-            }
-
-            //Only save if the weapon is craftable
-            if (craftable)
-            {
-                Debug.Log("Crafting " + equip.allWeapons[i].name);
-                perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
-
-                saveXML(i, true);
-                xmlDoc.Save(path);
-            }
-        }
-    }
-    void GiveArmor(int i)
-    {
-        GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
-
-        Debug.Log(perData.GetComponent<PlayerData>().obtainedArmor.Count);
-
-
-        //Check recipe count
-        bool craftable = true;
-        XmlDocument xmlDoc = new XmlDocument();
-        string path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
-
-        if (File.Exists(path))
-        {
-            xmlDoc.Load(path);
-
-            XmlNodeList members = xmlDoc.GetElementsByTagName("item");
-
-            foreach (XmlNode mem in members)
-            {
-                //Check for the required material
-                string mat = mem.Attributes.GetNamedItem("name").Value;
-                if (equip.allArmor[i].recipe.Contains(mat))
-                {
-                    //Check how much of the material is required
-                    int required = 0;
-                    foreach (string s in equip.allWeapons[i].recipe)
-                    {
-                        if (s == mat)
-                        {
-                            required++;
-                        }
-                    }
-
-                    //update count
-                    int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
-                    itemCount -= 1;
-                    Debug.Log(itemCount + " " + mat);
-                    //Do we have enough of the material?
-                    if (itemCount >= 0)
-                    {
-                        mem.Attributes.GetNamedItem("count").Value = itemCount.ToString();
-                    }
-                    else
-                    {
-                        craftable = false;
-                        Debug.Log("Can't craft " + equip.allArmor[i].name);
-                    }
-                }
-            }
-
-            //Only save if the weapon is craftable
-            if (craftable)
-            {
-                Debug.Log("Crafting " + equip.allArmor[i].name);
-                perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
-
-                saveXML(i, false);
-                xmlDoc.Save(path);
-            }
-        }
-
-
-    }
-
     //Equips a weapon to a character
     void EquipWeapon(string n, int i)
     {
@@ -496,6 +521,32 @@ public class MenuManager : MonoBehaviour {
 
     }
 
+	public void RecruitGuildMember(){
+		XDocument doc = XDocument.Load("Assets/Characters/GuildList.xml");
+		XElement root = new XElement("char");
+		root.Add(new XAttribute("name", genName()));
+		root.Add(new XAttribute("desc", "A new recruit"));
+		root.Add(new XAttribute("health", "50"));
+		root.Add(new XAttribute("str", "7"));
+		root.Add(new XAttribute("end", "7"));
+		root.Add(new XAttribute("agi", "7"));
+		root.Add(new XAttribute("mag", "7"));
+		root.Add(new XAttribute("luck", "7"));
+		root.Add(new XAttribute("range", "2"));
+		root.Add(new XAttribute("weaponID", "0"));
+		root.Add(new XAttribute("armorID", "0"));
+		root.Add(new XAttribute("active", "False"));
+		doc.Element("guild").Add(root);
+		doc.Save("Assets/Characters/GuildList.xml");
+	}
+	
+	public void RemoveGuildMember(){
+		
+	}
+
+	#endregion
+
+	#region menu navigation
     //function handlers for each button yes this is ugly lay off...
     public void MainToDest(){
 		mainMenu.SetActive(false);
@@ -529,58 +580,38 @@ public class MenuManager : MonoBehaviour {
 	public void VisitDest(int level){
 		Application.LoadLevel (2);
 	}
-
-	public void RecruitGuildMember(){
-		XDocument doc = XDocument.Load("Assets/Characters/GuildList.xml");
-		XElement root = new XElement("char");
-		root.Add(new XAttribute("name", genName()));
-		root.Add(new XAttribute("desc", "A new recruit"));
-		root.Add(new XAttribute("health", "50"));
-		root.Add(new XAttribute("str", "7"));
-		root.Add(new XAttribute("end", "7"));
-		root.Add(new XAttribute("agi", "7"));
-		root.Add(new XAttribute("mag", "7"));
-		root.Add(new XAttribute("luck", "7"));
-		root.Add(new XAttribute("range", "2"));
-        root.Add(new XAttribute("weaponID", "0"));
-        root.Add(new XAttribute("armorID", "0"));
-        root.Add(new XAttribute("active", "False"));
-		doc.Element("guild").Add(root);
-		doc.Save("Assets/Characters/GuildList.xml");
-	}
-
-	public void RemoveGuildMember(){
+	//Loads a dungeon based off of its name
+	public void goToDest(string name)
+	{
+		//Debug.Log("Going to " + name);
+		string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
 		
+		XmlDocument dunXML = new XmlDocument();
+		
+		if (File.Exists(filePath))
+		{
+			dunXML.Load(filePath);
+			
+			//List of our possible dungeons
+			XmlNodeList dungeons = dunXML.GetElementsByTagName("dungeon");
+			
+			//Set the selected dungeon to active
+			foreach (XmlNode member in dungeons)
+			{
+				if (member["name"].InnerText == name)
+				{
+					member["active"].InnerText = "true";
+					dunXML.Save(filePath);
+				}
+				
+			}
+		}
+		Application.LoadLevel(2);
 	}
 
-    //Loads a dungeon based off of its name
-    public void goToDest(string name)
-    {
-        //Debug.Log("Going to " + name);
-        string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
+	#endregion
 
-        XmlDocument dunXML = new XmlDocument();
-
-        if (File.Exists(filePath))
-        {
-            dunXML.Load(filePath);
-
-            //List of our possible dungeons
-            XmlNodeList dungeons = dunXML.GetElementsByTagName("dungeon");
-
-            //Set the selected dungeon to active
-            foreach (XmlNode member in dungeons)
-            {
-                if (member["name"].InnerText == name)
-                {
-                    member["active"].InnerText = "true";
-                    dunXML.Save(filePath);
-                }
-
-            }
-        }
-        Application.LoadLevel(2);
-    }
+	#region helpers
 
     public void saveXML(int i, bool wep)
     {
@@ -779,4 +810,6 @@ public class MenuManager : MonoBehaviour {
 
         return nameList[i];
     }
+
+	#endregion
 }
