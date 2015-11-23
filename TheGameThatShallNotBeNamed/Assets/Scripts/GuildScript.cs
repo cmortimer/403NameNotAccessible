@@ -62,7 +62,7 @@ public class GuildScript : MonoBehaviour {
             int armID = 0;
             bool active = false;
 
-            Vector3 spawnPos = new Vector3(0, 0.5f, 20);
+			Vector3 spawnPos = new Vector3(5.0f, 0.5f, 24.0f);
 
             foreach(XmlNode member in characters)
             {
@@ -109,8 +109,8 @@ public class GuildScript : MonoBehaviour {
                     //c.setStats(name, 999, st, en, ag, mg, lu, rng);     //Testing with max hp
 
                     GameObject currentPlayer = (GameObject)GameObject.Instantiate(player, spawnPos, Quaternion.identity);
-                    spawnPos.x += 1.0f;
-                    spawnPos.z += 1.0f;
+					spawnPos.x += 0.0f;
+					spawnPos.z -= 1.0f;
                 }
             }
         }

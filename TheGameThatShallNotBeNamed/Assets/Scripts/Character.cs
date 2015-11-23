@@ -32,7 +32,7 @@ public class Character : MonoBehaviour {
 
 	protected void Move() {
 
-		if(start == end)
+		if(start && end && start == end)
 		{
 			end = null;
 			tileList.Clear();
@@ -40,7 +40,7 @@ public class Character : MonoBehaviour {
 			clearHighLights();
 			doneMoving = true;
 		}
-		else if (listIndex != tileList.Count && currentActionPoints > 0) {
+		else if (end && listIndex != tileList.Count && currentActionPoints > 0) {
 			movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
 			movement = movement.normalized * speed;
 			

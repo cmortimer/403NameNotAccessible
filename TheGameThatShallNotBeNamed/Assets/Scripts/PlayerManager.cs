@@ -312,6 +312,9 @@ public class PlayerManager : MonoBehaviour {
 			{
 				playerUI.SetActive(false);
 				enemyUI.SetActive(false);
+				HighlightMoveTiles(false);
+				HighlightAttackTiles(false);
+				arrowObj.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
 
 				currentTurn = Turn.EnemyTurn;
 				foreach(PlayerController pc in allPlayers)

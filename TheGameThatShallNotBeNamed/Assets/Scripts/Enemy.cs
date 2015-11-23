@@ -55,27 +55,36 @@ public class Enemy : Character {
 		}
 
 		if (start && target) {
-			tileMap.FindPath(start, target, tileList, isWalkable);
+			List<PathTile> newPath = new List<PathTile>();
+			tileMap.FindPath(start, target, newPath, isWalkable);
+			//tileMap.FindPath(start, target, tileList, isWalkable);
 			//tileMap.FindPath(start, target, tileList);
-			if(tileList.Count > range + 1){
-				List<PathTile> newPath = new List<PathTile>();
-				for(int i = 0; i < tileList.Count -1; i++){
-					newPath.Add(tileList[i]);
+			if(newPath.Count > range + 1){
+				tileList.Clear();
+				//List<PathTile> newPath = new List<PathTile>();
+				for(int i = 0; i < newPath.Count - range; i++){
+					tileList.Add(newPath[i]);
 				}
-				tileList = newPath;
+				//tileList = newPath;
 					
-				if(tileList.Count > 0)
+				if(tileList.Count > 2)
 				{
+					Debug.Log("Test");
 					debugTileList = new List<PathTile>(tileList);
-					end = tileList[tileList.Count-1];
+					end = tileList[tileList.Count - 1];
+					Debug.Log(end);
 				}
-
+				//tileMap.FindPath(start, end, tileList, isWalkable);
 				Move();
 			}
 			else if(currentActionPoints <= 1)
+			{
 				active = false;
+			}
 			else
+			{
 				Attack();
+			}
 		}
 
 		//if(tileList.Count == range)	Attack();
@@ -102,11 +111,12 @@ public class Enemy : Character {
 			target = players[i].start;
 			tileMap.FindPath(start, players[i].start, currentPath, isWalkable);
 
-			if(currentPath.Count == 0) continue;
+			if(currentPath.Count <= 2 || currentPath.Count == null) continue;
 
 			if (shortestPath.Count == 0 || currentPath.Count <= shortestPath.Count)
 			{
-				Debug.Log("Changing targets");
+				Debug.Log(charName + ": Changing targets to : " + players[i].charName);
+				Debug.Log (currentPath.Count);
 				//shortestPath.Clear();
 				tileMap.FindPath(start, players[i].start, shortestPath, isWalkable);
 				closest = players[i];
