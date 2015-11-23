@@ -100,10 +100,55 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	void SetUpSelectedArmor(int i){
-		Debug.Log (i);
+		//Debug.Log (i);
+		Equipment.armor curArm = equip.allArmor[i];
+		GameObject itemObj = GameObject.Find("Item");
+
+		itemObj.transform.FindChild("Name").gameObject.GetComponent<Text>().text = curArm.name;
+
+		GameObject imgObj = itemObj.transform.FindChild("Image").gameObject;
+		foreach(Image weaponImg in weaponImages){
+			if(curArm.name.Contains(weaponImg.name)){
+				imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
+				imgObj.GetComponent<Image>().SetNativeSize();
+			}
+		}
+		imgObj.SetActive(true);
+
+		itemObj.transform.FindChild("FullStats/Strength/Value").gameObject.GetComponent<Text>().text = curArm.str.ToString();
+		itemObj.transform.FindChild("FullStats/Agility/Value").gameObject.GetComponent<Text>().text = curArm.agi.ToString();
+		itemObj.transform.FindChild("FullStats/Luck/Value").gameObject.GetComponent<Text>().text = curArm.luck.ToString();
+		itemObj.transform.FindChild("FullStats/Endurance/Value").gameObject.GetComponent<Text>().text = curArm.end.ToString();
+		itemObj.transform.FindChild("FullStats/Magic/Value").gameObject.GetComponent<Text>().text = curArm.mag.ToString();
+
+		GameObject selectObj = itemObj.transform.FindChild("Create").gameObject;
+		selectObj.GetComponent<Button>().onClick.AddListener(() => GiveArmor(i));
 	}
 	void SetUpSelectedWeapon(int i){
-		Debug.Log (i);
+		//Debug.Log (i);
+		Equipment.weapon curWep = equip.allWeapons[i];
+		GameObject itemObj = GameObject.Find("Item");
+		
+		itemObj.transform.FindChild("Name").gameObject.GetComponent<Text>().text = curWep.name;
+		
+		GameObject imgObj = itemObj.transform.FindChild("Image").gameObject;
+		foreach(Image weaponImg in weaponImages){
+			if(curWep.name.Contains(weaponImg.name)){
+				imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
+				imgObj.GetComponent<Image>().SetNativeSize();
+			}
+		}
+		imgObj.SetActive(true);
+		
+		itemObj.transform.FindChild("FullStats/Strength/Value").gameObject.GetComponent<Text>().text = curWep.str.ToString();
+		itemObj.transform.FindChild("FullStats/Agility/Value").gameObject.GetComponent<Text>().text = curWep.agi.ToString();
+		itemObj.transform.FindChild("FullStats/Luck/Value").gameObject.GetComponent<Text>().text = curWep.luck.ToString();
+		itemObj.transform.FindChild("FullStats/Endurance/Value").gameObject.GetComponent<Text>().text = curWep.end.ToString();
+		itemObj.transform.FindChild("FullStats/Magic/Value").gameObject.GetComponent<Text>().text = curWep.mag.ToString();
+		itemObj.transform.FindChild("FullStats/Range/Value").gameObject.GetComponent<Text>().text = curWep.rangeMin.ToString() + " - " + curWep.rangeMax.ToString();
+
+		GameObject selectObj = itemObj.transform.FindChild("Create").gameObject;
+		selectObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(i));
 	}
 	void GiveWeapon(int i)
 	{

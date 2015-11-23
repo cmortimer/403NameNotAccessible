@@ -2,13 +2,13 @@ c, a list of all weapons in a txt document. The equipment class will take all of
 c, list below is the format for putting in a new weapon/armor piece
 c,	type	name		desc	str	end	agi	mag	luck rangemin rangemax	recipe 1	2 3 4 5 6...
 c,	short sword,blah,1,0,2,0,0,1,1,wood,iron,iron
-w,	long sword,blah,2,0,1,0,0,1,2,wood,iron,iron
-c,	hand axe,blah,2,0,1,0,0,1,1,iron,wood,wood
-w,  war axe,blah,3,0,0,0,0,1,1,iron,wood,wood
+w,long sword,blah,2,0,1,0,0,1,2,wood,iron,iron
+c,hand axe,blah,2,0,1,0,0,1,1,iron,wood,wood
+w,war axe,blah,3,0,0,0,0,1,1,iron,wood,wood
 c, 	wand,blah,0,0,2,0,1,2,4,iron,wood,magic crystal
-w, 	wood staff,blah,0,0,1,0,2,2,4,iron,wood,magic crystal
-c, 	short bow,blah,1,0,2,0,0,3,5,iron,wood,sinew
-w,  long bow,blah,2,0,1,0,0,4,6,iron,wood,sinew
+w,wood staff,blah,0,0,1,0,2,2,4,iron,wood,magic crystal
+c,short bow,blah,1,0,2,0,0,3,5,iron,wood,sinew
+w,long bow,blah,2,0,1,0,0,4,6,iron,wood,sinew
 c,	bone short sword,blah,3,0,5,0,0,1,1,short sword,bonedust
 w,	bone sword,blah,5,0,3,0,0,1,2,long sword,bonedust
 c,	bone hand axe,blah,5,0,3,0,0,1,1,hand axe,bonedust
