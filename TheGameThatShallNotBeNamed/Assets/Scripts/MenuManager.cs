@@ -26,7 +26,7 @@ public class MenuManager : MonoBehaviour {
 	
 	//set correct menu options to active
 	void Start(){
-		equip = GameObject.Find ("PersistentData").GetComponent<Equipment>();
+        equip = GameObject.FindGameObjectWithTag("Persistent").GetComponent<Equipment>();
 		weaponImages = GameObject.Find("AllWeaponImages").GetComponentsInChildren<Image>();
 		destMenu.SetActive(false);
 		workshopMenu.SetActive(false);

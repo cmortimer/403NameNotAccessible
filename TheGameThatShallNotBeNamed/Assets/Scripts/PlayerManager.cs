@@ -44,7 +44,7 @@ public class PlayerManager : MonoBehaviour {
 		
 		camera = GameObject.Find("Main Camera").GetComponent<CameraController>();
 
-		Vector3 arrowPos = new Vector3(0.0f,-5.0f,0.0f);
+		Vector3 arrowPos = new Vector3(0.0f,50.0f,0.0f);
 		Quaternion rotation = Quaternion.Euler(45.0f, 180.0f, 0.0f);
 		arrowObj = (GameObject)Instantiate (arrow, arrowPos, rotation);
 
@@ -124,7 +124,7 @@ public class PlayerManager : MonoBehaviour {
 			}
 			else
 			{
-				arrowObj.transform.position = new Vector3(0.0f, -5.0f, 0.0f);
+				arrowObj.transform.position = new Vector3(0.0f, 50.0f, 0.0f);
 				currentAction = Action.None;
 			}
 			#endregion
