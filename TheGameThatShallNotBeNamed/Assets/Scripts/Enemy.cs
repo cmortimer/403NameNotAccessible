@@ -60,6 +60,7 @@ public class Enemy : Character {
 			//tileMap.FindPath(start, target, tileList, isWalkable);
 			//tileMap.FindPath(start, target, tileList);
 			if(newPath.Count > range + 1){
+				Debug.Log("range smaller than path");
 				tileList.Clear();
 				//List<PathTile> newPath = new List<PathTile>();
 				for(int i = 0; i < newPath.Count - range; i++){
@@ -67,22 +68,23 @@ public class Enemy : Character {
 				}
 				//tileList = newPath;
 					
-				if(tileList.Count > 2)
+				if(tileList.Count > 1)
 				{
 					Debug.Log("Test");
 					debugTileList = new List<PathTile>(tileList);
 					end = tileList[tileList.Count - 1];
-					Debug.Log(end);
 				}
 				//tileMap.FindPath(start, end, tileList, isWalkable);
 				Move();
 			}
 			else if(currentActionPoints <= 1)
 			{
+				Debug.Log("action points low");
 				active = false;
 			}
 			else
 			{
+				Debug.Log("attack attempt");
 				Attack();
 			}
 		}

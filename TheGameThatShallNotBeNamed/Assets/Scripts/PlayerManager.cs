@@ -81,9 +81,7 @@ public class PlayerManager : MonoBehaviour {
 		//Player Turn
 		#region playerTurn
 		if(currentTurn == Turn.PlayerTurn)
-		{
-			camera.followEnemy = false;
-			
+		{		
 			#region hotkeys
 			if (selectedObject) {
 				arrowObj.transform.position = new Vector3(selectedObject.transform.position.x, selectedObject.transform.position.y + 2.0f, selectedObject.transform.position.z+1.0f);
@@ -375,6 +373,9 @@ public class PlayerManager : MonoBehaviour {
 				currentTurn = Turn.PlayerTurn;
 				currentEnemy = 0;
 				enemyMoving = false;
+				camera.followEnemy = false;
+				camera.transform.position = new Vector3(allPlayers[0].transform.position.x, camera.transform.position.y, allPlayers[0].transform.position.z);
+
 				foreach(Enemy e in allEnemies)
 					e.resetStatus();
 			}
