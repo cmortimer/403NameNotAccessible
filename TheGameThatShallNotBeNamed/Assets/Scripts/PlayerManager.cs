@@ -387,7 +387,7 @@ public class PlayerManager : MonoBehaviour {
 		if(selectedObject && selectedObject.GetComponent<PlayerController>())
 			SetPlayerUI(selectedObject.GetComponent<PlayerController>());
 
-		Debug.Log(currentTurn);
+		//Debug.Log(currentTurn);
 		if(currentTurn == Turn.PlayerTurn){
 			foreach( PlayerController p in allPlayers){
 				p.PlayerUpdate();
