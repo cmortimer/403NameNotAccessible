@@ -387,17 +387,17 @@ public class PlayerManager : MonoBehaviour {
 		if(selectedObject && selectedObject.GetComponent<PlayerController>())
 			SetPlayerUI(selectedObject.GetComponent<PlayerController>());
 
-		//Debug.Log(currentTurn);
+		Debug.Log(currentTurn);
 		if(currentTurn == Turn.PlayerTurn){
 			foreach( PlayerController p in allPlayers){
 				p.PlayerUpdate();
 			}
 		}
-		else if(currentTurn == Turn.EnemyTurn){
+		//else if(currentTurn == Turn.EnemyTurn){
 			//foreach( Enemy e in allEnemies){
 			//	e.EnemyUpdate();
 			//}
-		}
+		//}
 
 	}
 

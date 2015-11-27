@@ -13,8 +13,6 @@ public class Enemy : Character {
 
     public string drop;     //The item the enemy drops
 
-	public List<PathTile> debugTileList;
-
     // Use this for initialization
     void Start () {
 		active = true;
@@ -69,7 +67,6 @@ public class Enemy : Character {
 					
 				if(tileList.Count > 1)
 				{
-					//debugTileList = new List<PathTile>(tileList);
 					end = tileList[tileList.Count - 1];
 				}
 				//tileMap.FindPath(start, end, tileList, isWalkable);
@@ -84,8 +81,6 @@ public class Enemy : Character {
 				Attack();
 			}
 		}
-
-		//if(tileList.Count == range)	Attack();
 	}
 
 	//helpers
@@ -108,20 +103,17 @@ public class Enemy : Character {
 		{
 			target = players[i].start;
 			tileMap.FindPath(start, players[i].start, currentPath, isWalkable);
-			Debug.Log("Found path of length : " + currentPath.Count + " : to : " + players[i].charName);
+
 			if(currentPath.Count <= 2 || currentPath.Count == null) continue;
 
 			if (shortestPath.Count == 0 || currentPath.Count <= shortestPath.Count)
 			{
-				Debug.Log("Changing Targets");
-				//shortestPath.Clear();
 				tileMap.FindPath(start, players[i].start, shortestPath, isWalkable);
 				closest = players[i];
 			}
 			
 			currentPath.Clear();
 		}
-		debugTileList = new List<PathTile>(shortestPath);
 		if(closest)
 			pTarget = closest;
 		else

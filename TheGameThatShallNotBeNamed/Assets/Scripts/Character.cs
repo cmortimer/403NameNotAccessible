@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System;
 
 public class Character : MonoBehaviour {
+	public TextMesh damageText;
+	private bool attackCooldown = false;
+
 	public string charName;
 	public int health;
 	public int strength;
@@ -88,6 +91,10 @@ public class Character : MonoBehaviour {
     public bool basicAttack(Character target) {
 		if(currentActionPoints > 1)
 		{
+			if(attackCooldown)
+			{
+				return true;
+			}
 			bool inRange = false;
 			List<PathTile> tilesInRange = new List<PathTile>();
 			tilesInRange.Add(target.start);
@@ -116,17 +123,19 @@ public class Character : MonoBehaviour {
 			if(inRange)
 			{
 				Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
-				target.health -= (int)(Mathf.Round(this.strength - (target.endurance * .5f)));
+				int damageDealt = (int)(Mathf.Round(this.strength - (target.endurance * .5f)));
+				target.health -= damageDealt;
 				currentActionPoints -= 2;
 				if(currentActionPoints <= 0)
 					active = false;
+				StartCoroutine("DamageTextScroll", damageDealt);
 			}
-			else
-			{
+			//else
+			//{
 				//Move until in range and call attack again
 				//Move();
 				//basicAttack(target);
-			}
+			//}
 			return true;
 		}
 		else
@@ -200,4 +209,22 @@ public class Character : MonoBehaviour {
 		maxActionPoints = agility;
 		currentActionPoints = (int)Mathf.Round(maxActionPoints/2.0f);
     }
+
+	IEnumerator DamageTextScroll(int damageNumber)
+	{
+		attackCooldown = true;
+		damageText.GetComponent<MeshRenderer> ().enabled = true;
+		damageText.text = damageNumber.ToString ();
+		float timePassed = 0;
+		while(timePassed < 2) {
+			timePassed += Time.deltaTime;
+			damageText.transform.localPosition = new Vector3(damageText.transform.localPosition.x,
+				damageText.transform.localPosition.y, damageText.transform.localPosition.z + (1 * Time.deltaTime));
+			yield return null;
+		}
+		damageText.GetComponent<MeshRenderer> ().enabled = false;
+		damageText.transform.localPosition = new Vector3(damageText.transform.localPosition.x,
+			damageText.transform.localPosition.y, 0.75f);
+		attackCooldown = false;
+	}
 }
