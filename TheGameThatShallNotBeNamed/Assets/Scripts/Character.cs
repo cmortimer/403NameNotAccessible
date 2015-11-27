@@ -128,7 +128,7 @@ public class Character : MonoBehaviour {
 				currentActionPoints -= 2;
 				if(currentActionPoints <= 0)
 					active = false;
-				StartCoroutine("DamageTextScroll", damageDealt);
+				StartCoroutine(DamageTextScroll(damageDealt, target));
 			}
 			//else
 			//{
@@ -210,21 +210,21 @@ public class Character : MonoBehaviour {
 		currentActionPoints = (int)Mathf.Round(maxActionPoints/2.0f);
     }
 
-	IEnumerator DamageTextScroll(int damageNumber)
+	IEnumerator DamageTextScroll(int damageNumber, Character targetCharacter)
 	{
 		attackCooldown = true;
-		damageText.GetComponent<MeshRenderer> ().enabled = true;
-		damageText.text = damageNumber.ToString ();
+		targetCharacter.damageText.GetComponent<MeshRenderer> ().enabled = true;
+		targetCharacter.damageText.text = damageNumber.ToString ();
 		float timePassed = 0;
-		while(timePassed < 2) {
+		while(timePassed < 1) {
 			timePassed += Time.deltaTime;
-			damageText.transform.localPosition = new Vector3(damageText.transform.localPosition.x,
-				damageText.transform.localPosition.y, damageText.transform.localPosition.z + (1 * Time.deltaTime));
+			targetCharacter.damageText.transform.localPosition = new Vector3(targetCharacter.damageText.transform.localPosition.x,
+				targetCharacter.damageText.transform.localPosition.y, targetCharacter.damageText.transform.localPosition.z + (1 * Time.deltaTime));
 			yield return null;
 		}
-		damageText.GetComponent<MeshRenderer> ().enabled = false;
-		damageText.transform.localPosition = new Vector3(damageText.transform.localPosition.x,
-			damageText.transform.localPosition.y, 0.75f);
+		targetCharacter.damageText.GetComponent<MeshRenderer> ().enabled = false;
+		targetCharacter.damageText.transform.localPosition = new Vector3(targetCharacter.damageText.transform.localPosition.x,
+			targetCharacter.damageText.transform.localPosition.y, 0.75f);
 		attackCooldown = false;
 	}
 }
