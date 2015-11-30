@@ -71,9 +71,11 @@ public class MenuManager : MonoBehaviour {
 			selectObj.GetComponent<Button>().onClick.AddListener(() => SetUpSelectedWeapon(captured));
 			//createObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(captured));
 
-			currentY -= 95;
+			currentY -= 96;
 		}
-		
+
+        Debug.Log(equip.allArmor.Count);
+
 		for(int i=0;i<equip.allArmor.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
 			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);

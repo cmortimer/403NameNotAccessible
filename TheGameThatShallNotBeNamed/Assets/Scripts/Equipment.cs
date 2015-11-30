@@ -58,6 +58,7 @@ public class Equipment : MonoBehaviour{
 
 			foreach(XmlNode wep in weapons){
 				weapon temp = new weapon();
+                temp.recipe = new List<string>();
 				foreach (XmlAttribute val in wep.Attributes)
 				{
 					//Store values
@@ -77,17 +78,18 @@ public class Equipment : MonoBehaviour{
 						temp.rangeMin = int.Parse(val.InnerText);
 					else if (val.Name == "rangemax")
 						temp.rangeMin = int.Parse(val.InnerText);
-					else if (val.Name.Contains("recipie"))
-						temp.recipe.Add(val.InnerText);
+                    else if (val.Name.Contains("recipie"))
+                        temp.recipe.Add(val.InnerText);
 				}
 				allWeapons.Add(temp);
 			}
 
 			//load armor
-			XmlNodeList armors = xmlDoc.GetElementsByTagName("armor");
+			XmlNodeList armors = xmlDoc.GetElementsByTagName("Armor");
 
 			foreach(XmlNode arm in armors){
 				armor temp2 = new armor();
+                temp2.recipe = new List<string>();
 				foreach (XmlAttribute val in arm.Attributes)
 				{
 
@@ -110,73 +112,5 @@ public class Equipment : MonoBehaviour{
 				allArmor.Add(temp2);
 			}
 		}
-	}
-		/*
-		try
-		{
-			string line;
-
-			StreamReader reader = new StreamReader(fileName, Encoding.Default);
-
-			using (reader)
-			{
-				do
-				{
-					line = reader.ReadLine();
-
-					if (line != null)
-					{
-						//skip comments
-						if(line[0] == 'c'){	continue; }
-						//split content lines
-						string[] entries = line.Split(',');
-						if(entries[0][0] == 'w'){
-							weapon temp = new weapon();
-							temp.name = entries[1];
-							temp.desc = entries[2];
-							temp.str = Int32.Parse(entries[3]);
-							temp.end = Int32.Parse(entries[4]);
-							temp.agi = Int32.Parse(entries[5]);
-							temp.mag = Int32.Parse(entries[6]);
-							temp.luck = Int32.Parse(entries[7]);
-							temp.rangeMin = Int32.Parse(entries[8]);
-							temp.rangeMax = Int32.Parse(entries[9]);
-							temp.recipe = new List<string>();
-							for(int i=10;i<entries.Length;i++){
-
-								temp.recipe.Add(entries[i]);
-							}
-							allWeapons.Add(temp);
-						}
-						if(entries[0][0] == 'a'){
-							armor temp = new armor();
-							temp.name = entries[1];
-							temp.desc = entries[2];
-							temp.str = Int32.Parse(entries[3]);
-							temp.end = Int32.Parse(entries[4]);
-							temp.agi = Int32.Parse(entries[5]);
-							temp.mag = Int32.Parse(entries[6]);
-							temp.luck = Int32.Parse(entries[7]);
-							temp.recipe = new List<string>();
-							for(int i=8;i<entries.Length;i++){
-								temp.recipe.Add(entries[i]);
-							}
-							allArmor.Add(temp);
-						}
-
-					}
-				}
-				while (line != null);
-
-				reader.Close();
-				//Debug.Log(allArmor.Count);
-				return true;
-			}
-		}
-		catch(IOException e){
-			Debug.Log (e.Message);
-			return false;
-		}
-	}
-	*/
+	} 
 }

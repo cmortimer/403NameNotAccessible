@@ -1,30 +1,30 @@
 <!-- a list of all equipment obtainable -->
+<Root>
+	<Weapons>
+		<Weapon name="long sword" desc="" str="2" end="0" agi="1" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="wood" recipie2="iron" recipie3="iron"/>
+		<Weapon name="war axe" desc="" str="3" end="0" agi="0" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="iron" recipie2="wood" recipie3="wood"/>
+		<Weapon name="wood staff" desc="" str="0" end="0" agi="1" mag="0" luck="2" rangemin="2" rangemax="4" recipe1="iron" recipie2="wood" recipie3="magic crystal"/>
+		<Weapon name="long bow" desc="" str="2" end="0" agi="1" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="iron" recipie2="wood" recipie3="sinew"/>
+		<Weapon name="bone sword" desc="" str="5" end="0" agi="3" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="long sword" recipie2="bone dust"/>
+		<Weapon name="bone axe" desc="" str="6" end="0" agi="1" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="war axe" recipie2="bone dust" />
+		<Weapon name="bone staff" desc="" str="0" end="0" agi="3" mag="0" luck="5" rangemin="2" rangemax="4" recipe1="staff" recipie2="bone dust" />
+		<Weapon name="bone bow" desc="" str="5" end="0" agi="3" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="long bow" recipie2="bone dust" />
+		<Weapon name="demon sword" desc="" str="8" end="0" agi="5" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="long sword" recipie2="demon heart" recipie3="hide" />
+		<Weapon name="demon axe" desc="" str="10" end="0" agi="3" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="war axe" recipie2="demon heart" recipie3="hide" />
+		<Weapon name="demon staff" desc="" str="0" end="0" agi="5" mag="0" luck="8" rangemin="2" rangemax="4" recipe1="staff" recipie2="demon heart" recipie3="hide" />
+		<Weapon name="demon bow" desc="" str="8" end="0" agi="5" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="long bow" recipie2="demon heart" recipie3="hide" />
+		<Weapon name="mech sword" desc="" str="11" end="0" agi="7" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="long sword" recipie2="gyro" recipie3="moon jelly"/>
+		<Weapon name="mech axe" desc="" str="15" end="0" agi="3" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="war axe" recipie2="gyro" recipie3="moon jelly" />
+		<Weapon name="mech staff" desc="" str="0" end="0" agi="7" mag="0" luck="11" rangemin="2" rangemax="4" recipe1="staff" recipie2="gyro" recipie3="moon jelly" />
+		<Weapon name="mech bow" desc="" str="11" end="0" agi="7" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="long bow" recipie2="gyro" recipie3="moon jelly" />
+	</Weapons>
 
-<Weapons>
-	<Weapon name="long sword" desc="" str="2" end="0" agi="1" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="wood" recipie2="iron" recipie3="iron"/>
-	<Weapon name="war axe" desc="" str="3" end="0" agi="0" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="iron" recipie2="wood" recipie3="wood"/>
-	<Weapon name="wood staff" desc="" str="0" end="0" agi="1" mag="0" luck="2" rangemin="2" rangemax="4" recipe1="iron" recipie2="wood" recipie3="magic crystal"/>
-	<Weapon name="long bow" desc="" str="2" end="0" agi="1" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="iron" recipie2="wood" recipie3="sinew"/>
-	<Weapon name="bone sword" desc="" str="5" end="0" agi="3" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="long sword" recipie2="bone dust"/>
-	<Weapon name="bone axe" desc="" str="6" end="0" agi="1" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="war axe" recipie2="bone dust" />
-	<Weapon name="bone staff" desc="" str="0" end="0" agi="3" mag="0" luck="5" rangemin="2" rangemax="4" recipe1="staff" recipie2="bone dust" />
-	<Weapon name="bone bow" desc="" str="5" end="0" agi="3" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="long bow" recipie2="bone dust" />
-	<Weapon name="demon sword" desc="" str="8" end="0" agi="5" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="long sword" recipie2="demon heart" recipie3="hide" />
-	<Weapon name="demon axe" desc="" str="10" end="0" agi="3" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="war axe" recipie2="demon heart" recipie3="hide" />
-	<Weapon name="demon staff" desc="" str="0" end="0" agi="5" mag="0" luck="8" rangemin="2" rangemax="4" recipe1="staff" recipie2="demon heart" recipie3="hide" />
-	<Weapon name="demon bow" desc="" str="8" end="0" agi="5" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="long bow" recipie2="demon heart" recipie3="hide" />
-	<Weapon name="mech sword" desc="" str="11" end="0" agi="7" mag="0" luck="0" rangemin="1" rangemax="2" recipe1="long sword" recipie2="gyro" recipie3="moon jelly"/>
-	<Weapon name="mech axe" desc="" str="15" end="0" agi="3" mag="0" luck="0" rangemin="1" rangemax="1" recipe1="war axe" recipie2="gyro" recipie3="moon jelly" />
-	<Weapon name="mech staff" desc="" str="0" end="0" agi="7" mag="0" luck="11" rangemin="2" rangemax="4" recipe1="staff" recipie2="gyro" recipie3="moon jelly" />
-	<Weapon name="mech bow" desc="" str="11" end="0" agi="7" mag="0" luck="0" rangemin="4" rangemax="6" recipe1="long bow" recipie2="gyro" recipie3="moon jelly" />
-</Weapons>
-
-<!-- yes i know armor is plural-->
-<Armors>
-	<Armor name="plain cloths" desc="" str="0" end="0" agi="3" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
-	<Armor name="hide armor" desc="" str="0" end="1" agi="2" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
-	<Armor name="chainmail" desc="" str="0" end="2" agi="1" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
-	<Armor name="plate armor" desc="" str="0" end="3" agi="0" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
-	<Armor name="mage robes" desc="" str="0" end="0" agi="2" mag="1" luck="0" recipe1="iorn" recipie2="adhesive" />
-	<Armor name="mage cloak" desc="" str="0" end="0" agi="1" mag="2" luck="0" recipe1="iorn" recipie2="adhesive" />
-</Armors>
+	<Armors>
+		<Armor name="plain cloths" desc="" str="0" end="0" agi="3" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
+		<Armor name="hide armor" desc="" str="0" end="1" agi="2" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
+		<Armor name="chainmail" desc="" str="0" end="2" agi="1" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
+		<Armor name="plate armor" desc="" str="0" end="3" agi="0" mag="0" luck="0" recipe1="iorn" recipie2="adhesive" />
+		<Armor name="mage robes" desc="" str="0" end="0" agi="2" mag="1" luck="0" recipe1="iorn" recipie2="adhesive" />
+		<Armor name="mage cloak" desc="" str="0" end="0" agi="1" mag="2" luck="0" recipe1="iorn" recipie2="adhesive" />
+	</Armors>
+</Root>
