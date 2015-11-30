@@ -124,6 +124,8 @@ public class Character : MonoBehaviour {
 			{
 				Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
 				int damageDealt = (int)(Mathf.Round(this.strength - (target.endurance * .5f)));
+				if(damageDealt <=0)
+					damageDealt = 1;
 				target.health -= damageDealt;
 				currentActionPoints -= 2;
 				if(currentActionPoints <= 0)

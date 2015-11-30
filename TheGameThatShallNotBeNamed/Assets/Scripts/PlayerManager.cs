@@ -203,18 +203,7 @@ public class PlayerManager : MonoBehaviour {
 			}
 			#endregion
 			
-			#region playerDeath
-			//Check for dead Players
-			for(int i = 0; i < allPlayers.Count; i++)
-			{
-				if(allPlayers[i].health <= 0)
-				{
-					//allPlayers[i].gameObject.SetActive(false);
-					allPlayers[i].gameObject.name += " (Dead)";
-					allPlayers.RemoveAt(i);
-				}
-			}
-			#endregion
+
 
 			//Check if the selected player is moving
 			if(selectedObject && selectedObject.GetComponent<Character>().end == null)
@@ -381,6 +370,8 @@ public class PlayerManager : MonoBehaviour {
 			}
 		}
 		#endregion
+
+
 	}
 
 	void LateUpdate(){
@@ -393,6 +384,20 @@ public class PlayerManager : MonoBehaviour {
 				p.PlayerUpdate();
 			}
 		}
+
+		#region playerDeath
+		//Check for dead Players
+		for(int i = 0; i < allPlayers.Count; i++)
+		{
+			if(allPlayers[i].health <= 0)
+			{
+				allPlayers[i].gameObject.SetActive(false);
+				//allPlayers[i].gameObject.SetActive(false);
+				allPlayers[i].gameObject.name += " (Dead)";
+				allPlayers.RemoveAt(i);
+			}
+		}
+		#endregion
 		//else if(currentTurn == Turn.EnemyTurn){
 			//foreach( Enemy e in allEnemies){
 			//	e.EnemyUpdate();

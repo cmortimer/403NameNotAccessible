@@ -77,7 +77,7 @@ public class Equipment : MonoBehaviour{
 					else if (val.Name == "rangemin")
 						temp.rangeMin = int.Parse(val.InnerText);
 					else if (val.Name == "rangemax")
-						temp.rangeMin = int.Parse(val.InnerText);
+						temp.rangeMax = int.Parse(val.InnerText);
                     else if (val.Name.Contains("recipie"))
                         temp.recipe.Add(val.InnerText);
 				}
