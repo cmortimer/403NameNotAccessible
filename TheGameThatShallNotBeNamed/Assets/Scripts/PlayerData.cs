@@ -38,7 +38,7 @@ public class PlayerData : MonoBehaviour {
 		}
         
 		equipment = this.gameObject.GetComponent<Equipment>();
-		equipment.LoadEquipment(@"Assets\Scripts\EquipmentList.txt");
+		equipment.LoadEquipment();
 	}
 
 

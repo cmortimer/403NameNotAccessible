@@ -2,4 +2,5 @@
 <inventory>
   <item name="thing" count="3" />
   <item name="wood" count="5" />
+  <item name="moon jelly" count="1" />
 </inventory>
