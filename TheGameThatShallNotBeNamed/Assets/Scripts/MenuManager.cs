@@ -17,6 +17,7 @@ public class MenuManager : MonoBehaviour {
 	public GameObject tavernMenu;
 	public GameObject equipmentPrefab;
     public GameObject charStatPrefab;
+    public GameObject editEquipmentPrefab;
 
 	List<GameObject> weaponButtons;
 	List<GameObject> armorButtons;
@@ -415,7 +416,7 @@ public class MenuManager : MonoBehaviour {
             foreach(int i in wepIDs)
             {
                 int id = i;
-                GameObject currentEquip = equipmentPrefab;
+                GameObject currentEquip = editEquipmentPrefab;
                 GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 250.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
                 finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
@@ -459,7 +460,7 @@ public class MenuManager : MonoBehaviour {
             foreach (int i in armIDs)
             {
                 int id = i;
-                GameObject currentEquip = equipmentPrefab;
+                GameObject currentEquip = editEquipmentPrefab;
                 GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 250.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
                 finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
