@@ -75,8 +75,6 @@ public class MenuManager : MonoBehaviour {
 			currentY -= 96;
 		}
 
-        Debug.Log(equip.allArmor.Count);
-
 		for(int i=0;i<equip.allArmor.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
 			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
@@ -157,7 +155,7 @@ public class MenuManager : MonoBehaviour {
 	{
 		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
 		
-		Debug.Log(perData.GetComponent<PlayerData>().obtainedWeapons.Count);
+		//Debug.Log(perData.GetComponent<PlayerData>().obtainedWeapons.Count);
 		
 		//Check recipe count
 		bool craftable = true;
@@ -207,7 +205,7 @@ public class MenuManager : MonoBehaviour {
 			if (craftable)
 			{
 				Debug.Log("Crafting " + equip.allWeapons[i].name);
-				perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
+				//perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
 				
 				saveXML(i, true);
 				xmlDoc.Save(path);
@@ -269,7 +267,7 @@ public class MenuManager : MonoBehaviour {
 			if (craftable)
 			{
 				Debug.Log("Crafting " + equip.allArmor[i].name);
-				perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
+				//perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
 				
 				saveXML(i, false);
 				xmlDoc.Save(path);

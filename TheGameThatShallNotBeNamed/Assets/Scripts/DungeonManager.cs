@@ -91,7 +91,7 @@ public class DungeonManager : MonoBehaviour
        // Debug.Log("FILEPATH: " + filePath);
         if (File.Exists(filePath))
         {
-            Debug.Log("File found for cleaning");
+           // Debug.Log("File found for cleaning");
             dunXML.Load(filePath);
 
             //List of our possible dungeons
