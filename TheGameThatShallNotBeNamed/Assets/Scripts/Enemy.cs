@@ -57,7 +57,19 @@ public class Enemy : Character {
 			tileMap.FindPath(start, target, newPath, isWalkable);
 			//tileMap.FindPath(start, target, tileList, isWalkable);
 			//tileMap.FindPath(start, target, tileList);
-			if(newPath.Count > range + 1){
+			if(newPath.Count <= range + 1)
+			{
+				if(currentActionPoints <= 1)
+				{
+					active = false;
+				}
+				else
+				{
+					Attack();
+				}
+			}
+			else// if(newPath.Count > range + 1)
+			{
 				tileList.Clear();
 				//List<PathTile> newPath = new List<PathTile>();
 				for(int i = 0; i < newPath.Count - range; i++){
@@ -72,14 +84,14 @@ public class Enemy : Character {
 				//tileMap.FindPath(start, end, tileList, isWalkable);
 				Move();
 			}
-			else if(currentActionPoints <= 1)
-			{
-				active = false;
-			}
-			else
-			{
-				Attack();
-			}
+//			else if(currentActionPoints <= 1)
+//			{
+//				active = false;
+//			}
+//			else
+//			{
+//				Attack();
+//			}
 		}
 	}
 
@@ -104,7 +116,7 @@ public class Enemy : Character {
 			target = players[i].start;
 			tileMap.FindPath(start, players[i].start, currentPath, isWalkable);
 
-			if(currentPath.Count <= 2 || currentPath.Count == null) continue;
+			if(currentPath.Count < 2 || currentPath.Count == null) continue;
 
 			if (shortestPath.Count == 0 || currentPath.Count <= shortestPath.Count)
 			{
