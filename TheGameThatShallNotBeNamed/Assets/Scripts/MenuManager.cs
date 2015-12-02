@@ -24,10 +24,12 @@ public class MenuManager : MonoBehaviour {
 	public Image[] weaponImages;
 
 	Equipment equip;
+	PlayerData inventory;
 	
 	//set correct menu options to active
 	void Start(){
         equip = GameObject.FindGameObjectWithTag("Persistent").GetComponent<Equipment>();
+		inventory = GameObject.FindGameObjectWithTag("Persistent").GetComponent<PlayerData>();
 		weaponImages = GameObject.Find("AllWeaponImages").GetComponentsInChildren<Image>();
 		destMenu.SetActive(false);
 		workshopMenu.SetActive(false);
@@ -40,12 +42,10 @@ public class MenuManager : MonoBehaviour {
 	#endregion
 
 	#region workshop
-	//setup workshop
+	//setup workshop ui
 	public void SetupWorkshop(){
-		//Vector2 rect = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects").GetComponent<RectTransform>().offsetMin;
-		//float value = (equip.allWeapons.Count*95)+(equip.allArmor.Count*95);
-		//workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects").GetComponent<RectTransform>().offsetMin = new Vector2(rect.x, value);
-		int currentY = 500;
+
+		int currentY = 510;
 		for(int i=0;i<equip.allWeapons.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
 			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,currentY,0.0f), Quaternion.identity);
@@ -54,7 +54,6 @@ public class MenuManager : MonoBehaviour {
 			GameObject nameObj = finished.transform.FindChild("Name").gameObject;
 			nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
 			GameObject descObj = finished.transform.FindChild("Description").gameObject;
-			//string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag + "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
 			descObj.GetComponent<Text>().text = equip.allWeapons[i].desc;
 
 			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
@@ -70,11 +69,10 @@ public class MenuManager : MonoBehaviour {
 			GameObject selectObj = finished.transform.FindChild("Create").gameObject;
 			int captured = i;
 			selectObj.GetComponent<Button>().onClick.AddListener(() => SetUpSelectedWeapon(captured));
-			//createObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(captured));
 
-			currentY -= 96;
+			currentY -= 95;
 		}
-
+		currentY -= 30;
 		for(int i=0;i<equip.allArmor.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
 			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
@@ -101,7 +99,6 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	void SetUpSelectedArmor(int i){
-		//Debug.Log (i);
 		Equipment.armor curArm = equip.allArmor[i];
 		GameObject itemObj = GameObject.Find("Item");
 
@@ -122,9 +119,32 @@ public class MenuManager : MonoBehaviour {
 		itemObj.transform.FindChild("FullStats/Endurance/Value").gameObject.GetComponent<Text>().text = curArm.end.ToString();
 		itemObj.transform.FindChild("FullStats/Magic/Value").gameObject.GetComponent<Text>().text = curArm.mag.ToString();
 
+		/*put in stuff for required items*/
+		//Find first instance, find total number, change first instance to show total
+		Hashtable jValCount = new Hashtable();
+		int uiPos = 0;
+		for(int j=0;j<curArm.recipe.Count;j++){
+			/*for(k=0;k<j;k++){
+				if(curArm.recipe[k].Equals(curArm.recipe[j])){
+
+				}
+			}*/
+			string goName = "RecipeItem" + (uiPos+1);
+			if(inventory.obtainedItems[curArm.recipe[j]] == null){
+				inventory.obtainedItems[curArm.recipe[j]] = 0;
+			}
+			jValCount.Add(j, 1);
+			itemObj.transform.FindChild("RecipeFull/"+goName).gameObject.GetComponent<Text>().text = curArm.recipe[j] + ": " 
+				+ inventory.obtainedItems[curArm.recipe[j]] + "/" + jValCount[j];
+			uiPos++;
+		}
+
+
 		GameObject selectObj = itemObj.transform.FindChild("Create").gameObject;
 		selectObj.GetComponent<Button>().onClick.AddListener(() => GiveArmor(i));
 	}
+
+
 	void SetUpSelectedWeapon(int i){
 		//Debug.Log (i);
 		Equipment.weapon curWep = equip.allWeapons[i];
@@ -147,6 +167,12 @@ public class MenuManager : MonoBehaviour {
 		itemObj.transform.FindChild("FullStats/Endurance/Value").gameObject.GetComponent<Text>().text = curWep.end.ToString();
 		itemObj.transform.FindChild("FullStats/Magic/Value").gameObject.GetComponent<Text>().text = curWep.mag.ToString();
 		itemObj.transform.FindChild("FullStats/Range/Value").gameObject.GetComponent<Text>().text = curWep.rangeMin.ToString() + " - " + curWep.rangeMax.ToString();
+
+		for(int j=0;j<curWep.recipe.Count;j++){
+			string goName = "RecipeItem" + (j+1);
+			itemObj.transform.FindChild("RecipeFull/"+goName).gameObject.GetComponent<Text>().text = curWep.recipe[j];
+			
+		}
 
 		GameObject selectObj = itemObj.transform.FindChild("Create").gameObject;
 		selectObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(i));

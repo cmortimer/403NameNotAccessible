@@ -78,7 +78,7 @@ public class Equipment : MonoBehaviour{
 						temp.rangeMin = int.Parse(val.InnerText);
 					else if (val.Name == "rangemax")
 						temp.rangeMax = int.Parse(val.InnerText);
-                    else if (val.Name.Contains("recipie"))
+                    else if (val.Name.Contains("recipe"))
                         temp.recipe.Add(val.InnerText);
 				}
 				allWeapons.Add(temp);
@@ -106,8 +106,9 @@ public class Equipment : MonoBehaviour{
 						temp2.mag = int.Parse(val.InnerText);
 					else if (val.Name == "luck")
 						temp2.luck = int.Parse(val.InnerText);
-					else if (val.Name.Contains("recipie"))
+					else if (val.Name.Contains("recipe")){
 						temp2.recipe.Add(val.InnerText);
+					}
 				}
 				allArmor.Add(temp2);
 			}
