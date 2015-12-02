@@ -42,7 +42,7 @@ public class MenuManager : MonoBehaviour {
 	#endregion
 
 	#region workshop
-	//setup workshop ui
+	#region full menu
 	public void SetupWorkshop(){
 
 		int currentY = 510;
@@ -97,7 +97,9 @@ public class MenuManager : MonoBehaviour {
 		}
 
 	}
+	#endregion
 
+	#region current selection
 	void SetUpSelectedArmor(int i){
 		Equipment.armor curArm = equip.allArmor[i];
 		GameObject itemObj = GameObject.Find("Item");
@@ -118,29 +120,48 @@ public class MenuManager : MonoBehaviour {
 		itemObj.transform.FindChild("FullStats/Luck/Value").gameObject.GetComponent<Text>().text = curArm.luck.ToString();
 		itemObj.transform.FindChild("FullStats/Endurance/Value").gameObject.GetComponent<Text>().text = curArm.end.ToString();
 		itemObj.transform.FindChild("FullStats/Magic/Value").gameObject.GetComponent<Text>().text = curArm.mag.ToString();
+		itemObj.transform.FindChild("FullStats/Range").gameObject.SetActive(false);
+
+		//clear old recipe text
+		for(int j=1;j<7;j++){
+			itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().text = "";
+		}
 
 		/*put in stuff for required items*/
 		//Find first instance, find total number, change first instance to show total
 		Hashtable jValCount = new Hashtable();
 		int uiPos = 0;
 		for(int j=0;j<curArm.recipe.Count;j++){
-			/*for(k=0;k<j;k++){
+			bool cont = false;
+			for(int k=0;k<j;k++){
+				//if the item has already appeared
 				if(curArm.recipe[k].Equals(curArm.recipe[j])){
-
+					//add one to previous item's count
+					int temp = (int)jValCount[curArm.recipe[k]];
+					jValCount[curArm.recipe[k]] = temp+1;
+					//update the view
+					itemObj.transform.FindChild("RecipeFull/RecipeItem"+(k+1)).gameObject.GetComponent<Text>().text = 
+						curArm.recipe[k] + ": " + inventory.obtainedItems[curArm.recipe[k]] + "/" + jValCount[curArm.recipe[k]];
+					//skip the steps below
+					cont = true;
+					break;
 				}
-			}*/
+			}
+			if(cont){ continue; }
+
 			string goName = "RecipeItem" + (uiPos+1);
 			if(inventory.obtainedItems[curArm.recipe[j]] == null){
 				inventory.obtainedItems[curArm.recipe[j]] = 0;
 			}
-			jValCount.Add(j, 1);
+			jValCount.Add(curArm.recipe[j], 1);
 			itemObj.transform.FindChild("RecipeFull/"+goName).gameObject.GetComponent<Text>().text = curArm.recipe[j] + ": " 
-				+ inventory.obtainedItems[curArm.recipe[j]] + "/" + jValCount[j];
+				+ inventory.obtainedItems[curArm.recipe[j]] + "/" + jValCount[curArm.recipe[j]];
 			uiPos++;
 		}
 
 
 		GameObject selectObj = itemObj.transform.FindChild("Create").gameObject;
+		selectObj.GetComponent<Button>().onClick.RemoveAllListeners();
 		selectObj.GetComponent<Button>().onClick.AddListener(() => GiveArmor(i));
 	}
 
@@ -166,15 +187,66 @@ public class MenuManager : MonoBehaviour {
 		itemObj.transform.FindChild("FullStats/Luck/Value").gameObject.GetComponent<Text>().text = curWep.luck.ToString();
 		itemObj.transform.FindChild("FullStats/Endurance/Value").gameObject.GetComponent<Text>().text = curWep.end.ToString();
 		itemObj.transform.FindChild("FullStats/Magic/Value").gameObject.GetComponent<Text>().text = curWep.mag.ToString();
+		itemObj.transform.FindChild("FullStats/Range").gameObject.SetActive(true);
 		itemObj.transform.FindChild("FullStats/Range/Value").gameObject.GetComponent<Text>().text = curWep.rangeMin.ToString() + " - " + curWep.rangeMax.ToString();
 
+		//clear old recipes
+		for(int j=1;j<7;j++){
+			itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().text = "";
+		}
+
+		//work for recipes
+		Hashtable jValCount = new Hashtable();
+		int uiPos = 0;
 		for(int j=0;j<curWep.recipe.Count;j++){
-			string goName = "RecipeItem" + (j+1);
-			itemObj.transform.FindChild("RecipeFull/"+goName).gameObject.GetComponent<Text>().text = curWep.recipe[j];
+			bool cont = false;
+			for(int k=0;k<j;k++){
+					//if the item has already appeared
+				if(curWep.recipe[k].Equals(curWep.recipe[j])){
+					//add one to previous item's count
+					int temp = (int)jValCount[curWep.recipe[k]];
+					jValCount[curWep.recipe[k]] = temp+1;
+					//update the view
+					itemObj.transform.FindChild("RecipeFull/RecipeItem"+(k+1)).gameObject.GetComponent<Text>().text = 
+						curWep.recipe[k] + ": " + inventory.obtainedItems[curWep.recipe[k]] + "/" + jValCount[curWep.recipe[k]];
+					//skip the steps below
+					cont = true;
+					break;
+				}
+			}
+
+			if(cont){ continue; }
+
+			string goName = "RecipeItem" + (uiPos+1);
+			if(inventory.obtainedItems[curWep.recipe[j]] == null){
+				inventory.obtainedItems[curWep.recipe[j]] = 0;
+			}
+			jValCount.Add(curWep.recipe[j], 1);
+			itemObj.transform.FindChild("RecipeFull/"+goName).gameObject.GetComponent<Text>().text = curWep.recipe[j] + ": " 
+				+ inventory.obtainedItems[curWep.recipe[j]] + "/" + jValCount[curWep.recipe[j]];
+			uiPos++;
 			
 		}
 
+		//check if creatable and make button if it is
+		bool canCreate = true;
+		for(int j=1;j<7;j++){
+			string line = itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().text.Split(':')[0];
+			Debug.Log (line); //we good!
+			if(line != ""){
+				if((int)inventory.obtainedItems[line] < (int)jValCount[line]){
+					itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().color = new Color(.8f,.1f,.1f);
+					canCreate = false;
+				}
+			}
+		}
+
 		GameObject selectObj = itemObj.transform.FindChild("Create").gameObject;
+		selectObj.GetComponent<Button>().onClick.RemoveAllListeners();
+		if(canCreate)
+			selectObj.SetActive(true);
+		else
+			selectObj.SetActive(false);
 		selectObj.GetComponent<Button>().onClick.AddListener(() => GiveWeapon(i));
 	}
 	void GiveWeapon(int i)
@@ -302,7 +374,7 @@ public class MenuManager : MonoBehaviour {
 		
 		
 	}
-
+	#endregion
 	#endregion
 
 	#region guild
