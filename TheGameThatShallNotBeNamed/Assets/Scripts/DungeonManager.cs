@@ -125,6 +125,12 @@ public class DungeonManager : MonoBehaviour
         //If not complete, proceed to the next floor
         else
         {
+            Vector3 spawnPos = new Vector3(5.0f, 0.5f, 24.0f);
+            foreach(GameObject g in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                spawnPos.z -= 1.0f;
+                g.transform.position = spawnPos;
+            }
             Application.LoadLevel(2);
         }
 

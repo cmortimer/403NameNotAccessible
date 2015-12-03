@@ -4,12 +4,18 @@
     <name>Plains</name>
     <floors>1</floors>
     <enemyPool>plains</enemyPool>
-    <active>false</active>
+    <active>true</active>
   </dungeon>
   <dungeon>
     <name>Caves</name>
     <floors>5</floors>
     <enemyPool>caves</enemyPool>
+    <active>false</active>
+  </dungeon>
+  <dungeon>
+    <name>Chasm</name>
+    <floors>7</floors>
+    <enemyPool>chasm</enemyPool>
     <active>false</active>
   </dungeon>
 </list>
