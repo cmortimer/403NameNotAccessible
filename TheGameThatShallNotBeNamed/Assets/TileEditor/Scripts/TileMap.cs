@@ -252,7 +252,7 @@ public class TileMap : MonoBehaviour
 		numRooms = 1;
 		
 		//Generate until complete
-		while (numRooms < roomLimit && cycles < 10)
+		while (numRooms < roomLimit && cycles < 20)
 		{
 			for (int i = 1; i < 5; i++)
 			{

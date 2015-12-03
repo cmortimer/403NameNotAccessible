@@ -53,18 +53,6 @@ public class PlayerController : Character {
 	// Use this for initialization
 	void Start () {
 		active = true;
-		//maxActionPoints = 10;
-		//currentActionPoints = maxActionPoints;
-
-		//health = 9999;
-		//strength = 5;
-		//endurance = 5;
-		//agility = 5;
-		//magicSkill = 5;
-		//luck = 5;
-		//range = 2;
-        //attack = 1;
-        //defense = 1;
         speed = 5.0f;
 
         listIndex = 0;

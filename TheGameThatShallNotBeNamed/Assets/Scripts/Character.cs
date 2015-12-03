@@ -123,7 +123,7 @@ public class Character : MonoBehaviour {
 			if(inRange)
 			{
 				Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
-				int damageDealt = (int)(Mathf.Round(this.strength - (target.endurance * .5f)));
+				int damageDealt = (int)(Mathf.Round(this.strength * ((target.endurance * .06f) / (1 + (target.endurance * 0.06))));
 				if(damageDealt <=0)
 					damageDealt = 1;
 				target.health -= damageDealt;
@@ -150,7 +150,7 @@ public class Character : MonoBehaviour {
 
 	public void resetStatus()
 	{
-		currentActionPoints += (int)Mathf.Round(agility/2.0f);
+		currentActionPoints += agility;
 		if(currentActionPoints > maxActionPoints) currentActionPoints = maxActionPoints;
 		active = true;
 		end = null;
@@ -208,8 +208,8 @@ public class Character : MonoBehaviour {
         magicSkill = mag;
         luck = lu;
         range = rng;
-		maxActionPoints = agility;
-		currentActionPoints = (int)Mathf.Round(maxActionPoints/2.0f);
+		maxActionPoints = agility * 2;
+		currentActionPoints = agility;
     }
 
 	IEnumerator DamageTextScroll(int damageNumber, Character targetCharacter)

@@ -72,7 +72,11 @@ public class SpawnEnemies : MonoBehaviour {
                     	GameObject tempEnemyRef = (GameObject)GameObject.Instantiate(enemy, new Vector3(spawnX, 1, spawnZ), Quaternion.identity);
 						Enemy tempEnemy = enemyList[Mathf.FloorToInt(Random.value * enemyList.Count)];
 						tempEnemyRef.GetComponent<Enemy>().setStats(tempEnemy.charName, tempEnemy.health, tempEnemy.strength,
-							tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill, tempEnemy.luck, tempEnemy.range, tempEnemy.drop);
+						                                            tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill,
+						                                            tempEnemy.luck, tempEnemy.range, tempEnemy.drop);
+
+						GameObject tempPrefab = Resources.Load<GameObject>("Enemy_Prefabs/Ghost");
+						//tempPrefab.transform.SetParent(tempEnemyRef.transform);
 					}
                 }
             }
