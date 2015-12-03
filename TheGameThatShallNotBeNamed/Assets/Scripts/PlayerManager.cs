@@ -453,18 +453,6 @@ public class PlayerManager : MonoBehaviour {
                 }
             }
         }
-
-        //for (int i = 0; i < tiles.Length; i++)
-        //{
-        //    tileMap.FindPath(selectedObject.GetComponent<Character>().start, tiles[i].GetComponent<PathTile>(), tempList);
-        //
-        //    if (tempList.Count < (selectedObject.GetComponent<Character>().currentActionPoints + 2))
-        //    {
-        //        tiles[i].GetComponent<MeshRenderer>().material.color = Color.yellow;
-        //    }
-        //
-        //    tempList.Clear();
-        //}
     }
 
 	void HighlightAttackTiles(bool playerSelected) {

@@ -2,17 +2,17 @@
 list below is the format for putting in a new enemy -->
 
 <Enemies>
-	<Enemy name="Wolf" health="35" desc="" str="8" end="10" agi="10" mag="4" luck="5" range="1" pool="plains" drop="hide"/>
-	<Enemy name="Slime" desc="" health="15" str="3" end="7" agi="7" mag="2" luck="5"  range="1" pool="plains" drop="moon jelly"/>
-	<Enemy name="Bandit Swordsman" health="30" desc="" str="10" end="14" agi="7" mag="4" luck="5" range="2" pool="plains" drop="iron"/>
-	<Enemy name="Bandit Mage" desc="" health="20" str="4" end="7" agi="10" mag="14" luck="5" range="4" pool="plains" drop="wood"/>
-	<Enemy name="Living Plant" health="25" desc="" str="5" end="12" agi="4" mag="4" luck="5" range="2" pool="caves" drop="sinew"/>
-	<Enemy name="Skeleton" desc="" health="25" str="6" end="10" agi="5" mag="7" luck="5" range="1" pool="caves" drop="bonedust"/>
-	<Enemy name="Zombie" desc="" health="20" str="3" end="4" agi="10" mag="3" luck="5" range="1" pool="caves" drop="rotten flesh"/>
-	<Enemy name="Ghost" desc="" health="20" str="3" end="4" agi="10" mag="3" luck="5" range="1" pool="caves" drop="ectoplasm"/>
-	<Enemy name="Necromancer" desc="" health="20" str="3" end="4" agi="10" mag="3" luck="5" range="1" pool="caves" drop="magic crystal"/>
-	<Enemy name="Demon" health="40" desc="" str="12" end="12" agi="10" mag="4" luck="5" range="1" pool="chasm" drop="demon heart"/>
-	<Enemy name="Gearling" health="30" desc="" str="14" end="8" agi="10" mag="4" luck="5" range="2" pool="chasm" drop="gyro"/>
-	<Enemy name="Vampire" health="40" desc="" str="10" end="10" agi="10" mag="10" luck="5" range="3" pool="chasm" drop="vampire blood"/>
-	<Enemy name="Thrall" health="30" desc="" str="10" end="14" agi="7" mag="4" luck="5" range="2" pool="chasm" drop="iron"/>
+	<Enemy name="Wolf" health="35" desc="" str="5" end="3" agi="7" mag="0" luck="0" range="1" pool="plains" drop="hide"/>
+	<Enemy name="Slime" desc="" health="15" str="3" end="0" agi="7" mag="0" luck="0"  range="1" pool="plains" drop="moon jelly"/>
+	<Enemy name="Bandit Swordsman" health="30" desc="" str="6" end="5" agi="6" mag="0" luck="2" range="2" pool="plains" drop="iron"/>
+	<Enemy name="Bandit Mage" desc="" health="25" str="3" end="3" agi="5" mag="5" luck="2" range="4" pool="plains" drop="wood"/>
+	<Enemy name="Living Plant" health="30" desc="" str="5" end="4" agi="5" mag="0" luck="0" range="2" pool="caves" drop="sinew"/>
+	<Enemy name="Skeleton" desc="" health="30" str="7" end="5" agi="6" mag="0" luck="0" range="1" pool="caves" drop="bonedust"/>
+	<Enemy name="Zombie" desc="" health="40" str="4" end="8" agi="4" mag="0" luck="0" range="1" pool="caves" drop="rotten flesh"/>
+	<Enemy name="Ghost" desc="" health="35" str="3" end="4" agi="8" mag="3" luck="0" range="2" pool="caves" drop="ectoplasm"/>
+	<Enemy name="Necromancer" desc="" health="25" str="5" end="3" agi="5" mag="5" luck="3" range="1" pool="caves" drop="magic crystal"/>
+	<Enemy name="Demon" health="50" desc="" str="12" end="12" agi="10" mag="4" luck="5" range="1" pool="chasm" drop="demon heart"/>
+	<Enemy name="Gearling" health="40" desc="" str="14" end="8" agi="10" mag="4" luck="5" range="2" pool="chasm" drop="gyro"/>
+	<Enemy name="Vampire" health="45" desc="" str="10" end="10" agi="10" mag="10" luck="5" range="3" pool="chasm" drop="vampire blood"/>
+	<Enemy name="Thrall" health="40" desc="" str="10" end="14" agi="8" mag="4" luck="5" range="2" pool="chasm" drop="iron"/>
 </Enemies>

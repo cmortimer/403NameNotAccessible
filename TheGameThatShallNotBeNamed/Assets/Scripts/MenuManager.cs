@@ -528,6 +528,12 @@ public class MenuManager : MonoBehaviour {
                 GameObject createObj = finished.transform.FindChild("Create").gameObject;
                 int captured = i;
                 createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
+                createObj.GetComponent<Button>().interactable = false;
+
+                if ((int)inventory.obtainedWeapons[id] > 0)
+                {
+                    createObj.GetComponent<Button>().interactable = true;
+                }
                 createObj.GetComponent<Button>().onClick.AddListener(() => EquipWeapon(charName, id));
 
                 currentY -= 75;
@@ -572,6 +578,12 @@ public class MenuManager : MonoBehaviour {
                 GameObject createObj = finished.transform.FindChild("Create").gameObject;
                 int captured = i;
                 createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
+                createObj.GetComponent<Button>().interactable = false;
+
+                if ((int)inventory.obtainedArmor[id] > 0)
+                {
+                    createObj.GetComponent<Button>().interactable = true;
+                }
                 createObj.GetComponent<Button>().onClick.AddListener(() => EquipArmor(charName, id));
 
                 currentY -= 75;
