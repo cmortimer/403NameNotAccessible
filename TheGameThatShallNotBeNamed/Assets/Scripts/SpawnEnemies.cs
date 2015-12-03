@@ -75,7 +75,8 @@ public class SpawnEnemies : MonoBehaviour {
 						                                            tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill,
 						                                            tempEnemy.luck, tempEnemy.range, tempEnemy.drop);
 
-						//tempEnemyRef.GetComponentInChildren<SpriteRenderer>().sprite = Resources.Load<Sprite>(tempEnemy.charName + ".png");
+						GameObject tempPrefab = Resources.Load<GameObject>("Enemy_Prefabs/Ghost");
+						//tempPrefab.transform.SetParent(tempEnemyRef.transform);
 					}
                 }
             }
