@@ -48,7 +48,7 @@ public class MenuManager : MonoBehaviour {
 		int currentY = 510;
 		for(int i=0;i<equip.allWeapons.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,currentY,0.0f), Quaternion.identity);
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,currentY,0.0f), Quaternion.identity);
 			finished.transform.parent = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects");
 
 			GameObject nameObj = finished.transform.FindChild("Name").gameObject;
@@ -72,10 +72,9 @@ public class MenuManager : MonoBehaviour {
 
 			currentY -= 95;
 		}
-		currentY -= 30;
 		for(int i=0;i<equip.allArmor.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-198.0f,workshopMenu.transform.position.y+currentY,0.0f), Quaternion.identity);
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,currentY,0.0f), Quaternion.identity);
 			finished.transform.parent = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects");
 
 			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
@@ -167,7 +166,6 @@ public class MenuManager : MonoBehaviour {
 
 
 	void SetUpSelectedWeapon(int i){
-		//Debug.Log (i);
 		Equipment.weapon curWep = equip.allWeapons[i];
 		GameObject itemObj = GameObject.Find("Item");
 		
@@ -232,7 +230,6 @@ public class MenuManager : MonoBehaviour {
 		bool canCreate = true;
 		for(int j=1;j<7;j++){
 			string line = itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().text.Split(':')[0];
-			Debug.Log (line); //we good!
 			if(line != ""){
 				if((int)inventory.obtainedItems[line] < (int)jValCount[line]){
 					itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().color = new Color(.8f,.1f,.1f);
@@ -251,12 +248,23 @@ public class MenuManager : MonoBehaviour {
 	}
 	void GiveWeapon(int i)
 	{
+		//give item
+		int count = (int)inventory.obtainedWeapons[i];
+		inventory.obtainedWeapons[i] = ++count;
+		foreach(string s in equip.allWeapons[i].recipe){
+			int temp = (int)inventory.obtainedItems[s];
+			inventory.obtainedItems[s] = --temp;
+		}
+		//update selected item
+		SetUpSelectedWeapon(i);
+
+		/*
 		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
-		
 		//Debug.Log(perData.GetComponent<PlayerData>().obtainedWeapons.Count);
 		
 		//Check recipe count
 		bool craftable = true;
+
 		XmlDocument xmlDoc = new XmlDocument();
 		string path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
 		
@@ -285,7 +293,7 @@ public class MenuManager : MonoBehaviour {
 					//update count
 					int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
 					itemCount -= required;
-					Debug.Log(itemCount + " " + mat);
+					//Debug.Log(itemCount + " " + mat);
 					//Do we have enough of the material?
 					if (itemCount >= 0)
 					{
@@ -302,19 +310,29 @@ public class MenuManager : MonoBehaviour {
 			//Only save if the weapon is craftable
 			if (craftable)
 			{
-				Debug.Log("Crafting " + equip.allWeapons[i].name);
+				//Debug.Log("Crafting " + equip.allWeapons[i].name);
 				//perData.GetComponent<PlayerData>().obtainedWeapons.Add(equip.allWeapons[i]);
 				
 				saveXML(i, true);
 				xmlDoc.Save(path);
 			}
-		}
+		}*/
 	}
 	void GiveArmor(int i)
 	{
+		int count = (int)inventory.obtainedArmor[i];
+		inventory.obtainedArmor[i] = ++count;
+		foreach(string s in equip.allWeapons[i].recipe){
+			int temp = (int)inventory.obtainedItems[s];
+			inventory.obtainedItems[s] = --temp;
+		}
+
+		SetUpSelectedArmor(i);
+
+		/*
 		GameObject perData = GameObject.FindGameObjectWithTag("Persistent");
 		
-		Debug.Log(perData.GetComponent<PlayerData>().obtainedArmor.Count);
+		//Debug.Log(perData.GetComponent<PlayerData>().obtainedArmor.Count);
 		
 		
 		//Check recipe count
@@ -347,7 +365,7 @@ public class MenuManager : MonoBehaviour {
 					//update count
 					int itemCount = int.Parse(mem.Attributes.GetNamedItem("count").Value);
 					itemCount -= 1;
-					Debug.Log(itemCount + " " + mat);
+					//Debug.Log(itemCount + " " + mat);
 					//Do we have enough of the material?
 					if (itemCount >= 0)
 					{
@@ -356,7 +374,7 @@ public class MenuManager : MonoBehaviour {
 					else
 					{
 						craftable = false;
-						Debug.Log("Can't craft " + equip.allArmor[i].name);
+						//Debug.Log("Can't craft " + equip.allArmor[i].name);
 					}
 				}
 			}
@@ -364,7 +382,7 @@ public class MenuManager : MonoBehaviour {
 			//Only save if the weapon is craftable
 			if (craftable)
 			{
-				Debug.Log("Crafting " + equip.allArmor[i].name);
+				//Debug.Log("Crafting " + equip.allArmor[i].name);
 				//perData.GetComponent<PlayerData>().obtainedArmor.Add(equip.allArmor[i]);
 				
 				saveXML(i, false);
@@ -372,9 +390,10 @@ public class MenuManager : MonoBehaviour {
 			}
 		}
 		
-		
+		*/
 	}
 	#endregion
+
 	#endregion
 
 	#region guild
@@ -387,8 +406,6 @@ public class MenuManager : MonoBehaviour {
 		{
 			Destroy(child.gameObject);
 		}
-
-//        Debug.Log("Setting up tavern stats");
         int currentY = 180;
 		int posInArray = 0;
 
@@ -417,7 +434,6 @@ public class MenuManager : MonoBehaviour {
 				bool active = false;
                 foreach (XmlAttribute val in mem.Attributes)
                 {
-                    //Debug.Log ("test");
                     //Store values
                     if (val.Name == "name")
                         name = val.InnerText;
@@ -595,7 +611,6 @@ public class MenuManager : MonoBehaviour {
 		if (File.Exists(path)){
 			xmlDoc.Load(path);
 			XmlNodeList members = xmlDoc.GetElementsByTagName("char");
-			//Debug.Log(members[position-1]);
 			foreach(XmlAttribute val in members[position].Attributes){
 				if(val.Name == "active"){
 					activeVal = val.InnerText;
@@ -727,7 +742,6 @@ public class MenuManager : MonoBehaviour {
 	//Loads a dungeon based off of its name
 	public void goToDest(string name)
 	{
-		//Debug.Log("Going to " + name);
 		string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
 		
 		XmlDocument dunXML = new XmlDocument();
@@ -757,102 +771,95 @@ public class MenuManager : MonoBehaviour {
 
 	#region helpers
 
-    public void saveXML(int i, bool wep)
+    public void saveWeaponsXML()
     {
         XmlDocument xmlDoc = new XmlDocument();
         string path;
 
         //Add a weapon
-        if(wep)
+        path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
+		if (File.Exists(path))
         {
-            path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
+        	xmlDoc.Load(path);
 
-            if (File.Exists(path))
+            XmlNodeList weapons = xmlDoc.GetElementsByTagName("weapon");
+            bool newEntry = true;
+			for(int i=0;i<equip.allWeapons.Count;i++){
+				//Check to see if we already have that item
+				foreach (XmlNode member in weapons)
+				{
+					if (member.Attributes["id"].Value == i.ToString())
+					{
+						//Update the count of the item
+						Debug.Log("Found a: " + member.Attributes["name"].Value);
+						member.Attributes["count"].Value = (string)inventory.obtainedWeapons[i];
+
+						//Don't need to make a new entry
+						newEntry = false;
+					}
+				}
+				//If we don't have that item yet
+				if (newEntry)
+				{
+					Debug.Log("Adding a new " + equip.allWeapons[i].name);
+					
+					//Create the new item
+					XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+					XmlElement newItem = xmlDoc.CreateElement("weapon");
+					newItem.SetAttribute("name", equip.allWeapons[i].name);
+					newItem.SetAttribute("id", i.ToString());
+					newItem.SetAttribute("count", "1");
+					root[0].AppendChild(newItem);
+				}
+			}
+
+		}
+        xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml");
+
+        //Add to crafting inventory
+        /*path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
+
+        if (File.Exists(path))
+        {
+        	xmlDoc.Load(path);
+
+            XmlNodeList items = xmlDoc.GetElementsByTagName("item");
+
+            bool newEntry = true;
+
+            //Check to see if we already have that item
+            foreach (XmlNode member in items)
             {
-                xmlDoc.Load(path);
-
-                XmlNodeList weapons = xmlDoc.GetElementsByTagName("weapon");
-
-                    bool newEntry = true;
-
-                    //Check to see if we already have that item
-                    foreach (XmlNode member in weapons)
-                    {
-                        if (member.Attributes["id"].Value == i.ToString())
-                        {
-                            //Update the count of the item
-                            Debug.Log("Found a: " + member.Attributes["name"].Value);
-                            int currentCount = int.Parse(member.Attributes["count"].Value);
-                            currentCount++;
-                            member.Attributes["count"].Value = currentCount.ToString();
-
-                            //Don't need to make a new entry
-                            newEntry = false;
-                        }
-                    }
-
-                    //If we don't have that item yet
-                    if (newEntry)
-                    {
-                        Debug.Log("Adding a new " + equip.allWeapons[i].name);
-
-                        //Create the new item
-                        XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
-                        XmlElement newItem = xmlDoc.CreateElement("weapon");
-                        newItem.SetAttribute("name", equip.allWeapons[i].name);
-                        newItem.SetAttribute("id", i.ToString());
-                        newItem.SetAttribute("count", "1");
-                        root[0].AppendChild(newItem);
-                    }
-
-                }
-                xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml");
-
-                //Add to crafting inventory
-                path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
-
-                if (File.Exists(path))
-                {
-                    xmlDoc.Load(path);
-
-                    XmlNodeList items = xmlDoc.GetElementsByTagName("item");
-
-                    bool newEntry = true;
-
-                    //Check to see if we already have that item
-                    foreach (XmlNode member in items)
-                    {
-                        if (member.Attributes["name"].Value == equip.allWeapons[i].name)
-                        {
-                            //Update the count of the item
-                            Debug.Log("Found a: " + member.Attributes["name"].Value);
-                            int currentCount = int.Parse(member.Attributes["count"].Value);
-                            currentCount++;
-                            member.Attributes["count"].Value = currentCount.ToString();
-
-                            //Don't need to make a new entry
-                            newEntry = false;
-                        }
-                    }
-
-                    //If we don't have that item yet
-                    if (newEntry)
-                    {
-                        Debug.Log("Adding a new " + equip.allWeapons[i].name + " to inventory");
-
-                        //Create the new item
-                        XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
-                        XmlElement newItem = xmlDoc.CreateElement("item");
-                        newItem.SetAttribute("name", equip.allWeapons[i].name);
-                        newItem.SetAttribute("count", "1");
-                        root[0].AppendChild(newItem);
-                    }
-
-                    xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
-                }
+            	if (member.Attributes["name"].Value == equip.allWeapons[i].name)
+            	{
+            		//Update the count of the item
+            		Debug.Log("Found a: " + member.Attributes["name"].Value);
+               		int currentCount = int.Parse(member.Attributes["count"].Value);
+               	 	currentCount++;
+                	member.Attributes["count"].Value = currentCount.ToString();
+						
+            	    //Don't need to make a new entry
+            	     newEntry = false;
+            	}
             }
 
-        //Add armor
+            //If we don't have that item yet
+            if (newEntry)
+            {
+            	Debug.Log("Adding a new " + equip.allWeapons[i].name + " to inventory");
+
+                //Create the new item
+                XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+                XmlElement newItem = xmlDoc.CreateElement("item");
+                newItem.SetAttribute("name", equip.allWeapons[i].name);
+                newItem.SetAttribute("count", "1");
+                root[0].AppendChild(newItem);
+            }
+
+        	xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+		}*/
+
+        /*/Add armor
         else
         {
             path = Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml";
@@ -941,7 +948,7 @@ public class MenuManager : MonoBehaviour {
                     xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
                 }
 
-        }
+        }*/
     }
 
     //Returns a random name because neww member is boring
