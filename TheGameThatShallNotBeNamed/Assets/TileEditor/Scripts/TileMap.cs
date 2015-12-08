@@ -42,6 +42,18 @@ public class TileMap : MonoBehaviour
         spawnEnemies = manager.GetComponent<SpawnEnemies>();
 
         dungeonManager = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>();
+		switch(dungeonManager.dungeonName)
+		{
+			case "Plains":
+				tilePrefab = Resources.Load<GameObject>("Tiles/Tile2").transform;
+				break;
+			case "Caves":
+				tilePrefab = Resources.Load<GameObject>("Tiles/Tile1").transform;
+				break;
+			case "Chasm":
+				tilePrefab = Resources.Load<GameObject>("Tiles/Tile3").transform;
+				break;
+		}
 
 		generateFloor();
 		//Debug.Log(numRooms);

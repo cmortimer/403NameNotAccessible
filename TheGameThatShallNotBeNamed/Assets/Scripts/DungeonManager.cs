@@ -7,7 +7,7 @@ public class DungeonManager : MonoBehaviour
 {
 
     private int currentFloor;
-    private string dungeonName;
+    public string dungeonName;
     private int floorLimit;
     private string pool;
     private bool loaded;
