@@ -392,9 +392,9 @@ public class PlayerManager : MonoBehaviour {
 			if(allPlayers[i].health <= 0)
 			{
 				//allPlayers[i].gameObject.SetActive(false);
-				//allPlayers[i].gameObject.SetActive(false);
 				//allPlayers[i].gameObject.name += " (Dead)";
                 allPlayers[i].gameObject.tag = "Dead";
+                allPlayers[i].transform.FindChild("Player").gameObject.SetActive(false);
 				allPlayers.RemoveAt(i);
 			}
 		}
