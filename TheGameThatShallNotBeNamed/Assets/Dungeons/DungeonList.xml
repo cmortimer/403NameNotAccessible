@@ -10,12 +10,12 @@
     <name>Caves</name>
     <floors>5</floors>
     <enemyPool>caves</enemyPool>
-    <active>true</active>
+    <active>false</active>
   </dungeon>
   <dungeon>
     <name>Chasm</name>
     <floors>7</floors>
     <enemyPool>chasm</enemyPool>
-    <active>false</active>
+    <active>true</active>
   </dungeon>
 </list>

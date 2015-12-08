@@ -533,6 +533,17 @@ public class MenuManager : MonoBehaviour {
                 finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
                 GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+
+
+                foreach (Image weaponImg in weaponImages)
+                {
+
+                    if (equip.allWeapons[i].name.Contains(weaponImg.name))
+                    {
+                        imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
+                        imgObj.GetComponent<Image>().SetNativeSize();
+                    }
+                }
                 //set image = equipment image path
                 GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
                 nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
