@@ -391,12 +391,18 @@ public class PlayerManager : MonoBehaviour {
 		{
 			if(allPlayers[i].health <= 0)
 			{
-				allPlayers[i].gameObject.SetActive(false);
 				//allPlayers[i].gameObject.SetActive(false);
-				allPlayers[i].gameObject.name += " (Dead)";
+				//allPlayers[i].gameObject.SetActive(false);
+				//allPlayers[i].gameObject.name += " (Dead)";
+                allPlayers[i].gameObject.tag = "Dead";
 				allPlayers.RemoveAt(i);
 			}
 		}
+
+        if(allPlayers.Count <= 0)
+        {
+            Application.LoadLevel("Menu");
+        }
 		#endregion
 		//else if(currentTurn == Turn.EnemyTurn){
 			//foreach( Enemy e in allEnemies){

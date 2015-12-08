@@ -753,7 +753,12 @@ public class MenuManager : MonoBehaviour {
 	}
 	//Loads a dungeon based off of its name
 	public void goToDest(string name)
-	{
+    {
+        //Destroy previous players
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Dead"))
+        {
+            Destroy(g);
+        }
 		string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
 		
 		XmlDocument dunXML = new XmlDocument();
