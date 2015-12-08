@@ -10,25 +10,15 @@ using System.Xml.Linq;
 
 public class PlayerData : MonoBehaviour {
 	#region variables
-	/*
-	 * list of all people in player's current party
-	*/
-	public struct PlayerShell{
-		string name;
-		string desc;
-		int health, str, end, agi, mag, luck, rangeMin, rangeMax, weaponID, armorID;
-		bool active;
-	}
-	public List<PlayerShell> fullParty;
+	// list of all people in player's current party
+	public List<PlayerShell> allPlayers = new List<PlayerShell>();
 
-	/*
-	 * everything for equipment
-    */
+	//Equipment
 	Equipment equipment;
 	//have null count of weapons never before found!!! beware!!!
-	//obtainedweapons[i] = # of equipment.weapon[i] in inventory
+	//obtainedweapons[i] = # of equipment.weapon[i] objects in inventory
 	public Hashtable obtainedWeapons = new Hashtable();
-	//obtainedarmor[i] = # of equipment.armor[i] in inventory
+	//obtainedarmor[i] = # of equipment.armor[i] objects in inventory
 	public Hashtable obtainedArmor = new Hashtable();
 	//obtainedItems["Item Name"] = # of item in inventory
 	public Hashtable obtainedItems = new Hashtable();
@@ -55,6 +45,7 @@ public class PlayerData : MonoBehaviour {
 		equipment.LoadEquipment();
 
 		LoadObtainedEquipment();
+		LoadGuild();
 	}
 
 
@@ -115,17 +106,57 @@ public class PlayerData : MonoBehaviour {
 			}
 		}
 
-		for(int i=0;i<equipment.allWeapons.Count;i++){
+		/*for(int i=0;i<equipment.allWeapons.Count;i++){
 			//Debug.Log (equipment.allWeapons[i].name + " # of copies: " + obtainedWeapons[i]);
 		}
 		for(int i=0;i<equipment.allArmor.Count;i++){
 			//Debug.Log (equipment.allArmor[i].name + " # of copies: " + obtainedArmor[i]);
-		}
+		}*/
 
 	}
 
 	void LoadGuild(){
 
+		XmlDocument xmlDoc = new XmlDocument();
+
+		string path = Application.dataPath + @"/Characters/GuildList.xml";
+		
+		if (File.Exists(path))
+		{
+			xmlDoc.Load(path);
+			
+			//load players
+			XmlNodeList players = xmlDoc.GetElementsByTagName("char");
+			
+			foreach(XmlNode player in players){
+
+				PlayerShell p = new PlayerShell();
+				p.name = player.Attributes["name"].InnerText;
+				p.desc = player.Attributes["desc"].InnerText;
+				p.health = int.Parse( player.Attributes["health"].InnerText);
+				p.str = int.Parse(player.Attributes["str"].InnerText);
+				p.end = int.Parse(player.Attributes["end"].InnerText);
+				p.agi = int.Parse(player.Attributes["agi"].InnerText);
+				p.mag = int.Parse(player.Attributes["mag"].InnerText);
+				p.luck = int.Parse(player.Attributes["luck"].InnerText);
+				p.weaponID = int.Parse(player.Attributes["weaponID"].InnerText);
+				p.armorID = int.Parse(player.Attributes["armorID"].InnerText);
+				if(player.Attributes["active"].InnerText.Equals ("False"))
+					p.active = false;
+				else
+					p.active = true;
+
+				allPlayers.Add(p);
+			}
+		}
 	}
+}
+
+//playershell needs to be a class for modifying values
+public class PlayerShell{
+	public string name;
+	public string desc;
+	public int health, str, end, agi, mag, luck, weaponID, armorID;
+	public bool active;
 }
 

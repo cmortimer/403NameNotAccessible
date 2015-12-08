@@ -3,53 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class PlayerController : Character {
-	
-	//private int currentActionPoints;
-	//private int maxActionPoints;
-	//public bool active;
 
 	private GameObject equippedWeapon;
 	private GameObject equippedArmor;
 
-    //public float health;
-    //public float attack;
-    //public float defense;
-    //public float speed;
-
-    //public Vector3 movement;
-
-    //public PathTile start;
-    //public PathTile end;
-    //public List<PathTile> tileList;
-    //public TileMap tileMap;
-    //public int listIndex;
-
-    //    void Move() {
-    //
-    //        tileMap.FindPath(start, end, tileList);
-    //
-    //        if (listIndex != tileList.Count && currentActionPoints > -1) {
-    //
-    //            movement = (tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) - transform.position;
-    //            movement = movement.normalized * speed;
-    //
-    //            transform.Translate(movement * Time.deltaTime);
-    //
-    //            if (Vector3.Distance(transform.position, tileList[listIndex].transform.position + new Vector3(0f, 0.51f, 0f)) < 0.05f) {
-    //                if (listIndex == tileList.Count - 1) {
-    //                    start = end;
-    //                    end = null;
-    //                    tileList.Clear();
-    //                    listIndex = 0;
-    //                } else {
-    //					currentActionPoints--;
-    //                    listIndex++;
-    //                }
-    //            }
-    //        }
-    //    }
-
-
+	public string description;
 	// Use this for initialization
 	void Start () {
 		active = true;

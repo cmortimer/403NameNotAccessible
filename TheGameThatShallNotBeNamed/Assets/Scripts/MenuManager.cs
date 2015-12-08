@@ -45,10 +45,19 @@ public class MenuManager : MonoBehaviour {
 	#region full menu
 	public void SetupWorkshop(){
 
-		int currentY = 510;
+		float currentY = -50.0f;
+		Vector3 basePos = workshopMenu.transform.FindChild ("AllEquipment/Window/AllObjects").position;
+
+		
+		//change height based on total objs
+		int totalObjs = equip.allWeapons.Count + equip.allArmor.Count;
+		Vector2 oldSize = workshopMenu.transform.FindChild ("AllEquipment/Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta;
+		workshopMenu.transform.FindChild ("AllEquipment/Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(oldSize.x, totalObjs*100.0f);
+
+
 		for(int i=0;i<equip.allWeapons.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,currentY,0.0f), Quaternion.identity);
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(basePos.x+180.0f,basePos.y+currentY,0.0f), Quaternion.identity);
 			finished.transform.parent = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects");
 
 			GameObject nameObj = finished.transform.FindChild("Name").gameObject;
@@ -70,11 +79,11 @@ public class MenuManager : MonoBehaviour {
 			int captured = i;
 			selectObj.GetComponent<Button>().onClick.AddListener(() => SetUpSelectedWeapon(captured));
 
-			currentY -= 95;
+			currentY -= 100;
 		}
 		for(int i=0;i<equip.allArmor.Count;i++){
 			GameObject currentEquip = equipmentPrefab;
-			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(workshopMenu.transform.position.x-200.0f,currentY,0.0f), Quaternion.identity);
+			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(basePos.x+180.0f,basePos.y+currentY,0.0f), Quaternion.identity);
 			finished.transform.parent = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects");
 
 			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
@@ -92,7 +101,7 @@ public class MenuManager : MonoBehaviour {
 			selectObj.GetComponent<Button>().onClick.AddListener(() => SetUpSelectedArmor(captured));
 			//armorButtons.Add(createObj);
 
-			currentY -= 95;
+			currentY -= 100;
 		}
 
 	}
@@ -406,10 +415,10 @@ public class MenuManager : MonoBehaviour {
 		{
 			Destroy(child.gameObject);
 		}
-        int currentY = 180;
-		int posInArray = 0;
+        //int currentY = -50;
+		//int posInArray = 0;
 
-        XmlDocument xmlDoc = new XmlDocument();
+        /*XmlDocument xmlDoc = new XmlDocument();
 
         string path = Application.dataPath + @"/Characters/GuildList.xml";
 
@@ -474,14 +483,16 @@ public class MenuManager : MonoBehaviour {
                 statsObj.GetComponent<Text>().text = text;
 
 				GameObject activeButton = finished.transform.FindChild("Active").gameObject;
+				activeButton.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "inactive";
 
 				if(active){
+					activeButton.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Active";
 					Color col = activeButton.GetComponent<Image>().color;
 					activeButton.GetComponent<Image>().color = new Color(col.g,col.r,col.b);
 				}
 
 				int captured = posInArray;
-				activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeColor(activeButton.GetComponent<Image>()));
+				activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeButton(activeButton));
 				activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(captured));
 
                 //Set edit button to edit the correct character
@@ -492,13 +503,56 @@ public class MenuManager : MonoBehaviour {
 
                 currentY -= 75;
             }
-        }
+        }*/
+
+		float currentY = -50.0f;
+		Vector3 basePos = tavernMenu.transform.FindChild ("Window/AllObjects").position;
+		
+		
+		//change height based on total objs
+		int totalObjs = inventory.allPlayers.Count;
+		Vector2 oldSize = tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta;
+		tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(oldSize.x, totalObjs*75.0f);
+
+		for(int i=0;i<inventory.allPlayers.Count;i++){
+			GameObject currentChar = charStatPrefab;
+			GameObject finished = (GameObject)Instantiate(currentChar, new Vector3(basePos.x+55.0f, basePos.y+currentY, 0.0f), Quaternion.identity);
+			finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
+
+			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+			//set image = equipment image path
+			GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
+			nameObj.GetComponent<Text>().text = inventory.allPlayers[i].name;
+			GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
+			string text = inventory.allPlayers[i].health + "     " + inventory.allPlayers[i].str + "     " + inventory.allPlayers[i].end + "      " + 
+				inventory.allPlayers[i].agi + "      " + inventory.allPlayers[i].mag + "      " + inventory.allPlayers[i].luck;
+			statsObj.GetComponent<Text>().text = text;
+
+			GameObject activeButton = finished.transform.FindChild("Active").gameObject;
+			activeButton.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Inactive";
+			
+			if(inventory.allPlayers[i].active){
+				activeButton.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Active";
+				Color col = activeButton.GetComponent<Image>().color;
+				activeButton.GetComponent<Image>().color = new Color(col.g,col.r,col.b);
+			}
+			
+			int captured = i;
+			activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeButton(activeButton));
+			activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(captured));
+			
+			//Set edit button to edit the correct character
+			GameObject editButton = finished.transform.FindChild("Edit").gameObject;
+			editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(name));
+			
+			currentY -= 75;
+		}
+
     }
 
     public void setUpCharacterEquipment(string n)
     {
         string charName = n;
-        int currentY = 200;
 
         //Clear old window
         Transform oldMenu = tavernMenu.transform.FindChild("Window/AllObjects");
@@ -507,7 +561,57 @@ public class MenuManager : MonoBehaviour {
             Destroy(child.gameObject);
         }
 
+		float currentY = -50.0f;
+		Vector3 basePos = tavernMenu.transform.FindChild ("Window/AllObjects").position;
+		
+		//change height based on total objs
+		int totalObjs = inventory.allPlayers.Count;
+		Vector2 oldSize = tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta;
+		tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(oldSize.x, totalObjs*75.0f);
+		
         //Add weapons
+		for(int i=0;i<equip.allWeapons.Count;i++){
+			//check if you have more of that weapon to give
+			if(inventory.obtainedWeapons[i] != null && (int)inventory.obtainedWeapons[i] > 0){
+				GameObject currentEquip = editEquipmentPrefab;
+				GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(basePos.x +80.0f, 
+				                                        		basePos.y + currentY, 0.0f), Quaternion.identity);
+				finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
+
+				GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+
+				//set image = equipment image path
+				foreach(Image weaponImg in weaponImages){
+					if(equip.allWeapons[i].name.Contains(weaponImg.name)){
+						imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
+						imgObj.GetComponent<Image>().SetNativeSize();
+					}
+				}
+
+				GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
+				nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
+				GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
+				string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag
+											+ "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
+				statsObj.GetComponent<Text>().text = text;
+
+				GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+				
+				GameObject createObj = finished.transform.FindChild("Create").gameObject;
+				int captured = i;
+				createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
+//				createObj.GetComponent<Button>().interactable = false;
+				
+/*				if ((int)inventory.obtainedWeapons[id] > 0)
+				{
+					createObj.GetComponent<Button>().interactable = true;
+				}
+				createObj.GetComponent<Button>().onClick.AddListener(() => EquipWeapon(charName, id));
+				*/
+				currentY -= 75;
+			}
+		}
+
         XmlDocument wepDoc = new XmlDocument();
         string path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
 
@@ -607,37 +711,36 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-	void ChangeColor(Image img){
-		float g = img.color.r;
-		float r = img.color.g;
-		float b = img.color.b;
-		img.color = new Color(r,g,b);
+	void ChangeButton(GameObject but){
+		//change text
+		string text = but.transform.FindChild("Text").gameObject.GetComponent<Text>().text;
+		if(text.Equals("Active"))
+			but.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Inactive";
+		else if(text.Equals ("Inactive"))
+			but.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Active";
+
+		//change color
+		float g = but.GetComponent<Image>().color.r;
+		float r = but.GetComponent<Image>().color.g;
+		float b = but.GetComponent<Image>().color.b;
+		but.GetComponent<Image>().color = new Color(r,g,b);
 	}
 
 	void ToggleActive(int position){
-		Debug.Log (position);
-		XmlDocument xmlDoc = new XmlDocument();
-		string path = Application.dataPath + @"/Characters/GuildList.xml";
-		string activeVal = "";
+		PlayerShell temp = new PlayerShell();
+		temp.name = inventory.allPlayers[position].name;
+		temp.desc = inventory.allPlayers[position].desc;
+		temp.str = inventory.allPlayers[position].str;
+		temp.agi = inventory.allPlayers[position].agi;
+		temp.end = inventory.allPlayers[position].end;
+		temp.mag = inventory.allPlayers[position].mag;
+		temp.luck = inventory.allPlayers[position].luck;
+		temp.weaponID = inventory.allPlayers[position].weaponID;
+		temp.armorID = inventory.allPlayers[position].armorID;
+		temp.active = !inventory.allPlayers[position].active;
 
-		if (File.Exists(path)){
-			xmlDoc.Load(path);
-			XmlNodeList members = xmlDoc.GetElementsByTagName("char");
-			foreach(XmlAttribute val in members[position].Attributes){
-				if(val.Name == "active"){
-					activeVal = val.InnerText;
-					if(val.InnerText.Equals("True")){
-						val.InnerText = "False";
-					}
-					else if(val.InnerText.Equals("False")){
-						val.InnerText = "True";
-					}
-					break;
-				}
-			}
-			xmlDoc.Save(path);
-
-		}
+		inventory.allPlayers[position] = temp;
+		Debug.Log (inventory.allPlayers[position].active);
 	}
 
     //Equips a weapon to a character

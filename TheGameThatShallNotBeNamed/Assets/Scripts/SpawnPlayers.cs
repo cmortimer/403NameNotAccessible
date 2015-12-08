@@ -7,6 +7,7 @@ public class SpawnPlayers : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		Debug.Log ("here");
         //Check that players aren't already spawned
         GameObject obj = GameObject.FindGameObjectWithTag("Player");
         if (obj == null)
