@@ -4,7 +4,7 @@
     <name>Plains</name>
     <floors>1</floors>
     <enemyPool>plains</enemyPool>
-    <active>false</active>
+    <active>true</active>
   </dungeon>
   <dungeon>
     <name>Caves</name>

@@ -36,6 +36,7 @@ public class SpawnEnemies : MonoBehaviour {
                         tempEnemy.luck = int.Parse(xmlReader.GetAttribute("luck"));
                         tempEnemy.range = int.Parse(xmlReader.GetAttribute("range"));
                         tempEnemy.drop = xmlReader.GetAttribute("drop");
+						tempEnemy.image = xmlReader.GetAttribute("image");
                         enemyList.Add(tempEnemy);
                     }
 				}
@@ -73,10 +74,11 @@ public class SpawnEnemies : MonoBehaviour {
 						Enemy tempEnemy = enemyList[Mathf.FloorToInt(Random.value * enemyList.Count)];
 						tempEnemyRef.GetComponent<Enemy>().setStats(tempEnemy.charName, tempEnemy.health, tempEnemy.strength,
 						                                            tempEnemy.endurance, tempEnemy.agility,tempEnemy.magicSkill,
-						                                            tempEnemy.luck, tempEnemy.range, tempEnemy.drop);
+						                                            tempEnemy.luck, tempEnemy.range, tempEnemy.drop, tempEnemy.image);
 
-						GameObject tempPrefab = Resources.Load<GameObject>("Enemy_Prefabs/Ghost");
-						//tempPrefab.transform.SetParent(tempEnemyRef.transform);
+						GameObject tempPrefab = Instantiate(Resources.Load<GameObject>("Enemy_Prefabs/" + tempEnemy.image));
+						tempPrefab.transform.position = tempEnemyRef.transform.position;
+						tempPrefab.transform.SetParent(tempEnemyRef.transform);
 					}
                 }
             }
