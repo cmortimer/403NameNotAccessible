@@ -5,7 +5,7 @@ using System.IO;
 
 public class DungeonManager : MonoBehaviour
 {
-
+    private bool debug = false;
     private int currentFloor;
     private string dungeonName;
     private int floorLimit;
@@ -27,10 +27,13 @@ public class DungeonManager : MonoBehaviour
     void Update()
     {
         //Debug floor skip
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (debug)
         {
-            incrementFloor();
-            //Application.LoadLevel(0);
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                incrementFloor();
+                //Application.LoadLevel(0);
+            }
         }
     }
 
