@@ -415,95 +415,6 @@ public class MenuManager : MonoBehaviour {
 		{
 			Destroy(child.gameObject);
 		}
-        //int currentY = -50;
-		//int posInArray = 0;
-
-        /*XmlDocument xmlDoc = new XmlDocument();
-
-        string path = Application.dataPath + @"/Characters/GuildList.xml";
-
-        if (File.Exists(path))
-        {
-            xmlDoc.Load(path);
-            XmlNodeList members = xmlDoc.GetElementsByTagName("char");
-
-
-
-            foreach (XmlNode mem in members)
-            {
-                //Stats
-                string name = "";
-                int hp = 0;
-                int st = 0;
-                int en = 0;
-                int ag = 0;
-                int mg = 0;
-                int lu = 0;
-                int rng = 0;
-				bool active = false;
-                foreach (XmlAttribute val in mem.Attributes)
-                {
-                    //Store values
-                    if (val.Name == "name")
-                        name = val.InnerText;
-                    else if (val.Name == "health")
-                        hp = int.Parse(val.InnerText);
-                    else if (val.Name == "str")
-                        st = int.Parse(val.InnerText);
-                    else if (val.Name == "end")
-                        en = int.Parse(val.InnerText);
-                    else if (val.Name == "agi")
-                        ag = int.Parse(val.InnerText);
-                    else if (val.Name == "mag")
-                        mg = int.Parse(val.InnerText);
-                    else if (val.Name == "luck")
-                        lu = int.Parse(val.InnerText);
-                    else if (val.Name == "range")
-                        rng = int.Parse(val.InnerText);
-
-					if(val.Name == "active"){
-						if(val.InnerText.Equals("True"))
-						   	active = true;
-						else
-							active = false;
-					}
-                }
-
-                GameObject currentChar = charStatPrefab;
-                GameObject finished = (GameObject)Instantiate(currentChar, new Vector3(tavernMenu.transform.position.x - 200.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
-                finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
-
-                GameObject imgObj = finished.transform.FindChild("Image").gameObject;
-                //set image = equipment image path
-                GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
-                nameObj.GetComponent<Text>().text = name;
-                GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
-                string text = hp + "     " + st + "     " + en + "      " +ag + "      " + mg + "      " +lu + "     " + rng;
-                
-                statsObj.GetComponent<Text>().text = text;
-
-				GameObject activeButton = finished.transform.FindChild("Active").gameObject;
-				activeButton.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "inactive";
-
-				if(active){
-					activeButton.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Active";
-					Color col = activeButton.GetComponent<Image>().color;
-					activeButton.GetComponent<Image>().color = new Color(col.g,col.r,col.b);
-				}
-
-				int captured = posInArray;
-				activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeButton(activeButton));
-				activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(captured));
-
-                //Set edit button to edit the correct character
-                GameObject editButton = finished.transform.FindChild("Edit").gameObject;
-                editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(name));
-
-				posInArray++;
-
-                currentY -= 75;
-            }
-        }*/
 
 		float currentY = -50.0f;
 		Vector3 basePos = tavernMenu.transform.FindChild ("Window/AllObjects").position;
@@ -516,7 +427,7 @@ public class MenuManager : MonoBehaviour {
 
 		for(int i=0;i<inventory.allPlayers.Count;i++){
 			GameObject currentChar = charStatPrefab;
-			GameObject finished = (GameObject)Instantiate(currentChar, new Vector3(basePos.x+55.0f, basePos.y+currentY, 0.0f), Quaternion.identity);
+			GameObject finished = (GameObject)Instantiate(currentChar, new Vector3(basePos.x+-25.0f, basePos.y+currentY, 0.0f), Quaternion.identity);
 			finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
 			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
@@ -543,16 +454,17 @@ public class MenuManager : MonoBehaviour {
 			
 			//Set edit button to edit the correct character
 			GameObject editButton = finished.transform.FindChild("Edit").gameObject;
-			editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(name));
+			int cap = i;
+			editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(cap));
 			
 			currentY -= 75;
 		}
 
     }
 
-    public void setUpCharacterEquipment(string n)
+    public void setUpCharacterEquipment(int charPos)
     {
-        string charName = n;
+		//Debug.Log (charPos);
 
         //Clear old window
         Transform oldMenu = tavernMenu.transform.FindChild("Window/AllObjects");
@@ -563,18 +475,17 @@ public class MenuManager : MonoBehaviour {
 
 		float currentY = -50.0f;
 		Vector3 basePos = tavernMenu.transform.FindChild ("Window/AllObjects").position;
-		
-		//change height based on total objs
-		int totalObjs = inventory.allPlayers.Count;
-		Vector2 oldSize = tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta;
-		tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(oldSize.x, totalObjs*75.0f);
-		
+		int totalObjs = 0;
+
         //Add weapons
 		for(int i=0;i<equip.allWeapons.Count;i++){
+			int captured = i;
+
 			//check if you have more of that weapon to give
-			if(inventory.obtainedWeapons[i] != null && (int)inventory.obtainedWeapons[i] > 0){
+			if(captured == inventory.allPlayers[charPos].weaponID || inventory.obtainedWeapons[i] != null && (int)inventory.obtainedWeapons[i] > 0){
+				totalObjs++;
 				GameObject currentEquip = editEquipmentPrefab;
-				GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(basePos.x +80.0f, 
+				GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(basePos.x+10.0f, 
 				                                        		basePos.y + currentY, 0.0f), Quaternion.identity);
 				finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
@@ -582,7 +493,7 @@ public class MenuManager : MonoBehaviour {
 
 				//set image = equipment image path
 				foreach(Image weaponImg in weaponImages){
-					if(equip.allWeapons[i].name.Contains(weaponImg.name)){
+					if(equip.allWeapons[i].name.Equals(weaponImg.name)){
 						imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
 						imgObj.GetComponent<Image>().SetNativeSize();
 					}
@@ -591,135 +502,77 @@ public class MenuManager : MonoBehaviour {
 				GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
 				nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
 				GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
-				string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag
-											+ "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
+				string text = equip.allWeapons[i].str + "     " + equip.allWeapons[i].end + "      " + equip.allWeapons[i].agi + "      " + equip.allWeapons[i].mag
+											+ "      " + equip.allWeapons[i].luck + "     " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
 				statsObj.GetComponent<Text>().text = text;
 
 				GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+				recipeObj.GetComponent<Text>().text = "";
 				
 				GameObject createObj = finished.transform.FindChild("Create").gameObject;
-				int captured = i;
-				createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
-//				createObj.GetComponent<Button>().interactable = false;
-				
-/*				if ((int)inventory.obtainedWeapons[id] > 0)
+				createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";			
+				if (captured == inventory.allPlayers[charPos].weaponID)
 				{
-					createObj.GetComponent<Button>().interactable = true;
+					createObj.GetComponent<Button>().interactable = false;
+					createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equipped";
 				}
-				createObj.GetComponent<Button>().onClick.AddListener(() => EquipWeapon(charName, id));
-				*/
+
+				createObj.GetComponent<Button>().onClick.AddListener(() => EquipWeapon(charPos, captured));
+
 				currentY -= 75;
 			}
 		}
 
-        XmlDocument wepDoc = new XmlDocument();
-        string path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
+		for(int i=0;i<equip.allArmor.Count;i++){
+			int captured = i;
 
-        if (File.Exists(path))
-        {
-            wepDoc.Load(path);
+			//check if you have more of that armor to give
+			if(captured == inventory.allPlayers[charPos].armorID || inventory.obtainedArmor[i] != null && (int)inventory.obtainedArmor[i] > 0){
+				totalObjs++;
+				GameObject currentEquip = editEquipmentPrefab;
+				GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(basePos.x+10.0f, 
+				                                                                        basePos.y + currentY, 0.0f), Quaternion.identity);
+				finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
+				
+				GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+				
+				//set image = equipment image path
+/*				foreach(Image armorImg in armorImages){
+					if(equip.allArmor[i].name.Equals(armorImg.name)){
+						imgObj.GetComponent<Image>().sprite = armorImg.sprite;
+						imgObj.GetComponent<Image>().SetNativeSize();
+					}
+				}
+*/				
+				GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
+				nameObj.GetComponent<Text>().text = equip.allArmor[i].name;
+				GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
+				string text = equip.allArmor[i].str + "     " + equip.allArmor[i].end + "      " + equip.allArmor[i].agi + "      " + equip.allArmor[i].mag
+					+ "      " + equip.allArmor[i].luck;
+				statsObj.GetComponent<Text>().text = text;
+				
+				GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
+				recipeObj.GetComponent<Text>().text = "";
+				
+				GameObject createObj = finished.transform.FindChild("Create").gameObject;
+				createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
 
-            XmlNodeList members = wepDoc.GetElementsByTagName("weapon");
-            List<int> wepIDs = new List<int>();
+				if (captured == inventory.allPlayers[charPos].armorID)
+				{
+					createObj.GetComponent<Button>().interactable = false;
+					createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equipped";
+				}
+				createObj.GetComponent<Button>().onClick.AddListener(() => EquipArmor(charPos, captured));
+				
+				currentY -= 75;
+			}
+		}
 
-            //Get held weapons
-            foreach (XmlNode mem in members)
-            {
-                Debug.Log(mem.Attributes);
-                wepIDs.Add(int.Parse(mem.Attributes.GetNamedItem("id").Value));
-            }
+		//change height based on total objs
+		Vector2 oldSize = tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta;
+		tavernMenu.transform.FindChild ("Window/AllObjects").gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(oldSize.x, totalObjs*75.0f);
 
-            foreach(int i in wepIDs)
-            {
-                int id = i;
-                GameObject currentEquip = editEquipmentPrefab;
-                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 250.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
-                finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
-
-                GameObject imgObj = finished.transform.FindChild("Image").gameObject;
-
-
-                foreach (Image weaponImg in weaponImages)
-                {
-
-                    if (equip.allWeapons[i].name.Contains(weaponImg.name))
-                    {
-                        imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
-                        imgObj.GetComponent<Image>().SetNativeSize();
-                    }
-                }
-                //set image = equipment image path
-                GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
-                nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
-                GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
-                string text = equip.allWeapons[i].str + "    " + equip.allWeapons[i].end + "     " + equip.allWeapons[i].agi + "     " + equip.allWeapons[i].mag + "     " + equip.allWeapons[i].luck + "    " + equip.allWeapons[i].rangeMin + " - " + equip.allWeapons[i].rangeMax;
-                statsObj.GetComponent<Text>().text = text;
-                GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
-
-                GameObject createObj = finished.transform.FindChild("Create").gameObject;
-                int captured = i;
-                createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
-                createObj.GetComponent<Button>().interactable = false;
-
-                if ((int)inventory.obtainedWeapons[id] > 0)
-                {
-                    createObj.GetComponent<Button>().interactable = true;
-                }
-                createObj.GetComponent<Button>().onClick.AddListener(() => EquipWeapon(charName, id));
-
-                currentY -= 75;
-            }
-        }
-
-
-        //Add armor
-        XmlDocument armDoc = new XmlDocument();
-        path = Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml";
-
-        if (File.Exists(path))
-        {
-            armDoc.Load(path);
-
-            XmlNodeList members = armDoc.GetElementsByTagName("armor");
-            List<int> armIDs = new List<int>();
-
-            //Get held weapons
-            foreach (XmlNode mem in members)
-            {
-                Debug.Log(mem.Attributes);
-                armIDs.Add(int.Parse(mem.Attributes.GetNamedItem("id").Value));
-            }
-
-            foreach (int i in armIDs)
-            {
-                int id = i;
-                GameObject currentEquip = editEquipmentPrefab;
-                GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(tavernMenu.transform.position.x - 250.0f, tavernMenu.transform.position.y + currentY, 0.0f), Quaternion.identity);
-                finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
-
-                GameObject imgObj = finished.transform.FindChild("Image").gameObject;
-                //set image = equipment image path
-                GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
-                nameObj.GetComponent<Text>().text = equip.allArmor[i].name;
-                GameObject statsObj = finished.transform.FindChild("Stats").gameObject;
-                string text = equip.allArmor[i].str + "    " + equip.allArmor[i].end + "     " + equip.allArmor[i].agi + "     " + equip.allArmor[i].mag + "     " + equip.allArmor[i].luck;
-                statsObj.GetComponent<Text>().text = text;
-                GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
-
-                GameObject createObj = finished.transform.FindChild("Create").gameObject;
-                int captured = i;
-                createObj.transform.FindChild("Text").GetComponent<Text>().text = "Equip";
-                createObj.GetComponent<Button>().interactable = false;
-
-                if ((int)inventory.obtainedArmor[id] > 0)
-                {
-                    createObj.GetComponent<Button>().interactable = true;
-                }
-                createObj.GetComponent<Button>().onClick.AddListener(() => EquipArmor(charName, id));
-
-                currentY -= 75;
-            }
-        }
+    
     }
 
 	void ChangeButton(GameObject but){
@@ -751,62 +604,64 @@ public class MenuManager : MonoBehaviour {
 		temp.active = !inventory.allPlayers[position].active;
 
 		inventory.allPlayers[position] = temp;
-		Debug.Log (inventory.allPlayers[position].active);
 	}
 
     //Equips a weapon to a character
-    void EquipWeapon(string n, int i)
+    void EquipWeapon(int charPos, int inventoryPos)
     {
-        string path = Application.dataPath + @"/Characters/GuildList.xml";
+		//place previous weapon in inventory
+		int temp = (int)inventory.obtainedWeapons[inventory.allPlayers[charPos].weaponID];
+		inventory.obtainedWeapons[inventory.allPlayers[charPos].weaponID] = ++temp;
 
-        //Load the character document
-        XmlDocument xmlDoc = new XmlDocument();
-        if(File.Exists(path))
-        {
-            xmlDoc.Load(path);
-            XmlNodeList members = xmlDoc.GetElementsByTagName("char");
+		//equip the new weapon and remove it from inventory
+		inventory.allPlayers[charPos].weaponID = inventoryPos;
+		temp = (int)inventory.obtainedWeapons[inventoryPos];
+		inventory.obtainedWeapons[inventoryPos] = --temp;
 
-            //Loop through the guild, and change the relevant members equipment
-            foreach(XmlNode mem in members)
-            {
-                if(mem.Attributes.GetNamedItem("name").Value == n)
-                {
-                    mem.Attributes.GetNamedItem("weaponID").Value = i.ToString();
-                }
-            }
-        }
-
-        xmlDoc.Save(path);
-        
+		//reload equipping menu
+		setUpCharacterEquipment(charPos);
     }
 
     //Equips armor to a character
-    void EquipArmor(string n, int i)
+    void EquipArmor(int charPos, int inventoryPos)
     {
-        string path = Application.dataPath + @"/Characters/GuildList.xml";
-
-        //Load the character document
-        XmlDocument xmlDoc = new XmlDocument();
-        if (File.Exists(path))
-        {
-            xmlDoc.Load(path);
-            XmlNodeList members = xmlDoc.GetElementsByTagName("char");
-
-            //Loop through the guild, and change the relevant members equipment
-            foreach (XmlNode mem in members)
-            {
-                if (mem.Attributes.GetNamedItem("name").Value == n)
-                {
-                    mem.Attributes.GetNamedItem("armorID").Value = i.ToString();
-                }
-            }
-        }
-
-        xmlDoc.Save(path);
-
+		//place previous weapon in inventory
+		int temp = (int)inventory.obtainedArmor[inventory.allPlayers[charPos].armorID];
+		inventory.obtainedArmor[inventory.allPlayers[charPos].armorID] = ++temp;
+		
+		//equip the new weapon and remove it from inventory
+		inventory.allPlayers[charPos].armorID = inventoryPos;
+		temp = (int)inventory.obtainedArmor[inventoryPos];
+		inventory.obtainedArmor[inventoryPos] = --temp;
+		
+		//reload equipping menu
+		setUpCharacterEquipment(charPos);
     }
 
+
+
 	public void RecruitGuildMember(){
+		PlayerShell temp = new PlayerShell();
+		temp.name = genName ();
+		temp.desc = "A new Recruit";
+		//temp.health = 50;
+
+		temp.health = (int)Random.Range(10,100);
+		temp.str = (int)Random.Range(1, 10);
+		temp.end = (int)Random.Range(1, 10);
+		temp.agi = (int)Random.Range(1, 10);
+		temp.mag = (int)Random.Range(1, 10);
+		temp.luck = (int)Random.Range(1, 10);
+		temp.weaponID = (int)Random.Range (0,4);
+		temp.armorID = (int)Random.Range (0,4);
+		temp.active = false;
+
+
+		//gotta balance this
+
+		inventory.allPlayers.Add(temp);
+
+
 		XDocument doc = XDocument.Load("Assets/Characters/GuildList.xml");
 		XElement root = new XElement("char");
 		root.Add(new XAttribute("name", genName()));
