@@ -12,6 +12,7 @@ public class Enemy : Character {
 	protected PlayerController pTarget = null;
 
     public string drop;     //The item the enemy drops
+	public string image;    //File name to load
 
     // Use this for initialization
     void Start () {
@@ -133,7 +134,7 @@ public class Enemy : Character {
 		return closest;
 	}
 
-    public void setStats(string n, int hp, int st, int en, int ag, int mag, int lu, int rng, string drp)
+    public void setStats(string n, int hp, int st, int en, int ag, int mag, int lu, int rng, string drp, string img)
     {
         charName = n;
         gameObject.name = n;
@@ -148,6 +149,7 @@ public class Enemy : Character {
         luck = lu;
         range = rng;
         drop = drp;
+		image = img;
     }
 
     public void resetStatus()

@@ -637,6 +637,17 @@ public class MenuManager : MonoBehaviour {
                 finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
                 GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+
+
+                foreach (Image weaponImg in weaponImages)
+                {
+
+                    if (equip.allWeapons[i].name.Contains(weaponImg.name))
+                    {
+                        imgObj.GetComponent<Image>().sprite = weaponImg.sprite;
+                        imgObj.GetComponent<Image>().SetNativeSize();
+                    }
+                }
                 //set image = equipment image path
                 GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
                 nameObj.GetComponent<Text>().text = equip.allWeapons[i].name;
@@ -856,7 +867,12 @@ public class MenuManager : MonoBehaviour {
 	}
 	//Loads a dungeon based off of its name
 	public void goToDest(string name)
-	{
+    {
+        //Destroy previous players
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Dead"))
+        {
+            Destroy(g);
+        }
 		string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
 		
 		XmlDocument dunXML = new XmlDocument();
