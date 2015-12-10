@@ -34,6 +34,9 @@ public class PlayerManager : MonoBehaviour {
 	public bool enemyMoving = false;
 	public bool playerMoving = false;
 
+    //Audio
+    private AudioSource lootSound;
+
 	// Use this for initialization
 	void Start () {
 		playerUI = GameObject.Find ("PlayerCombatUI");
@@ -74,6 +77,8 @@ public class PlayerManager : MonoBehaviour {
         endTile = GameObject.FindGameObjectWithTag("EndTile");
 
 		walkableTiles = new Predicate<PathTile>(isWalkable);
+
+        lootSound = gameObject.GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -199,6 +204,10 @@ public class PlayerManager : MonoBehaviour {
 	                xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
 	                Destroy(allEnemies[i].gameObject);
 					allEnemies.RemoveAt(i);
+
+                    //Play loot sound
+                    lootSound.Play();
+
 				}
 			}
 			#endregion

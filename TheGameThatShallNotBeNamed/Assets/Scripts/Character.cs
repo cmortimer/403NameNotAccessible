@@ -219,10 +219,18 @@ public class Character : MonoBehaviour {
 		targetCharacter.damageText.text = damageNumber.ToString ();
 		float timePassed = 0;
 		while(timePassed < 1) {
-			timePassed += Time.deltaTime;
-			targetCharacter.damageText.transform.localPosition = new Vector3(targetCharacter.damageText.transform.localPosition.x,
-				targetCharacter.damageText.transform.localPosition.y, targetCharacter.damageText.transform.localPosition.z + (1 * Time.deltaTime));
-			yield return null;
+            if (targetCharacter != null)
+            {
+                timePassed += Time.deltaTime;
+                targetCharacter.damageText.transform.localPosition = new Vector3(targetCharacter.damageText.transform.localPosition.x,
+                    targetCharacter.damageText.transform.localPosition.y, targetCharacter.damageText.transform.localPosition.z + (1 * Time.deltaTime));
+                yield return null;
+            }
+            else
+            {
+                attackCooldown = false;
+                yield return false;
+            }
 		}
 		targetCharacter.damageText.GetComponent<MeshRenderer> ().enabled = false;
 		targetCharacter.damageText.transform.localPosition = new Vector3(targetCharacter.damageText.transform.localPosition.x,
