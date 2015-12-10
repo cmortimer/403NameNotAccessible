@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
-  <item name="thing" count="3" />
+  <item name="gyro" count="3" />
   <item name="wood" count="9000" />
   <item name="iron" count="9000" />
   <item name="moon jelly" count="0" />
@@ -11,4 +11,5 @@
   <item name="ectoplasm" count="2" />
   <item name="hide" count="1" />
   <item name="rotten flesh" count="4" />
+  <item name="vampire blood" count="0" />
 </inventory>

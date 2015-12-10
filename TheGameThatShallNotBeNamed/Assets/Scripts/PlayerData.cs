@@ -22,6 +22,7 @@ public class PlayerData : MonoBehaviour {
 	public Hashtable obtainedArmor = new Hashtable();
 	//obtainedItems["Item Name"] = # of item in inventory
 	public Hashtable obtainedItems = new Hashtable();
+	public List<string> itemIDs = new List<string>();
 	
 	public static PlayerData Instance;
 	#endregion
@@ -102,6 +103,7 @@ public class PlayerData : MonoBehaviour {
 			
 			foreach(XmlNode it in item){
 				string name = it.Attributes["name"].InnerText;
+				itemIDs.Add (name);
 				obtainedItems[name] = int.Parse(it.Attributes["count"].InnerText);
 			}
 		}
