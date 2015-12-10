@@ -2,14 +2,14 @@
 list below is the format for putting in a new enemy -->
 
 <Enemies>
-	<Enemy name="Wolf" image="Slime" health="35" desc="" str="5" end="3" agi="7" mag="0" luck="0" range="1" pool="plains" drop="hide"/>
-	<Enemy name="Slime" image="Slime" health="15" str="3" end="0" agi="7" mag="0" luck="0"  range="1" pool="plains" drop="moon jelly"/>
-	<Enemy name="Bandit Swordsman" image="Necromancer" health="30" desc="" str="6" end="5" agi="6" mag="0" luck="2" range="2" pool="plains" drop="iron"/>
+	<Enemy name="Wolf" image="Slime" health="35" desc="" str="5" end="3" agi="7" mag="1" luck="1" range="1" pool="plains" drop="hide"/>
+	<Enemy name="Slime" image="Slime" health="15" str="3" end="1" agi="7" mag="1" luck="1"  range="1" pool="plains" drop="moon jelly"/>
+	<Enemy name="Bandit Swordsman" image="Necromancer" health="30" desc="" str="6" end="5" agi="6" mag="1" luck="2" range="2" pool="plains" drop="iron"/>
 	<Enemy name="Bandit Mage" image="Necromancer" health="25" str="3" end="3" agi="5" mag="5" luck="2" range="4" pool="plains" drop="wood"/>
-	<Enemy name="Living Plant" image="Slime" health="30" desc="" str="5" end="4" agi="5" mag="0" luck="0" range="2" pool="caves" drop="sinew"/>
-	<Enemy name="Skeleton" image="Skeleton" health="30" str="7" end="5" agi="6" mag="0" luck="0" range="1" pool="caves" drop="bonedust"/>
-	<Enemy name="Zombie" image="Zombie" health="40" str="4" end="8" agi="4" mag="0" luck="0" range="1" pool="caves" drop="rotten flesh"/>
-	<Enemy name="Ghost" image="Ghost" health="35" str="3" end="4" agi="8" mag="3" luck="0" range="2" pool="caves" drop="ectoplasm"/>
+	<Enemy name="Living Plant" image="Slime" health="30" desc="" str="5" end="4" agi="5" mag="1" luck="1" range="2" pool="caves" drop="sinew"/>
+	<Enemy name="Skeleton" image="Skeleton" health="30" str="7" end="5" agi="6" mag="1" luck="1" range="1" pool="caves" drop="bonedust"/>
+	<Enemy name="Zombie" image="Zombie" health="40" str="4" end="8" agi="4" mag="1" luck="1" range="1" pool="caves" drop="rotten flesh"/>
+	<Enemy name="Ghost" image="Ghost" health="35" str="3" end="4" agi="8" mag="3" luck="1" range="2" pool="caves" drop="ectoplasm"/>
 	<Enemy name="Necromancer" image="Necromancer" health="25" str="5" end="3" agi="5" mag="5" luck="3" range="1" pool="caves" drop="magic crystal"/>
 	<Enemy name="Demon" image="Ghost" health="50" desc="" str="12" end="12" agi="10" mag="4" luck="5" range="1" pool="chasm" drop="demon heart"/>
 	<Enemy name="Gearling" image="Golem" health="40" desc="" str="14" end="8" agi="10" mag="4" luck="5" range="2" pool="chasm" drop="gyro"/>
