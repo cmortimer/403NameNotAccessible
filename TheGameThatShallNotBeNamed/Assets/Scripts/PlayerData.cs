@@ -66,7 +66,6 @@ public class PlayerData : MonoBehaviour {
 			foreach(XmlNode wep in weapons){
 				for(int i=0; i<equipment.allWeapons.Count;i++){
 					if(wep.Attributes["name"].InnerText.Equals(equipment.allWeapons[i].name)){
-//						Debug.Log (wep.Attributes["count"].InnerText);
 						obtainedWeapons.Add(i, int.Parse(wep.Attributes["count"].InnerText));
 						break;
 					}
@@ -86,7 +85,6 @@ public class PlayerData : MonoBehaviour {
 			foreach(XmlNode arm in armor){
 				for(int i=0; i<equipment.allArmor.Count;i++){
 					if(arm.Attributes["name"].InnerText.Equals(equipment.allArmor[i].name)){
-						Debug.Log ("i= " + i + ", count= " + arm.Attributes["count"].InnerText);
 						obtainedArmor.Add(i, int.Parse(arm.Attributes["count"].InnerText));
 						break;
 					}

@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
-  <weapon name="long sword" id="0" count="39" />
+  <weapon name="long sword" id="0" count="41" />
   <weapon name="war axe" id="1" count="2" />
   <weapon name="wood staff" id="2" count="1" />
   <weapon name="long bow" id="3" count="2" />
   <weapon name="bone sword" id="4" count="2" />
-  <weapon name="mech sword" id="12" count="2" />
+  <weapon name="mech sword" id="12" count="1" />
   <weapon name="demon sword" id="8" count="1" />
   <weapon name="bone axe" id="5" count="2" />
   <weapon name="demon bow" id="11" count="2" />
+  <weapon name="demon staff" id="10" count="1" />
 </inventory>
