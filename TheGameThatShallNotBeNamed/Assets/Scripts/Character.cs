@@ -123,7 +123,7 @@ public class Character : MonoBehaviour {
 			if(inRange)
 			{
 				Debug.Log(this.gameObject.name + " attacks " + target.gameObject.name);
-				int damageDealt = (int)(Mathf.Round(this.strength * ((target.endurance * .06f) / (1 + (target.endurance * 0.06f)))));
+				int damageDealt = (int)Mathf.Round(this.strength-(this.strength * ((target.endurance * .06f) / (1 + (target.endurance * 0.06f)))));
 				if(damageDealt <=0)
 					damageDealt = 1;
 				target.health -= damageDealt;
