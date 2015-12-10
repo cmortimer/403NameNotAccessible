@@ -20,11 +20,14 @@
 	</Weapons>
 
 	<Armors>
-		<Armor name="plain cloths" desc="" str="0" end="0" agi="3" mag="0" luck="0" recipe1="iorn" recipe2="adhesive" />
-		<Armor name="hide armor" desc="" str="0" end="1" agi="2" mag="0" luck="0" recipe1="iorn" recipe2="adhesive" />
-		<Armor name="chainmail" desc="" str="0" end="2" agi="1" mag="0" luck="0" recipe1="iorn" recipe2="adhesive" />
-		<Armor name="plate armor" desc="" str="0" end="3" agi="0" mag="0" luck="0" recipe1="iorn" recipe2="adhesive" />
-		<Armor name="mage robes" desc="" str="0" end="0" agi="2" mag="1" luck="0" recipe1="iorn" recipe2="adhesive" />
-		<Armor name="mage cloak" desc="" str="0" end="0" agi="1" mag="2" luck="0" recipe1="iorn" recipe2="adhesive" />
+		<Armor name="steel armor" desc="" str="0" end="3" agi="1" mag="0" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="bone armor" desc="" str="0" end="5" agi="1" mag="0" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="mech armor" desc="" str="0" end="8" agi="1" mag="0" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="demon armor" desc="" str="0" end="11" agi="1" mag="0" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="plain cloths" desc="" str="0" end="0" agi="3" mag="0" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="hide armor" desc="" str="0" end="1" agi="2" mag="0" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="chainmail" desc="" str="0" end="2" agi="1" mag="0" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="mage robes" desc="" str="0" end="0" agi="2" mag="1" luck="0" recipe1="iron" recipe2="adhesive" />
+		<Armor name="mage cloak" desc="" str="0" end="0" agi="1" mag="2" luck="0" recipe1="iron" recipe2="adhesive" />
 	</Armors>
 </Root>

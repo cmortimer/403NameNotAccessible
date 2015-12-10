@@ -1,0 +1,275 @@
+fileFormatVersion: 2
+guid: c59176b72c6fdc6488c2c3cc27f5608e
+timeCreated: 1449753960
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: ArmorAndWeaponsIcons_0
+    21300002: ArmorAndWeaponsIcons_1
+    21300004: ArmorAndWeaponsIcons_2
+    21300006: ArmorAndWeaponsIcons_3
+    21300008: ArmorAndWeaponsIcons_4
+    21300010: ArmorAndWeaponsIcons_5
+    21300012: ArmorAndWeaponsIcons_6
+    21300014: ArmorAndWeaponsIcons_7
+    21300016: ArmorAndWeaponsIcons_8
+    21300018: ArmorAndWeaponsIcons_9
+    21300020: ArmorAndWeaponsIcons_10
+    21300022: ArmorAndWeaponsIcons_11
+    21300024: ArmorAndWeaponsIcons_12
+    21300026: ArmorAndWeaponsIcons_13
+    21300028: ArmorAndWeaponsIcons_14
+    21300030: ArmorAndWeaponsIcons_15
+    21300032: ArmorAndWeaponsIcons_16
+    21300034: ArmorAndWeaponsIcons_17
+    21300036: ArmorAndWeaponsIcons_18
+    21300038: ArmorAndWeaponsIcons_19
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: ArmorAndWeaponsIcons_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 91
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 92
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_2
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 92
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_3
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 92
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_4
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 95
+        width: 21
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_5
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 61
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_6
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 62
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_7
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 62
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_8
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 62
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_9
+      rect:
+        serializedVersion: 2
+        x: 122
+        y: 63
+        width: 26
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_10
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 31
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_12
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 32
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_13
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 32
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_14
+      rect:
+        serializedVersion: 2
+        x: 120
+        y: 33
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_15
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 28
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_16
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 2
+        width: 27
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_17
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 2
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_18
+      rect:
+        serializedVersion: 2
+        x: 92
+        y: 2
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ArmorAndWeaponsIcons_19
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 1
+        width: 23
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

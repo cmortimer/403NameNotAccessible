@@ -22,6 +22,7 @@ public class MenuManager : MonoBehaviour {
 	List<GameObject> weaponButtons;
 	List<GameObject> armorButtons;
 	public Image[] weaponImages;
+	public Image[] armorImages;
 
 	Equipment equip;
 	PlayerData inventory;
@@ -31,6 +32,7 @@ public class MenuManager : MonoBehaviour {
         equip = GameObject.FindGameObjectWithTag("Persistent").GetComponent<Equipment>();
 		inventory = GameObject.FindGameObjectWithTag("Persistent").GetComponent<PlayerData>();
 		weaponImages = GameObject.Find("AllWeaponImages").GetComponentsInChildren<Image>();
+		armorImages = GameObject.Find("AllArmorImages").GetComponentsInChildren<Image>();
 		destMenu.SetActive(false);
 		workshopMenu.SetActive(false);
 		tavernMenu.SetActive(false);
@@ -86,14 +88,19 @@ public class MenuManager : MonoBehaviour {
 			GameObject finished = (GameObject)Instantiate(currentEquip, new Vector3(basePos.x+180.0f,basePos.y+currentY,0.0f), Quaternion.identity);
 			finished.transform.parent = workshopMenu.transform.FindChild("AllEquipment/Window/AllObjects");
 
-			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
-			//set image = equipment image path
 			GameObject nameObj = finished.transform.FindChild("Name").gameObject;
 			nameObj.GetComponent<Text>().text = equip.allArmor[i].name;
 			GameObject descObj = finished.transform.FindChild("Description").gameObject;
 			//string text = equip.allArmor[i].str + "    " + equip.allArmor[i].end + "     " + equip.allArmor[i].agi + "     " + equip.allArmor[i].mag + "     " + equip.allArmor[i].luck + "     " ;
 			descObj.GetComponent<Text>().text = equip.allArmor[i].desc;
 
+			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+			foreach(Image armorImg in armorImages){
+				if(equip.allArmor[i].name.Contains(armorImg.name)){
+					imgObj.GetComponent<Image>().sprite = armorImg.sprite;
+					imgObj.GetComponent<Image>().SetNativeSize();
+				}
+			}
 			//GameObject recipeObj = finished.transform.FindChild("Recipe").gameObject;
 			
 			GameObject selectObj = finished.transform.FindChild("Create").gameObject;
