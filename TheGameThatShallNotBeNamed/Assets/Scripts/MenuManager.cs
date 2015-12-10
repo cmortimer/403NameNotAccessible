@@ -173,10 +173,25 @@ public class MenuManager : MonoBehaviour {
 				+ inventory.obtainedItems[curArm.recipe[j]] + "/" + jValCount[curArm.recipe[j]];
 			uiPos++;
 		}
-
-
+		//check if creatable and make button if it is
+		bool canCreate = true;
+		for(int j=1;j<7;j++){
+			string line = itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().text.Split(':')[0];
+			if(line != ""){
+				if((int)inventory.obtainedItems[line] < (int)jValCount[line]){
+					itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().color = new Color(.8f,.1f,.1f);
+					canCreate = false;
+				}
+			}
+		}
+		
 		GameObject selectObj = itemObj.transform.FindChild("Create").gameObject;
 		selectObj.GetComponent<Button>().onClick.RemoveAllListeners();
+		if(canCreate)
+			selectObj.SetActive(true);
+		else
+			selectObj.SetActive(false);
+
 		selectObj.GetComponent<Button>().onClick.AddListener(() => GiveArmor(i));
 	}
 
@@ -251,6 +266,9 @@ public class MenuManager : MonoBehaviour {
 					itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().color = new Color(.8f,.1f,.1f);
 					canCreate = false;
 				}
+				else{
+					itemObj.transform.FindChild("RecipeFull/RecipeItem"+j).gameObject.GetComponent<Text>().color = new Color(.1f,.1f,.1f);
+				}
 			}
 		}
 
@@ -265,8 +283,14 @@ public class MenuManager : MonoBehaviour {
 	void GiveWeapon(int i)
 	{
 		//give item
-		int count = (int)inventory.obtainedWeapons[i];
-		inventory.obtainedWeapons[i] = ++count;
+		if(inventory.obtainedWeapons[i] != null){
+			int count = (int)inventory.obtainedWeapons[i];
+			inventory.obtainedWeapons[i] = ++count;
+		}
+		else{
+			inventory.obtainedWeapons[i] = 1;
+		}
+		
 		foreach(string s in equip.allWeapons[i].recipe){
 			int temp = (int)inventory.obtainedItems[s];
 			inventory.obtainedItems[s] = --temp;
@@ -336,9 +360,15 @@ public class MenuManager : MonoBehaviour {
 	}
 	void GiveArmor(int i)
 	{
-		int count = (int)inventory.obtainedArmor[i];
-		inventory.obtainedArmor[i] = ++count;
-		foreach(string s in equip.allWeapons[i].recipe){
+		if(inventory.obtainedArmor[i] != null){
+			int count = (int)inventory.obtainedArmor[i];
+			inventory.obtainedArmor[i] = ++count;
+		}
+		else{
+			inventory.obtainedArmor[i] = 1;
+		}
+
+		foreach(string s in equip.allArmor[i].recipe){
 			int temp = (int)inventory.obtainedItems[s];
 			inventory.obtainedItems[s] = --temp;
 		}
@@ -720,7 +750,7 @@ public class MenuManager : MonoBehaviour {
 		Application.LoadLevel (2);
 	}
 	public void SaveAll(){
-
+		saveInventoryXML();
 	}
 	//Loads a dungeon based off of its name
 	public void goToDest(string name)
@@ -781,7 +811,7 @@ public class MenuManager : MonoBehaviour {
 					{
 						//Update the count of the item
 						Debug.Log("Found a: " + member.Attributes["name"].Value);
-						member.Attributes["count"].Value = (string)inventory.obtainedWeapons[i];
+						member.Attributes["count"].Value = inventory.obtainedWeapons[i].ToString();
 
 						//Don't need to make a new entry
 						newEntry = false;
@@ -793,12 +823,15 @@ public class MenuManager : MonoBehaviour {
 					Debug.Log("Adding a new " + equip.allWeapons[i].name);
 					
 					//Create the new item
-					XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
-					XmlElement newItem = xmlDoc.CreateElement("weapon");
-					newItem.SetAttribute("name", equip.allWeapons[i].name);
-					newItem.SetAttribute("id", i.ToString());
-					newItem.SetAttribute("count", (string)inventory.obtainedWeapons[i]);
-					root[0].AppendChild(newItem);
+					if(inventory.obtainedWeapons[i] != null){
+						XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+						XmlElement newItem = xmlDoc.CreateElement("weapon");
+						newItem.SetAttribute("name", equip.allWeapons[i].name);
+						newItem.SetAttribute("id", i.ToString());
+
+						newItem.SetAttribute("count", inventory.obtainedWeapons[i].ToString());
+						root[0].AppendChild(newItem);
+					}
 				}
 			}
 
@@ -817,7 +850,7 @@ public class MenuManager : MonoBehaviour {
 			{
 				//Update the count of the item
 				Debug.Log("Found a: " + member.Attributes["name"].Value);
-				member.Attributes["count"].Value = (string)inventory.obtainedItems[member.Attributes["name"].Value];
+				member.Attributes["count"].Value = inventory.obtainedItems[member.Attributes["name"].Value].ToString();
 			}
 		}
         xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
@@ -840,7 +873,9 @@ public class MenuManager : MonoBehaviour {
 					{
 						//Update the count of the item
 						Debug.Log("Found a: " + member.Attributes["name"].Value);
-						member.Attributes["count"].Value = (string)inventory.obtainedArmor[i];
+						if(inventory.obtainedArmor[i]!= null){
+							member.Attributes["count"].Value = inventory.obtainedArmor[i].ToString();
+						}
 						
 						//Don't need to make a new entry
 						newEntry = false;
@@ -852,12 +887,15 @@ public class MenuManager : MonoBehaviour {
 					Debug.Log("Adding a new " + equip.allArmor[i].name);
 					
 					//Create the new item
-					XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
-					XmlElement newItem = xmlDoc.CreateElement("armor");
-					newItem.SetAttribute("name", equip.allArmor[i].name);
-					newItem.SetAttribute("id", i.ToString());
-					newItem.SetAttribute("count", (string)inventory.obtainedArmor[i]);
-					root[0].AppendChild(newItem);
+					if(inventory.obtainedArmor[i]!=null){
+						XmlNodeList root = xmlDoc.GetElementsByTagName("inventory");
+						XmlElement newItem = xmlDoc.CreateElement("armor");
+						newItem.SetAttribute("name", equip.allArmor[i].name);
+						newItem.SetAttribute("id", i.ToString());
+
+						newItem.SetAttribute("count", inventory.obtainedArmor[i].ToString());
+						root[0].AppendChild(newItem);
+					}
 				}
 			}
 			

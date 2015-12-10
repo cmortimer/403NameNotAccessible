@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
   <item name="gyro" count="3" />
-  <item name="wood" count="9000" />
-  <item name="iron" count="9000" />
+  <item name="wood" count="8994" />
+  <item name="iron" count="8977" />
   <item name="moon jelly" count="0" />
   <item name="demon heart" count="3" />
   <item name="sinew" count="4" />
@@ -12,4 +12,5 @@
   <item name="hide" count="1" />
   <item name="rotten flesh" count="4" />
   <item name="vampire blood" count="0" />
+  <item name="adhesive" count="989" />
 </inventory>
