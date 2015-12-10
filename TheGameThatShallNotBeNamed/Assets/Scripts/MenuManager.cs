@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
@@ -437,7 +437,7 @@ public class MenuManager : MonoBehaviour {
 			GameObject finished = (GameObject)Instantiate(currentChar, new Vector3(basePos.x+-25.0f, basePos.y+currentY, 0.0f), Quaternion.identity);
 			finished.transform.parent = tavernMenu.transform.FindChild("Window/AllObjects");
 
-			GameObject imgObj = finished.transform.FindChild("Image").gameObject;
+
 			//set image = equipment image path
 			GameObject nameObj = finished.transform.FindChild("NameDesc").gameObject;
 			nameObj.GetComponent<Text>().text = inventory.allPlayers[i].name;
@@ -458,11 +458,13 @@ public class MenuManager : MonoBehaviour {
 			int captured = i;
 			activeButton.GetComponent<Button>().onClick.AddListener(() => ChangeButton(activeButton));
 			activeButton.GetComponent<Button>().onClick.AddListener(() => ToggleActive(captured));
-			
+
+			GameObject removeObj = finished.transform.FindChild("Remove").gameObject;
+			removeObj.GetComponent<Button>().onClick.AddListener(() => RemoveGuildMember(captured));
+
 			//Set edit button to edit the correct character
 			GameObject editButton = finished.transform.FindChild("Edit").gameObject;
-			int cap = i;
-			editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(cap));
+			editButton.GetComponent<Button>().onClick.AddListener(() => setUpCharacterEquipment(captured));
 			
 			currentY -= 75;
 		}
@@ -654,41 +656,31 @@ public class MenuManager : MonoBehaviour {
 		//temp.health = 50;
 
 		temp.health = (int)UnityEngine.Random.Range(10,100);
-		temp.str = (int)UnityEngine.Random.Range(1, 10);
-		temp.end = (int)UnityEngine.Random.Range(1, 10);
-		temp.agi = (int)UnityEngine.Random.Range(1, 10);
-		temp.mag = (int)UnityEngine.Random.Range(1, 10);
-		temp.luck = (int)UnityEngine.Random.Range(1, 10);
+
+		double str = UnityEngine.Random.Range(30, 70);
+		double end = UnityEngine.Random.Range(30, 70);
+		double agi = UnityEngine.Random.Range(30, 70);
+		double mag = UnityEngine.Random.Range(30, 70);
+		double luck = UnityEngine.Random.Range(30, 70);
+
+		double total = str+end+agi+mag+luck;
+
+		temp.str = (int)(str/total*42);
+		temp.end = (int)(end/total*42);
+		temp.agi = (int)(agi/total*42);
+		temp.mag = (int)(mag/total*42);
+		temp.luck = (int)(luck/total*42);
 		temp.weaponID = (int)UnityEngine.Random.Range (0,4);
 		temp.armorID = (int)UnityEngine.Random.Range (0,4);
 		temp.active = false;
 
-
-		//gotta balance this
-
 		inventory.allPlayers.Add(temp);
-
-
-		XDocument doc = XDocument.Load("Assets/Characters/GuildList.xml");
-		XElement root = new XElement("char");
-		root.Add(new XAttribute("name", genName()));
-		root.Add(new XAttribute("desc", "A new recruit"));
-		root.Add(new XAttribute("health", "50"));
-		root.Add(new XAttribute("str", "7"));
-		root.Add(new XAttribute("end", "7"));
-		root.Add(new XAttribute("agi", "7"));
-		root.Add(new XAttribute("mag", "7"));
-		root.Add(new XAttribute("luck", "7"));
-		root.Add(new XAttribute("range", "2"));
-		root.Add(new XAttribute("weaponID", "0"));
-		root.Add(new XAttribute("armorID", "0"));
-		root.Add(new XAttribute("active", "False"));
-		doc.Element("guild").Add(root);
-		doc.Save("Assets/Characters/GuildList.xml");
+		setUpGuild();
 	}
 	
-	public void RemoveGuildMember(){
-		
+	public void RemoveGuildMember(int position){
+		inventory.allPlayers.RemoveAt(position);
+		setUpGuild();
 	}
 
 	#endregion
