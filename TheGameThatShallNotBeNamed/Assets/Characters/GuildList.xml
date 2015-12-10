@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <guild>
-  <char name="Bob" desc="Our hero" health="40" str="6" end="3" agi="5" mag="6" luck="5" range="2" weaponID="0" armorID="0" active="False" />
+  <char name="Bob" desc="Our hero" health="40" str="200" end="3" agi="5" mag="6" luck="5" range="2" weaponID="0" armorID="0" active="True" />
   <char name="Darleen" desc="A new recruit" health="40" str="6" end="3" agi="5" mag="6" luck="5" range="2" weaponID="2" armorID="1" active="False" />
   <char name="Pete" desc="A new recruit" health="40" str="6" end="3" agi="5" mag="6" luck="5" range="2" weaponID="0" armorID="0" active="False" />
   <char name="Concetta" desc="A new recruit" health="40" str="6" end="7" agi="7" mag="7" luck="7" range="2" weaponID="1" armorID="2" active="False" />
