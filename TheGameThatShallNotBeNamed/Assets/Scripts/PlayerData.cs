@@ -135,7 +135,7 @@ public class PlayerData : MonoBehaviour {
 				PlayerShell p = new PlayerShell();
 				p.name = player.Attributes["name"].InnerText;
 				p.desc = player.Attributes["desc"].InnerText;
-				p.health = int.Parse( player.Attributes["health"].InnerText);
+				p.health = int.Parse(player.Attributes["health"].InnerText);
 				p.str = int.Parse(player.Attributes["str"].InnerText);
 				p.end = int.Parse(player.Attributes["end"].InnerText);
 				p.agi = int.Parse(player.Attributes["agi"].InnerText);

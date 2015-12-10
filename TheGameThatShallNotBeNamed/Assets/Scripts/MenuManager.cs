@@ -26,7 +26,8 @@ public class MenuManager : MonoBehaviour {
 
 	Equipment equip;
 	PlayerData inventory;
-	
+	bool nothingToSave = false;
+
 	//set correct menu options to active
 	void Start(){
         equip = GameObject.FindGameObjectWithTag("Persistent").GetComponent<Equipment>();
@@ -295,6 +296,7 @@ public class MenuManager : MonoBehaviour {
 			int temp = (int)inventory.obtainedItems[s];
 			inventory.obtainedItems[s] = --temp;
 		}
+		nothingToSave = false;
 		//update selected item
 		SetUpSelectedWeapon(i);
 	}
@@ -313,6 +315,7 @@ public class MenuManager : MonoBehaviour {
 			inventory.obtainedItems[s] = --temp;
 		}
 
+		nothingToSave = false;
 		SetUpSelectedArmor(i);
 	}
 	#endregion
@@ -503,6 +506,8 @@ public class MenuManager : MonoBehaviour {
 		float r = but.GetComponent<Image>().color.g;
 		float b = but.GetComponent<Image>().color.b;
 		but.GetComponent<Image>().color = new Color(r,g,b);
+
+
 	}
 
 	void ToggleActive(int position){
@@ -519,6 +524,7 @@ public class MenuManager : MonoBehaviour {
 		temp.active = !inventory.allPlayers[position].active;
 
 		inventory.allPlayers[position] = temp;
+		nothingToSave = false;
 	}
 
     //Equips a weapon to a character
@@ -534,7 +540,9 @@ public class MenuManager : MonoBehaviour {
 		inventory.obtainedWeapons[inventoryPos] = --temp;
 
 		//reload equipping menu
+		nothingToSave = false;
 		setUpCharacterEquipment(charPos);
+
     }
 
     //Equips armor to a character
@@ -550,6 +558,7 @@ public class MenuManager : MonoBehaviour {
 		inventory.obtainedArmor[inventoryPos] = --temp;
 		
 		//reload equipping menu
+		nothingToSave = false;
 		setUpCharacterEquipment(charPos);
     }
 
@@ -561,7 +570,7 @@ public class MenuManager : MonoBehaviour {
 		temp.desc = "A new Recruit";
 		//temp.health = 50;
 
-		temp.health = (int)UnityEngine.Random.Range(10,100);
+		temp.health = (int)UnityEngine.Random.Range(25,80);
 
 		double str = UnityEngine.Random.Range(30, 70);
 		double end = UnityEngine.Random.Range(30, 70);
@@ -581,11 +590,13 @@ public class MenuManager : MonoBehaviour {
 		temp.active = false;
 
 		inventory.allPlayers.Add(temp);
+		nothingToSave = false;
 		setUpGuild();
 	}
 	
 	public void RemoveGuildMember(int position){
 		inventory.allPlayers.RemoveAt(position);
+		nothingToSave = false;
 		setUpGuild();
 	}
 
@@ -626,7 +637,15 @@ public class MenuManager : MonoBehaviour {
 		Application.LoadLevel (2);
 	}
 	public void SaveAll(){
+		GameObject saveBut = GameObject.Find("SaveButton");
+		saveBut.GetComponent<Button>().interactable = false;
+		saveBut.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Saving...";
 		saveInventoryXML();
+		savePlayers();
+		Debug.Log ("Finished saving");
+		saveBut.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Saved";
+		nothingToSave = true;
+		saveBut.GetComponent<Button>().image.color = new Color(.2f,.9f,.2f);
 	}
 	//Loads a dungeon based off of its name
 	public void goToDest(string name)
@@ -773,6 +792,42 @@ public class MenuManager : MonoBehaviour {
 		xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml");
     }
 
+	public void savePlayers(){
+
+		Debug.Log (inventory.allPlayers.Count);
+		XmlDocument xmlDoc = new XmlDocument();
+		string path;
+		
+		//Add a weapon
+		path = Application.dataPath + @"/Characters/GuildList.xml";
+		if (File.Exists(path))
+		{
+			Debug.Log ("here");
+			xmlDoc.Load(path);
+			XmlNode root = xmlDoc.GetElementsByTagName("guild")[0];
+			root.RemoveAll();
+			foreach(PlayerShell ps in inventory.allPlayers){
+				XmlElement newNode = xmlDoc.CreateElement ("char");
+				newNode.SetAttribute("name", ps.name);
+				newNode.SetAttribute("desc", ps.desc);
+				newNode.SetAttribute("health", ps.health.ToString());
+				newNode.SetAttribute("str", ps.str.ToString());
+				newNode.SetAttribute("end", ps.end.ToString());
+				newNode.SetAttribute("agi", ps.agi.ToString());
+				newNode.SetAttribute("mag", ps.mag.ToString());
+				newNode.SetAttribute("luck", ps.luck.ToString());
+				newNode.SetAttribute("weaponID", ps.weaponID.ToString());
+				newNode.SetAttribute("armorID", ps.armorID.ToString());
+				if(ps.active)
+					newNode.SetAttribute("active", "True");
+				else
+					newNode.SetAttribute("active", "False");
+
+				root.AppendChild(newNode);
+			}
+			xmlDoc.Save(path);
+		}
+	}
     //Returns a random name because neww member is boring
     private string genName()
     {
@@ -783,6 +838,15 @@ public class MenuManager : MonoBehaviour {
 
         return nameList[i];
     }
+
+	void Update(){
+		if(!nothingToSave && GameObject.Find ("SaveButton") != null){
+			GameObject saveBut = GameObject.Find("SaveButton");
+			saveBut.GetComponent<Button>().interactable = true;
+			saveBut.GetComponent<Button>().image.color = new Color(1.0f,1.0f,1.0f);
+			saveBut.transform.FindChild("Text").gameObject.GetComponent<Text>().text = "Save";
+		}
+	}
 
 	#endregion
 }

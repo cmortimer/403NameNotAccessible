@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <inventory>
-  <weapon name="long sword" id="0" count="41" />
-  <weapon name="war axe" id="1" count="2" />
-  <weapon name="wood staff" id="2" count="1" />
-  <weapon name="long bow" id="3" count="2" />
+  <weapon name="long sword" id="0" count="48" />
+  <weapon name="war axe" id="1" count="3" />
+  <weapon name="wood staff" id="2" count="5" />
+  <weapon name="long bow" id="3" count="6" />
   <weapon name="bone sword" id="4" count="2" />
   <weapon name="mech sword" id="12" count="1" />
   <weapon name="demon sword" id="8" count="1" />
