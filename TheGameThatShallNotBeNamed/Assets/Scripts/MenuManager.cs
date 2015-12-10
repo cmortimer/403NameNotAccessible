@@ -646,14 +646,14 @@ public class MenuManager : MonoBehaviour {
 		temp.desc = "A new Recruit";
 		//temp.health = 50;
 
-		temp.health = (int)Random.Range(10,100);
-		temp.str = (int)Random.Range(1, 10);
-		temp.end = (int)Random.Range(1, 10);
-		temp.agi = (int)Random.Range(1, 10);
-		temp.mag = (int)Random.Range(1, 10);
-		temp.luck = (int)Random.Range(1, 10);
-		temp.weaponID = (int)Random.Range (0,4);
-		temp.armorID = (int)Random.Range (0,4);
+		temp.health = (int)UnityEngine.Random.Range(10,100);
+		temp.str = (int)UnityEngine.Random.Range(1, 10);
+		temp.end = (int)UnityEngine.Random.Range(1, 10);
+		temp.agi = (int)UnityEngine.Random.Range(1, 10);
+		temp.mag = (int)UnityEngine.Random.Range(1, 10);
+		temp.luck = (int)UnityEngine.Random.Range(1, 10);
+		temp.weaponID = (int)UnityEngine.Random.Range (0,4);
+		temp.armorID = (int)UnityEngine.Random.Range (0,4);
 		temp.active = false;
 
 
