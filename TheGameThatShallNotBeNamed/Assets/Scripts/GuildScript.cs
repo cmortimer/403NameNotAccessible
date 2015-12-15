@@ -41,8 +41,13 @@ public class GuildScript : MonoBehaviour {
 
 		for(int i=0;i<inventory.allPlayers.Count;i++){
 			int range = equip.allWeapons[inventory.allPlayers[i].weaponID].rangeMax;
-			c.setStats(inventory.allPlayers[i].name, inventory.allPlayers[i].health, inventory.allPlayers[i].str, inventory.allPlayers[i].end, 
-			           inventory.allPlayers[i].agi, inventory.allPlayers[i].mag, inventory.allPlayers[i].luck, range);
+			int str = inventory.allPlayers[i].str + equip.allWeapons[inventory.allPlayers[i].weaponID].str;
+			int end = inventory.allPlayers[i].end + equip.allWeapons[inventory.allPlayers[i].weaponID].end;
+			int agi = inventory.allPlayers[i].agi + equip.allWeapons[inventory.allPlayers[i].weaponID].agi;
+			int mag = inventory.allPlayers[i].mag + equip.allWeapons[inventory.allPlayers[i].weaponID].mag;
+			int luck = inventory.allPlayers[i].luck + equip.allWeapons[inventory.allPlayers[i].weaponID].luck;
+
+			c.setStats(inventory.allPlayers[i].name, inventory.allPlayers[i].health, str, end, agi, mag, luck, range);
 
 			GameObject currentPlayer = (GameObject)GameObject.Instantiate(player, spawnPos, Quaternion.identity);
 			spawnPos.x += 0.0f;
