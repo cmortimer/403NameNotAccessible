@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<guild>
-  <char name="Evalyn" desc="A new Recruit" health="0" str="11" end="8" agi="6" mag="7" luck="9" weaponID="0" armorID="2" active="True" />
-  <char name="Wilda" desc="A new Recruit" health="0" str="8" end="8" agi="6" mag="6" luck="11" weaponID="3" armorID="3" active="True" />
-  <char name="Darleen" desc="A new Recruit" health="0" str="7" end="7" agi="7" mag="9" luck="10" weaponID="2" armorID="3" active="True" />
-</guild>
