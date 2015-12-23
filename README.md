@@ -2,7 +2,7 @@
 IGM Production Studio Project
 
 
-As of now, the game can only be run in the Unity Editor, due to some issues with the build finding files we use for saving and loading data.
+The folder named Standalone Windows Build contains a playable executable for the current state of the game. The game has a set of external files located in FinalBuild_Data/Resources/XML that contains various saved data in XML format. The game is currently lacking some feedback on actions as its production ended while it was still being created in the Unity Editor, which allowed us to track some of the feedback through the console.
 
 
 The game starts out at the Main Menu scene, which acts as a hub for all interaction outside of game combat.
