@@ -22,5 +22,5 @@ Moving onto this tile will either load you into the next floor of the dungeon, o
 
 Combat in the game is turn based on a grid, with action points. The turns are set up simply as a player and enemy turn, allowing you to take actions in whatever order you desire.
 You can select players and enemies with your mouse to view their various stats, as well as follow up by moving, attacking, or choosing to make the target inactive to end turn early.
-By default, selecting a player will put you into move mode, which is also accessible by hitting the 1 key. Attack mode is accesible by hitting the 2 key. Setting a character to inactive can be done by hitting the 3 key. Hitting 3 while the character is inactive will make them active again.
+By default, selecting a player will put you into move mode, which is also accessible by hitting the '1' key. Attack mode is accesible by hitting the '2' key. Setting a character to inactive can be done by hitting the '3' key. Hitting '3' while the character is inactive will make them active again.
 In the attack and move modes, tiles on the grid will be highlighted to show the area that you can move to or reach with an attack.
