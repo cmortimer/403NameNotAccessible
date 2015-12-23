@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<inventory>
+  <armor name="hide armor" id="1" count="6" />
+  <armor name="chainmail" id="2" count="5" />
+  <armor name="steel armor" id="5" count="0" />
+  <armor name="plain cloths" id="0" count="7" />
+  <armor name="bone armor" id="6" count="0" />
+  <armor name="demon armor" id="8" count="0" />
+  <armor name="mech armor" id="7" count="0" />
+</inventory>
