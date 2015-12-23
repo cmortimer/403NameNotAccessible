@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<inventory>
+  <item name="gyro" count="3" />
+  <item name="wood" count="8975" />
+  <item name="iron" count="8947" />
+  <item name="moon jelly" count="0" />
+  <item name="demon heart" count="2" />
+  <item name="sinew" count="0" />
+  <item name="bonedust" count="11" />
+  <item name="magic crystal" count="0" />
+  <item name="ectoplasm" count="2" />
+  <item name="hide" count="0" />
+  <item name="rotten flesh" count="4" />
+  <item name="vampire blood" count="0" />
+  <item name="adhesive" count="985" />
+</inventory>

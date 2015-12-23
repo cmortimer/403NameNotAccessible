@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Xml;
 using System.IO;
@@ -39,7 +39,7 @@ public class DungeonManager : MonoBehaviour
 
     void Awake()
     {
-        filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
+		filePath = Application.dataPath + @"/Resources/XML/DungeonList.xml";
 
     }
 

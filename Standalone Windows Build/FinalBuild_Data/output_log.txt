@@ -1,0 +1,38 @@
+Mono path[0] = 'C:/Users/Steven/Documents/GitHub/403NameNotAccessible/TheGameThatShallNotBeNamed/Standalone/FinalBuild_Data/Managed'
+Mono path[1] = 'C:/Users/Steven/Documents/GitHub/403NameNotAccessible/TheGameThatShallNotBeNamed/Standalone/FinalBuild_Data/Mono'
+Mono config path = 'C:/Users/Steven/Documents/GitHub/403NameNotAccessible/TheGameThatShallNotBeNamed/Standalone/FinalBuild_Data/Mono/etc'
+PlayerConnection initialized from C:/Users/Steven/Documents/GitHub/403NameNotAccessible/TheGameThatShallNotBeNamed/Standalone/FinalBuild_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55284
+Multi-casting "[IP] 192.168.1.19 [Port] 55284 [Flags] 3 [Guid] 36388078 [EditorId] 1376988330 [Version] 1048832 [Id] WindowsPlayer(MININT-6D8EPQ6) [Debug] 1" to [225.0.0.222:54997]...
+Waiting for connection from host on [192.168.1.19:55284]...
+PlayerConnection accepted from [192.168.1.19] handle:0x1f4
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,defer=y,address=0.0.0.0:56078
+PlayerConnection already initialized - listening to [192.168.1.19:55284]
+Initialize engine version: 5.2.3f1 (f3d16a1fa2dd)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 675M   (ID=0x1212)
+    Vendor:   NVIDIA
+    VRAM:     1998 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\System.Xml.Linq.dll (this message is harmless)
+Loading C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\System.Xml.Linq.dll into Unity Child Domain
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Steven\Documents\GitHub\403NameNotAccessible\TheGameThatShallNotBeNamed\Standalone\FinalBuild_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.061 seconds
+desktop: 1920x1080 60Hz; virtual: 1920x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Waiting for finish

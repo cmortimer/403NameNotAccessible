@@ -16,7 +16,8 @@ public class SpawnEnemies : MonoBehaviour {
         pool = GameObject.FindGameObjectWithTag("DungeonManager").GetComponent<DungeonManager>().getPool();
 
 		enemyList = new List<Enemy>();
-		XmlReader xmlReader = XmlReader.Create("Assets/Scripts/EnemyList.xml");
+		string path = Application.dataPath + @"/Resources/XML/EnemyList.xml";
+		XmlReader xmlReader = XmlReader.Create(path);
 		while(xmlReader.Read ())
 		{
 			if((xmlReader.NodeType == XmlNodeType.Element) && (xmlReader.Name == "Enemy"))

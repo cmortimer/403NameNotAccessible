@@ -32,7 +32,7 @@ public class GuildScript : MonoBehaviour {
 
     void Awake()
     {
-        filePath = Application.dataPath + @"/Characters/GuildList.xml";
+		filePath = Application.dataPath + @"/Resources/XML/GuildList.xml";
         
     }
 	//loads data from struct

@@ -141,7 +141,7 @@ public class GameData : MonoBehaviour {
 			DontDestroyOnLoad(gameObject);
 			Instance = this;
 		}
-		LoadEquipment("Assets\\Scripts\\EquipmentList.txt");
+		LoadEquipment(Application.dataPath + @"/Resources/XML/EquipmentList.txt");
 		//loadEnemies
 		//loadSpawning
 	}

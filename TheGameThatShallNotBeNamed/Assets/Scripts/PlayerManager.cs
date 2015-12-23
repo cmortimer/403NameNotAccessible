@@ -163,9 +163,9 @@ public class PlayerManager : MonoBehaviour {
 	                XmlDocument xmlDoc = new XmlDocument();
 
 	                //Make sure the file exists before loading
-	                if (File.Exists(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml"))
+					if (File.Exists(Application.dataPath + @"/Resources/XML/ItemInventory.xml"))
 	                {
-	                    xmlDoc.Load(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+						xmlDoc.Load(Application.dataPath + @"/Resources/XML/ItemInventory.xml");
 
 	                    XmlNodeList items = xmlDoc.GetElementsByTagName("item");
 
@@ -201,7 +201,7 @@ public class PlayerManager : MonoBehaviour {
 	                    }
 
 	                }
-	                xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+					xmlDoc.Save(Application.dataPath + @"/Resources/XML/ItemInventory.xml");
 	                Destroy(allEnemies[i].gameObject);
 					allEnemies.RemoveAt(i);
 

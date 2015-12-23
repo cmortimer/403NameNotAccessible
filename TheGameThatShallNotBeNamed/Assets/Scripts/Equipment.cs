@@ -47,7 +47,7 @@ public class Equipment : MonoBehaviour{
 
 		XmlDocument xmlDoc = new XmlDocument();
 
-		string path = Application.dataPath + @"/Scripts/EquipmentList.xml";
+		string path = Application.dataPath + @"/Resources/XML/EquipmentList.xml";
 
 		if (File.Exists(path))
 		{

@@ -25,7 +25,7 @@ public class MenuManager : MonoBehaviour {
 	public Image[] armorImages;
 
 	Equipment equip;
-	PlayerData inventory;
+	public PlayerData inventory;
 	bool nothingToSave = false;
 
 	//set correct menu options to active
@@ -655,7 +655,7 @@ public class MenuManager : MonoBehaviour {
         {
             Destroy(g);
         }
-		string filePath = Application.dataPath + @"/Dungeons/DungeonList.xml";
+		string filePath = Application.dataPath + @"/Resources/XML/DungeonList.xml";
 		
 		XmlDocument dunXML = new XmlDocument();
 		
@@ -690,7 +690,7 @@ public class MenuManager : MonoBehaviour {
         string path;
 
         //Add a weapon
-        path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
+		path = Application.dataPath + @"/Resources/XML/WeaponInventory.xml";
 		if (File.Exists(path))
         {
         	xmlDoc.Load(path);
@@ -705,6 +705,8 @@ public class MenuManager : MonoBehaviour {
 					if (member.Attributes["id"].Value == i.ToString())
 					{
 						//Update the count of the item
+						Debug.Log(member.Attributes["count"]);
+						Debug.Log(inventory.obtainedWeapons[i]);
 						member.Attributes["count"].Value = inventory.obtainedWeapons[i].ToString();
 
 						//Don't need to make a new entry
@@ -729,10 +731,10 @@ public class MenuManager : MonoBehaviour {
 			}
 
 		}
-        xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml");
+		xmlDoc.Save(Application.dataPath + @"/Resources/XML/WeaponInventory.xml");
 
         //saving items
-        path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
+		path = Application.dataPath + @"/Resources/XML//ItemInventory.xml";
         if (File.Exists(path))
         {
         	xmlDoc.Load(path);
@@ -745,11 +747,11 @@ public class MenuManager : MonoBehaviour {
 				member.Attributes["count"].Value = inventory.obtainedItems[member.Attributes["name"].Value].ToString();
 			}
 		}
-        xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml");
+		xmlDoc.Save(Application.dataPath + @"/Resources/XML/ItemInventory.xml");
 
 
 		//saving armor
-		path = Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml";
+		path = Application.dataPath + @"/Resources/XML/ArmorInventory.xml";
 		if (File.Exists(path))
 		{
 			xmlDoc.Load(path);
@@ -789,7 +791,7 @@ public class MenuManager : MonoBehaviour {
 			}
 			
 		}
-		xmlDoc.Save(Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml");
+		xmlDoc.Save(Application.dataPath + @"/Resources/XML/ArmorInventory.xml");
     }
 
 	public void savePlayers(){
@@ -799,7 +801,7 @@ public class MenuManager : MonoBehaviour {
 		string path;
 		
 		//Add a weapon
-		path = Application.dataPath + @"/Characters/GuildList.xml";
+		path = Application.dataPath + @"/Resources/XML/GuildList.xml";
 		if (File.Exists(path))
 		{
 			Debug.Log ("here");

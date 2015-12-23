@@ -54,7 +54,7 @@ public class PlayerData : MonoBehaviour {
 
 		XmlDocument xmlDoc = new XmlDocument();
 
-		string path = Application.dataPath + @"/ItemsAndEquipment/WeaponInventory.xml";
+		string path = Application.dataPath + @"/Resources/XML/WeaponInventory.xml";
 
 		if (File.Exists(path))
 		{
@@ -73,7 +73,7 @@ public class PlayerData : MonoBehaviour {
 			}
 		}
 
-		path = Application.dataPath + @"/ItemsAndEquipment/ArmorInventory.xml";
+		path = Application.dataPath + @"/Resources/XML//ArmorInventory.xml";
 
 		if (File.Exists(path))
 		{
@@ -92,7 +92,7 @@ public class PlayerData : MonoBehaviour {
 			}
 		}
 
-		path = Application.dataPath + @"/ItemsAndEquipment/ItemInventory.xml";
+		path = Application.dataPath + @"/Resources/XML/ItemInventory.xml";
 		
 		if (File.Exists(path))
 		{
@@ -121,7 +121,7 @@ public class PlayerData : MonoBehaviour {
 
 		XmlDocument xmlDoc = new XmlDocument();
 
-		string path = Application.dataPath + @"/Characters/GuildList.xml";
+		string path = Application.dataPath + @"/Resources/XML/GuildList.xml";
 		
 		if (File.Exists(path))
 		{
